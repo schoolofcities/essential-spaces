@@ -6,6 +6,16 @@ import "../assets/styles.css";
 
 
 
-<div class="title">
-	<h1>Hello!</h1>
+
+<div id="panel">
+	
+
+    <!-- Content for the left panel -->
+    <!-- You can add text, images, or other elements here -->
+</div>
+
+<div id="map">
+	
+    <!-- Content for the right panel -->
+    <!-- You can add text, images, or other elements here -->
 </div>

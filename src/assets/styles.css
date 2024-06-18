@@ -55,42 +55,23 @@ body {
 }
 
 main {
-	margin: 0 auto;
-	padding: 0px;
-	width: calc(100%);
-	min-width: 360px;
-	max-width: 1200px;
-	position: relative;
+	display: flex;
 }
 
-.title {
-    background-color: none;
-    max-width: 700px;
-    margin: 0 auto;
-    margin-top: 100px;
-    margin-bottom: 0px;
-    position: relative;
-	padding-left: 15px;
-    padding-right: 15px;
+#panel {
+	width: 420px;
+	height: 100vh;
+	overflow: auto;
+	float: left;
+	background-color: var(--brandYellow); 
 }
 
-.title p {
-    line-height: 25px;
-    font-size: 15px;
+#map {
+	height: 100vh;
+	flex-grow: 1;
+	/* float: left; */
+	background-color: var(--brandLightBlue); 
 }
-
-.text {
-    background-color: none;
-    max-width: 700px;
-    margin: 0 auto;
-    position: relative;
-    padding-left: 15px;
-    padding-right: 15px;
-	border-top: solid 1px var(--brandGray80);
-	margin-top: 20px;
-	
-}
-
 
 h1 {
     font-family: TradeGothicBold;
