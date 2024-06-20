@@ -85,7 +85,7 @@ body {
 		width: 100vw;
 	}
 	#panel {
-		height: 50vh;
+		height: calc(50vh - 1px);
 		width: 100vw;
 		border-top: solid 1px var(--brandGray);
 		border-right: none;

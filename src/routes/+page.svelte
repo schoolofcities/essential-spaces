@@ -12,8 +12,8 @@ onMount(() => {
         container: "map",
         style: cartoBasemap, //'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
         center: [-79.0, 44.1], // starting position
-        zoom: 8, // starting zoom;
-        minZoom: 2,
+        zoom: 9, // starting zoom;
+        minZoom: 8,
         maxZoom: 17,
         projection: "globe",
         scrollZoom: true,
