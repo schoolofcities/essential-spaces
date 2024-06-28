@@ -5,7 +5,6 @@ import maplibregl from "maplibre-gl";
 import "../assets/styles.css";
 import cartoBasemap from "../assets/carto-basemap.json";
 import spre from "../assets/2021_clean.geo.json";
-import peelUpper from "../assets/peel_upper.geo.json";
 
 
 
@@ -35,7 +34,13 @@ onMount(() => {
                     'type': 'circle',
                     'source': 'spre',
                     'paint': {
-                        "circle-color": "#E15449",
+                        "circle-color": [
+                            'match',
+                            ['get', 'Tenure'],
+                            'Own', '#0072CE',
+                            'Rent', '#DA291C',
+                            '#54585A'
+                        ],
                         "circle-radius" : 2,
                         "circle-stroke-color": "#54585A",
                         "circle-stroke-width": 0.5
