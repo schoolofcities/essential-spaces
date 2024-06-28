@@ -5,6 +5,8 @@ import maplibregl from "maplibre-gl";
 import "../assets/styles.css";
 import cartoBasemap from "../assets/carto-basemap.json";
 import spre from "../assets/2021_clean.geo.json";
+import peelUpper from "../assets/peel_upper.geo.json";
+
 
 
 onMount(() => {
