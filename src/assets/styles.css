@@ -54,61 +54,59 @@ body {
 	background-color: var(--brandWhite);
 }
 
-main {
-	margin: 0 auto;
-	padding: 0px;
-	width: calc(100%);
-	min-width: 360px;
-	max-width: 1200px;
-	position: relative;
+#container {
+	display: flex;
 }
 
-.title {
-    background-color: none;
-    max-width: 700px;
-    margin: 0 auto;
-    margin-top: 100px;
-    margin-bottom: 0px;
-    position: relative;
-	padding-left: 15px;
-    padding-right: 15px;
+#panel {
+	width: 420px;
+	height: 420px;
+	height: 100vh;
+	overflow: auto;
+	/* float: left; */
+	background-color: var(--brandWhite); 
+	border-right: solid 1px var(--brandGray);
 }
 
-.title p {
-    line-height: 25px;
-    font-size: 15px;
+#map {
+	height: 100vh;
+	width: calc(100vw - 420px);
+	/* flex-grow: 1; */
+	/* float: left; */
+	background-color: var(--brandLightBlue); 
 }
 
-.text {
-    background-color: none;
-    max-width: 700px;
-    margin: 0 auto;
-    position: relative;
-    padding-left: 15px;
-    padding-right: 15px;
-	border-top: solid 1px var(--brandGray80);
-	margin-top: 20px;
-	
+@media screen and (max-width: 820px) {
+	#container {
+        flex-direction: column-reverse;
+    }
+	#map {
+		height: 50vh;
+		width: 100vw;
+	}
+	#panel {
+		height: calc(50vh - 1px);
+		width: 100vw;
+		border-top: solid 1px var(--brandGray);
+		border-right: none;
+	}
 }
-
 
 h1 {
     font-family: TradeGothicBold;
-    font-size: 42px;
+    font-size: 36px;
     color: var(--brandBlack);
     border-bottom: solid 1px var(--brandGray);
     text-decoration: none;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin: 10px;
     padding: 0px;
 }
 
 h2 {
     text-align: left;
     font-family: TradeGothicBold;
-    font-size: 32px;
-    border-bottom: solid 1px var(--brandBlack);
-    margin-top: 0px;
+    font-size: 26px;
+    margin: 10px;
     color: var(--brandBlack);
 }
 
@@ -131,8 +129,9 @@ p {
     font-family: SourceSerif;
     color: var(--brandBlack);
     text-align: left;
-    font-size: 18px;
-    line-height: 30px;
+    font-size: 16px;
+    line-height: 22px;
+	margin: 10px;
 }
 
 
