@@ -4,11 +4,12 @@ import { onMount } from "svelte";
 import maplibregl from "maplibre-gl";
 import "../assets/styles.css";
 import cartoBasemap from "../assets/carto-basemap.json";
+import spre from "../assets/2021_clean.geo.json";
 
 
 onMount(() => {
 
-	map = new maplibregl.Map({
+	let map = new maplibregl.Map({
         container: "map",
         style: cartoBasemap, //'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
         center: [-79.0, 44.1], // starting position
@@ -19,6 +20,28 @@ onMount(() => {
         scrollZoom: true,
         attributionControl: true,
     });
+
+    map.on('load', () => {
+
+        map.addSource('spre', {
+                    type: 'geojson',
+                    data: spre
+                })
+
+        map.addLayer({
+            'id': 'spre',
+                    'type': 'circle',
+                    'source': 'spre',
+                    'paint': {
+                        "circle-color": "#E15449",
+                        "circle-radius" : 2,
+                        "circle-stroke-color": "#54585A",
+                        "circle-stroke-width": 0.5
+                    }
+
+        })
+
+    })
 
 })
 
