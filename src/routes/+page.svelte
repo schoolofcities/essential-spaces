@@ -5,6 +5,7 @@ import maplibregl from "maplibre-gl";
 import "../assets/styles.css";
 import cartoBasemap from "../assets/carto-basemap.json";
 import spre from "../assets/2021_clean.geo.json";
+import admin from "../assets/admin_boundaries.geo.json"; 
 
 
 
@@ -45,6 +46,24 @@ onMount(() => {
                         "circle-stroke-color": "#54585A",
                         "circle-stroke-width": 0.5
                     }
+
+        })
+
+        map.addSource(
+            'admin', {
+                type: 'geojson', 
+                data: admin
+            }
+        )
+
+        map.addLayer({
+            'id':'admin',
+            'type':'line',
+            'source':'admin',
+            'paint': {
+                'line-color': '#FF0000',
+			    'line-opacity': 1.0
+            }
 
         })
 
