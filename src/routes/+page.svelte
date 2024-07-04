@@ -61,8 +61,18 @@ onMount(() => {
             'type':'line',
             'source':'admin',
             'paint': {
-                'line-color': '#FF0000',
-			    'line-opacity': 1.0
+                // boundary color is orange
+                'line-color': '#E35205',
+			    'line-opacity':[
+                    'match', ['get', 'CSDUID'],
+                    '0', 0.8,
+                    0.4
+                ],
+                'line-width':[
+                    'match', ['get', 'CSDUID'],
+                    '0', 0.7,
+                    0.3
+                ],
             }
 
         })
@@ -81,9 +91,10 @@ onMount(() => {
 	<h2>Toronto, Peel, York</h2>
     <!-- Content for the left panel -->
     <!-- You can add text, images, or other elements here -->
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.
-
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. 
 	</p>
+
+    <h3>Select Equity Map Layer</h3>
 </div>
 
 

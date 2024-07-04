@@ -98,7 +98,7 @@ h1 {
     color: var(--brandBlack);
     border-bottom: solid 1px var(--brandGray);
     text-decoration: none;
-    margin: 10px;
+    margin: 16px;
     padding: 0px;
 }
 
@@ -106,7 +106,7 @@ h2 {
     text-align: left;
     font-family: TradeGothicBold;
     font-size: 26px;
-    margin: 10px;
+    margin: 16px;
     color: var(--brandBlack);
 }
 
@@ -114,7 +114,8 @@ h3 {
     text-align: left;
     font-family: TradeGothicBold;
     font-size: 23px;
-    border-bottom: solid 1px var(--brandGray);
+	margin: 16px;
+    border-bottom: solid 1px #E35205;
     color: var(--brandBlack);
 }
 
@@ -122,6 +123,7 @@ h4 {
 	text-align: left;
     font-family: TradeGothicBold;
     font-size: 23px;
+	margin: 16px;
     color: var(--brandBlack);
 }
 
@@ -131,7 +133,7 @@ p {
     text-align: left;
     font-size: 16px;
     line-height: 22px;
-	margin: 10px;
+	margin: 16px;
 }
 
 
