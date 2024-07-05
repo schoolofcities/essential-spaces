@@ -18,6 +18,7 @@
 	"type": "module",
 	"dependencies": {
 		"maplibre-gl": "^4.4.1",
-		"pmtiles": "^3.0.6"
+		"pmtiles": "^3.0.6",
+		"svelte-select": "^5.8.3"
 	}
 }
