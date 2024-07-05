@@ -197,8 +197,8 @@ onMount(() => {
                         "circle-color": [
                             'match',
                             ['get', 'Tenure'],
-                            'Own', '#0072CE',
-                            'Rent', '#DA291C',
+                            'Own', '#B2FFFF',
+                            'Rent', '#FFFF00',
                             '#54585A'
                         ],
                         "circle-radius" : 2,
