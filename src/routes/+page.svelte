@@ -15,7 +15,7 @@ let mapLayers = [
     "Population Density", 
     "% of Short-Term Workers",
     "% of Youth Not in Employment, Education or Training",
-    "% of Recent Immirgants",
+    "% of Recent Immigrants",
     "% of Visible Minority",
     "% of Single Parent Family", 
     "% of Renter in Core Housing Need",
@@ -46,7 +46,7 @@ const choropleths = {
         colours: colours,
     },
     "immigrants":{
-        name: "% of Recent Immirgants", 
+        name: "% of Recent Immigrants", 
         breaks: [5, 10, 15, 20],
         colours: colours,
     },
@@ -65,12 +65,12 @@ const choropleths = {
         breaks: [10, 20, 30, 40], 
         colours: colours,
     },
-    "unaffordable housing":{
+    "unaffordable-housing":{
         name: "% of Renter in Unaffordable Housing", 
-        break: [5, 20, 30, 40],
+        breaks: [5, 20, 30, 40],
         colours: colours,
     },
-    "working poor":{
+    "working-poor":{
         name: "% of Working Poor", 
         breaks: [5, 10, 15, 20],
         colours: colours,
@@ -135,10 +135,378 @@ function layerSet (layer) {
                 },
                 "admin"
             );
-    }
+    } else if (layer === "% of Short-Term Workers") {
+        try{
+            map.removeLayer("equity");
+            map.removeSource("equity");
+        } catch {}
+        // map.SetPaintProperty()
+        map.addLayer(
+                {
+                    id: "equity",
+                    type: "fill",
+                    source: {
+                        type: "geojson",
+                        data: equity,
+                    },
+                    paint: {
+                        "fill-outline-color": "white",
+                        "fill-opacity": 0.881,
+                        "fill-color": [
+                            "case",
+                            ["!=", ["get", "ShortTerm%"], null],
+                            [
+                                "step",
+                                ["get", "ShortTerm%"],
+                                choropleths["short-term-work"].colours[0],
+                                choropleths["short-term-work"].breaks[0],
+                                choropleths["short-term-work"].colours[1],
+                                choropleths["short-term-work"].breaks[1],
+                                choropleths["short-term-work"].colours[2],
+                                choropleths["short-term-work"].breaks[2],
+                                choropleths["short-term-work"].colours[3],
+                            ],
+                            "#cbcbcb",
+                        ],
+                    },
+                },
+                "admin"
+            );
+        } else if (layer === "% of Youth Not in Employment, Education or Training") {
+        try{
+            map.removeLayer("equity");
+            map.removeSource("equity");
+        } catch {}
+        // map.SetPaintProperty()
+        map.addLayer(
+                {
+                    id: "equity",
+                    type: "fill",
+                    source: {
+                        type: "geojson",
+                        data: equity,
+                    },
+                    paint: {
+                        "fill-outline-color": "white",
+                        "fill-opacity": 0.881,
+                        "fill-color": [
+                            "case",
+                            ["!=", ["get", "Neet%"], null],
+                            [
+                                "step",
+                                ["get", "Neet%"],
+                                choropleths["NEET"].colours[0],
+                                choropleths["NEET"].breaks[0],
+                                choropleths["NEET"].colours[1],
+                                choropleths["NEET"].breaks[1],
+                                choropleths["NEET"].colours[2],
+                                choropleths["NEET"].breaks[2],
+                                choropleths["NEET"].colours[3],
+                            ],
+                            "#cbcbcb",
+                        ],
+                    },
+                },
+                "admin"
+            );
+        } else if (layer === "% of Recent Immigrants") {
+        try{
+            map.removeLayer("equity");
+            map.removeSource("equity");
+        } catch {}
+        // map.SetPaintProperty()
+        map.addLayer(
+                {
+                    id: "equity",
+                    type: "fill",
+                    source: {
+                        type: "geojson",
+                        data: equity,
+                    },
+                    paint: {
+                        "fill-outline-color": "white",
+                        "fill-opacity": 0.881,
+                        "fill-color": [
+                            "case",
+                            ["!=", ["get", "Immigrant%"], null],
+                            [
+                                "step",
+                                ["get", "Immigrant%"],
+                                choropleths["immigrants"].colours[0],
+                                choropleths["immigrants"].breaks[0],
+                                choropleths["immigrants"].colours[1],
+                                choropleths["immigrants"].breaks[1],
+                                choropleths["immigrants"].colours[2],
+                                choropleths["immigrants"].breaks[2],
+                                choropleths["immigrants"].colours[3],
+                            ],
+                            "#cbcbcb",
+                        ],
+                    },
+                },
+                "admin"
+            );
+        } else if (layer === "% of Visible Minority") {
+        try{
+            map.removeLayer("equity");
+            map.removeSource("equity");
+        } catch {}
+        // map.SetPaintProperty()
+        map.addLayer(
+                {
+                    id: "equity",
+                    type: "fill",
+                    source: {
+                        type: "geojson",
+                        data: equity,
+                    },
+                    paint: {
+                        "fill-outline-color": "white",
+                        "fill-opacity": 0.881,
+                        "fill-color": [
+                            "case",
+                            ["!=", ["get", "VM%"], null],
+                            [
+                                "step",
+                                ["get", "VM%"],
+                                choropleths["visible-minority"].colours[0],
+                                choropleths["visible-minority"].breaks[0],
+                                choropleths["visible-minority"].colours[1],
+                                choropleths["visible-minority"].breaks[1],
+                                choropleths["visible-minority"].colours[2],
+                                choropleths["visible-minority"].breaks[2],
+                                choropleths["visible-minority"].colours[3],
+                            ],
+                            "#cbcbcb",
+                        ],
+                    },
+                },
+                "admin"
+            );
+        } else if (layer === "% of Single Parent Family") {
+        try{
+            map.removeLayer("equity");
+            map.removeSource("equity");
+        } catch {}
+        // map.SetPaintProperty()
+        map.addLayer(
+                {
+                    id: "equity",
+                    type: "fill",
+                    source: {
+                        type: "geojson",
+                        data: equity,
+                    },
+                    paint: {
+                        "fill-outline-color": "white",
+                        "fill-opacity": 0.881,
+                        "fill-color": [
+                            "case",
+                            ["!=", ["get", "1-ParentFam%"], null],
+                            [
+                                "step",
+                                ["get", "1-ParentFam%"],
+                                choropleths["single-parent-family"].colours[0],
+                                choropleths["single-parent-family"].breaks[0],
+                                choropleths["single-parent-family"].colours[1],
+                                choropleths["single-parent-family"].breaks[1],
+                                choropleths["single-parent-family"].colours[2],
+                                choropleths["single-parent-family"].breaks[2],
+                                choropleths["single-parent-family"].colours[3],
+                            ],
+                            "#cbcbcb",
+                        ],
+                    },
+                },
+                "admin"
+            );
+        } else if (layer === "% of Renter in Core Housing Need") {
+        try{
+            map.removeLayer("equity");
+            map.removeSource("equity");
+        } catch {}
+        // map.SetPaintProperty()
+        map.addLayer(
+                {
+                    id: "equity",
+                    type: "fill",
+                    source: {
+                        type: "geojson",
+                        data: equity,
+                    },
+                    paint: {
+                        "fill-outline-color": "white",
+                        "fill-opacity": 0.881,
+                        "fill-color": [
+                            "case",
+                            ["!=", ["get", "1-ParentFam%"], null],
+                            [
+                                "step",
+                                ["get", "1-ParentFam%"],
+                                choropleths["core-housing-need"].colours[0],
+                                choropleths["core-housing-need"].breaks[0],
+                                choropleths["core-housing-need"].colours[1],
+                                choropleths["core-housing-need"].breaks[1],
+                                choropleths["core-housing-need"].colours[2],
+                                choropleths["core-housing-need"].breaks[2],
+                                choropleths["core-housing-need"].colours[3],
+                            ],
+                            "#cbcbcb",
+                        ],
+                    },
+                },
+                "admin"
+            );
+        } else if (layer === "% of Renter in Unaffordable Housing") {
+        try{
+            map.removeLayer("equity");
+            map.removeSource("equity");
+        } catch {}
+        // map.SetPaintProperty()
+        map.addLayer(
+                {
+                    id: "equity",
+                    type: "fill",
+                    source: {
+                        type: "geojson",
+                        data: equity,
+                    },
+                    paint: {
+                        "fill-outline-color": "white",
+                        "fill-opacity": 0.881,
+                        "fill-color": [
+                            "case",
+                            ["!=", ["get", "%Affordable"], null],
+                            [
+                                "step",
+                                ["get", "%Affordable"],
+                                choropleths["unaffordable-housing"].colours[0],
+                                choropleths["unaffordable-housing"].breaks[0],
+                                choropleths["unaffordable-housing"].colours[1],
+                                choropleths["unaffordable-housing"].breaks[1],
+                                choropleths["unaffordable-housing"].colours[2],
+                                choropleths["unaffordable-housing"].breaks[2],
+                                choropleths["unaffordable-housing"].colours[3],
+                            ],
+                            "#cbcbcb",
+                        ],
+                    },
+                },
+                "admin"
+            );
+        } else if (layer === "% of Working Poor") {
+        try{
+            map.removeLayer("equity");
+            map.removeSource("equity");
+        } catch {}
+        // map.SetPaintProperty()
+        map.addLayer(
+                {
+                    id: "equity",
+                    type: "fill",
+                    source: {
+                        type: "geojson",
+                        data: equity,
+                    },
+                    paint: {
+                        "fill-outline-color": "white",
+                        "fill-opacity": 0.881,
+                        "fill-color": [
+                            "case",
+                            ["!=", ["get", "%ofWP"], null],
+                            [
+                                "step",
+                                ["get", "%ofWP"],
+                                choropleths["working-poor"].colours[0],
+                                choropleths["working-poor"].breaks[0],
+                                choropleths["working-poor"].colours[1],
+                                choropleths["working-poor"].breaks[1],
+                                choropleths["working-poor"].colours[2],
+                                choropleths["working-poor"].breaks[2],
+                                choropleths["working-poor"].colours[3],
+                            ],
+                            "#cbcbcb",
+                        ],
+                    },
+                },
+                "admin"
+            ); 
+        }  else if (layer === "% of Low Income Housing by LIM") {
+        try{
+            map.removeLayer("equity");
+            map.removeSource("equity");
+        } catch {}
+        // map.SetPaintProperty()
+        map.addLayer(
+                {
+                    id: "equity",
+                    type: "fill",
+                    source: {
+                        type: "geojson",
+                        data: equity,
+                    },
+                    paint: {
+                        "fill-outline-color": "white",
+                        "fill-opacity": 0.881,
+                        "fill-color": [
+                            "case",
+                            ["!=", ["get", "LIM%"], null],
+                            [
+                                "step",
+                                ["get", "LIM%"],
+                                choropleths["LIM"].colours[0],
+                                choropleths["LIM"].breaks[0],
+                                choropleths["LIM"].colours[1],
+                                choropleths["LIM"].breaks[1],
+                                choropleths["LIM"].colours[2],
+                                choropleths["LIM"].breaks[2],
+                                choropleths["LIM"].colours[3],
+                            ],
+                            "#cbcbcb",
+                        ],
+                    },
+                },
+                "admin"
+            ); 
+        } else if (layer === "% of Low Income Housing by MBM") {
+        try{
+            map.removeLayer("equity");
+            map.removeSource("equity");
+        } catch {}
+        // map.SetPaintProperty()
+        map.addLayer(
+                {
+                    id: "equity",
+                    type: "fill",
+                    source: {
+                        type: "geojson",
+                        data: equity,
+                    },
+                    paint: {
+                        "fill-outline-color": "white",
+                        "fill-opacity": 0.881,
+                        "fill-color": [
+                            "case",
+                            ["!=", ["get", "MBM%"], null],
+                            [
+                                "step",
+                                ["get", "MBM%"],
+                                choropleths["MBM"].colours[0],
+                                choropleths["MBM"].breaks[0],
+                                choropleths["MBM"].colours[1],
+                                choropleths["MBM"].breaks[1],
+                                choropleths["MBM"].colours[2],
+                                choropleths["MBM"].breaks[2],
+                                choropleths["MBM"].colours[3],
+                            ],
+                            "#cbcbcb",
+                        ],
+                    },
+                },
+                "admin"
+            ); 
+        }
 }
-
-
 
 onMount(() => {
 
@@ -211,9 +579,6 @@ onMount(() => {
         layerSet(mapSelected);
 
     })
-
-    
-
 })
 
 </script>
