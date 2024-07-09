@@ -13,7 +13,7 @@ import equity from "../assets/equitylayers.geo.json";
 
 let mapSelected = "Population Density"
 
-let colours = ["#F9E4E2", "#FBB7B1", "#E3685F", "#DA291C", "#A50F00"]
+let colours = ["#fff5f0", "#fcbba1", "#fb6a4a", "#cb181d", "#67000d"]
 
 const choropleths = {
     "Population Density":{
@@ -98,6 +98,8 @@ function layerSet(layer) {
             choropleth.colours[2],
             choropleth.breaks[2],
             choropleth.colours[3],
+            choropleth.breaks[3],
+            choropleth.colours[4],
         ],
         "#cbcbcb",
     ])
@@ -181,12 +183,12 @@ onMount(() => {
                         "circle-color": [
                             'match',
                             ['get', 'Tenure'],
-                            'Own', '#B2FFFF',
-                            'Rent', '#FFFF00',
-                            '#54585A'
+                            'Own', '#FFFF00',
+                            'Rent', '#FF0090',
+                            '#D3D4D7'
                         ],
                         "circle-radius" : 2,
-                        "circle-stroke-color": "#54585A",
+                        "circle-stroke-color": "#FFFFFF",
                         "circle-stroke-width": 0.5
                     }
 
@@ -223,9 +225,9 @@ onMount(() => {
             --margin = 16px
             --width=387.52px
             --background="white"
-            --selected-item-color="#6D247A"
+            --selected-item-color= var(--brandBlack)
             --height=22px
-            --item-color="#6D247A"
+            --item-color=var(--brandBlack)
             --border-radius=0px
             --border="1px solid var(--brandGray)"
             --list-border-radius="0px"
@@ -234,6 +236,66 @@ onMount(() => {
             --item-is-active-color="#0D534D"
             --item-is-active-bg="#6FC7EA"
         />
+    </div>
+
+    <svg width='418' height='50'>
+
+        <text class="legend-label" x="16" y="17">Legend:</text>
+
+        <rect
+        class = "box"
+        width="60"
+        height="22"
+        x="72"
+        y="0"
+        style="fill:{colours[0]};"
+        />
+
+        <rect
+        class = "box"
+        width="60"
+        height="22"
+        x="136"
+        y="0"
+        style="fill:{colours[1]};"
+        />
+
+        <rect
+        class = "box"
+        width="60"
+        height="22"
+        x="200"
+        y="0"
+        style="fill:{colours[2]};"
+        />
+
+        <rect
+        class = "box"
+        width="60"
+        height="22"
+        x="264"
+        y="0"
+        style="fill:{colours[3]};"
+        />
+
+        <rect
+        class = "box"
+        width="60"
+        height="22"
+        x="328"
+        y="0"
+        style="fill:{colours[4]};"
+        />
+
+        <text class="legend-label"  x="115" y="35">&lt;{choropleths[mapSelected].breaks[0]}</text>
+        <text class="legend-label"  x="190" y="35">{choropleths[mapSelected].breaks[1]}</text>
+        <text class="legend-label"  x="250" y="35">{choropleths[mapSelected].breaks[2]}</text>
+        <text class="legend-label"  x="310" y="35">&gt{choropleths[mapSelected].breaks[3]}</text>
+
+    </svg>
+
+    <div>
+       
     </div>
 </div>
 
@@ -244,3 +306,21 @@ onMount(() => {
 </div>
 
 </div>
+
+<style>
+    .box {
+        stroke-width: 0.5px;
+        stroke: rgb(206, 206, 206);
+    }
+
+    .legend-label {
+            font-size: 14px;
+            fill:var(--brandDarkBlue);
+            font-weight: 400;
+            text-anchor: "middle";
+        }
+
+    #legend {
+        background-color: white;
+    }
+</style>
