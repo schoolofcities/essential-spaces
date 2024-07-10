@@ -105,6 +105,11 @@ function layerSet(layer) {
     ])
 }
 
+let bounds = [
+  [-81.181572, 43.2550233], // [west, south]
+  [-78.348139, 45.194804],  // [east, north]
+];
+
 onMount(() => {
 
 	map = new maplibregl.Map({
@@ -112,12 +117,16 @@ onMount(() => {
         style: cartoBasemap, //'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
         center: [-79.0, 44.1], // starting position
         zoom: 9, // starting zoom;
-        minZoom: 8,
-        maxZoom: 17,
+        minZoom: 8, //furthest you can zoom out
+        maxZoom: 12, //furthest you can zoom in
         projection: "globe",
         scrollZoom: true,
         attributionControl: true,
     });
+
+    map.setMaxBounds(bounds);
+
+    map.touchZoomRotate.disableRotation();
 
     map.on('load', () => {
 
@@ -239,13 +248,10 @@ onMount(() => {
     </div>
 
     <svg width='418' height='50'>
-
-        <text class="legend-label" x="16" y="17">Legend:</text>
-
         <rect
         class = "box"
         width="60"
-        height="22"
+        height="20"
         x="72"
         y="0"
         style="fill:{colours[0]};"
@@ -254,7 +260,7 @@ onMount(() => {
         <rect
         class = "box"
         width="60"
-        height="22"
+        height="20"
         x="136"
         y="0"
         style="fill:{colours[1]};"
@@ -263,7 +269,7 @@ onMount(() => {
         <rect
         class = "box"
         width="60"
-        height="22"
+        height="20"
         x="200"
         y="0"
         style="fill:{colours[2]};"
@@ -272,7 +278,7 @@ onMount(() => {
         <rect
         class = "box"
         width="60"
-        height="22"
+        height="20"
         x="264"
         y="0"
         style="fill:{colours[3]};"
@@ -281,7 +287,7 @@ onMount(() => {
         <rect
         class = "box"
         width="60"
-        height="22"
+        height="20"
         x="328"
         y="0"
         style="fill:{colours[4]};"
