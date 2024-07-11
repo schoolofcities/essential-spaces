@@ -8,6 +8,7 @@ import spre from "../assets/2021_clean.geo.json";
 import admin from "../assets/admin_boundaries.geo.json"; 
 import Select from "svelte-select";
 import equity from "../assets/equitylayers.geo.json";
+import library from "../assets/library.geo.json";
 
 //Changing the map layer
 
@@ -138,10 +139,26 @@ function filterSPRE() {
                 ]
 
         console.log (opacity)
-			if(map){map.setPaintProperty('spre', 'circle-opacity', opacity);
-			map.setPaintProperty('spre', 'circle-stroke-opacity', opacity);
+		
+        if (map) {
+            map.setPaintProperty('spre', 'circle-opacity', opacity);
+		    map.setPaintProperty('spre', 'circle-stroke-opacity', opacity);
 	    }
     }   
+
+let onLibrary = false;
+
+$: onLibrary, filterlibrary()
+
+function filterlibrary() {
+    if (map) {
+        if (onLibrary) {
+            map.setPaintProperty('library', 'circle-opacity', 1);
+        } else {
+            map.setPaintProperty('library', 'circle-opacity', 0);
+        }
+    }
+}
 
 onMount(() => {
 
@@ -260,6 +277,26 @@ onMount(() => {
 
         })
 
+        map.addSource('library', {
+            type: 'geojson',
+            data: library
+        })
+
+        map.addLayer({
+            'id': 'library',
+            'type': 'circle',
+            'source': 'library',
+            'paint': {
+                "circle-color":"#FF0000",
+                "circle-radius" : [
+                            "interpolate", ["linear"], ["zoom"],
+                            8,1.5,
+                            12,5
+                        ],
+                "circle-opacity":0
+            }
+        })
+
     })
 })
 
@@ -281,7 +318,7 @@ onMount(() => {
     <div id="checkbox" class="check-box">
         <label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Own"} /> Own <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#FFFF00" stroke="#4d4d4d" stroke-width="1"/></svg></label>
         <label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Rent"} /> Rent <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#78e3fe" stroke="#4d4d4d" stroke-width="1"/></label>
-        <label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Unknown"} /> Unknown <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="##D3D4D7" stroke="#4d4d4d" stroke-width="1"/></label>
+        <label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Unknown"} /> Unknown <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#D3D4D7" stroke="#4d4d4d" stroke-width="1"/></label>
     </div>
 
     <h3>Select Equity Map Layer</h3>
@@ -374,6 +411,10 @@ onMount(() => {
     
     <h3>Add Other Resources</h3>
 
+    <div id="checkbox" class="check-box">
+        <label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#F00000" stroke="#FF0000" stroke-width="1"/></label>
+    </div>
+
 </div>
 
 <div id="map">
@@ -407,6 +448,10 @@ onMount(() => {
 
     .des {
         margin-top: 4px;
+        margin-left: 20px;
+        margin-right: 20px;
+        font-size: 14px;
+        line-height: 18px;
     }
 
     .box {
