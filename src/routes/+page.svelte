@@ -20,56 +20,67 @@ const choropleths = {
         dataSource: "PopuDenPerKM",
         breaks: [1000, 5000, 7500, 10000], 
         colours: colours,
+        text: "1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
     },
     "% of Short-Term Workers":{
         dataSource: "ShortTerm%",
         breaks: [5, 10, 15, 20],
         colours: colours,
+        text: "2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
     },
     "% of Youth Not in Employment, Education or Training":{
         dataSource: "Neet%", 
         breaks:[5, 10, 15, 20],
         colours: colours,
+        text: "3 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
     },
     "% of Recent Immigrants":{
         dataSource: "Immigrant%",
         breaks: [5, 10, 15, 20],
         colours: colours,
+        text: "4 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
     },
     "% of Visible Minority":{
         dataSource: "VM%", 
         breaks: [5, 25, 50, 75],
         colours: colours,
+        text: "5- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
     },
     "% of Single Parent Family":{
         dataSource: "1-ParentFam%", 
         breaks: [15, 20, 30, 40],
         colours: colours,
+        text: "6- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
     },
     "% of Renter in Core Housing Need":{
         dataSource: "%CHN", 
         breaks: [10, 20, 30, 40], 
         colours: colours,
+        text: "7 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
     },
     "% of Renter in Unaffordable Housing":{
         dataSource: "%Affordable", 
         breaks: [5, 20, 30, 40],
         colours: colours,
+        text: "8 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
     },
     "% of Working Poor":{
         dataSource: "%ofWP",
         breaks: [5, 10, 15, 20],
         colours: colours,
+        text: "9 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
     },
     "% of Low Income Housing by LIM":{
         dataSource: "LIM%", 
         breaks: [5, 15, 25, 35], 
         colours: colours,
+        text: "10 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
     },
     "% of Low Income Housing by MBM":{
         dataSource: "MBM%",
         breaks:[5, 10, 15, 20],
         colours: colours,
+        text: "11 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
     },
 };
 
@@ -110,6 +121,28 @@ let bounds = [
   [-78.348139, 45.194804],  // [east, north]
 ];
 
+
+let spreSelection = ["Own", "Rent", "Unknown"]; 
+
+$:spreSelection, filterSPRE()
+
+function filterSPRE() {
+        console.log (spreSelection)
+
+        let opacity =[
+                    'match',
+                    ['get', 'Tenure'],
+                    'Own', spreSelection.includes("Own")?1:0,
+                    'Rent', spreSelection.includes("Rent")?1:0,
+                    spreSelection.includes("Unknown")?1:0,
+                ]
+
+        console.log (opacity)
+			if(map){map.setPaintProperty('spre', 'circle-opacity', opacity);
+			map.setPaintProperty('spre', 'circle-stroke-opacity', opacity);
+	    }
+    }   
+
 onMount(() => {
 
 	map = new maplibregl.Map({
@@ -117,7 +150,7 @@ onMount(() => {
         style: cartoBasemap, //'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
         center: [-79.0, 44.1], // starting position
         zoom: 9, // starting zoom;
-        minZoom: 8, //furthest you can zoom out
+        minZoom: 8.5, //furthest you can zoom out
         maxZoom: 12, //furthest you can zoom in
         projection: "globe",
         scrollZoom: true,
@@ -192,12 +225,36 @@ onMount(() => {
                         "circle-color": [
                             'match',
                             ['get', 'Tenure'],
-                            'Own', '#FFFF00',
-                            'Rent', '#FF0090',
-                            '#D3D4D7'
+                            'Own', '#FFFF00', //neon yellow
+                            'Rent', '#02D8E9', // neon blue
+                            '#D3D4D7' //grey
                         ],
-                        "circle-radius" : 2,
-                        "circle-stroke-color": "#FFFFFF",
+                        "circle-radius" : [
+                            "interpolate", ["linear"], ["zoom"],
+                            8,1.5,
+                            12,5
+                        ],
+                        "circle-stroke-color": [
+                            'match',
+                            ['get', 'Tenure'],
+                            'Own', '#CF9033', //neon yellow
+                            'Rent', '#99007A', // purple pink
+                            '#A9A9A9' //grey
+                        ],
+                        "circle-opacity": [
+                            'match',
+                            ['get', 'Tenure'],
+                            'Own', 1, //neon yellow
+                            'Rent', 1, // purple pink
+                            1 //grey
+                        ],
+                        "circle-stroke-opacity": [
+                            'match',
+                            ['get', 'Tenure'],
+                            'Own', 1, //neon yellow
+                            'Rent', 1, // purple pink
+                            1 //grey
+                        ],
                         "circle-stroke-width": 0.5
                     }
 
@@ -212,12 +269,20 @@ onMount(() => {
 <div id="container">
 
 <div id="panel">
-	<h1>Non-Profit Real Estate</h1>
-	<h2>Toronto, Peel, York</h2>
+	<h1>Social Purpose Real Estate:</h1>
+	<h2>In Toronto, Peel, and York</h2>
     <!-- Content for the left panel -->
     <!-- You can add text, images, or other elements here -->
 	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. 
 	</p>
+
+    <h3>Add SPRE Locations</h3>
+
+    <div id="checkbox" class="check-box">
+        <label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Own"} /> Own <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#FFFF00" stroke="#4d4d4d" stroke-width="1"/></svg></label>
+        <label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Rent"} /> Rent <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#78e3fe" stroke="#4d4d4d" stroke-width="1"/></label>
+        <label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Unknown"} /> Unknown <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="##D3D4D7" stroke="#4d4d4d" stroke-width="1"/></label>
+    </div>
 
     <h3>Select Equity Map Layer</h3>
 
@@ -239,70 +304,76 @@ onMount(() => {
             --item-color=var(--brandBlack)
             --border-radius=0px
             --border="1px solid var(--brandGray)"
+            --border-focused='1px solid #A50F00'
             --list-border-radius="0px"
             --font-size="14.45px"
             --max-height="30px"
-            --item-is-active-color="#0D534D"
-            --item-is-active-bg="#6FC7EA"
+            --item-is-active-color="#FFFFFF"
+            --item-is-active-bg="#DA291C"
+            --chevron-color="#DA291C"
+            --item-hover-bg="#F8D4D2"
         />
     </div>
 
-    <svg width='418' height='50'>
+    <svg width='400' height='40'>
         <rect
         class = "box"
-        width="60"
+        width="74"
         height="20"
-        x="72"
+        x="18"
         y="0"
         style="fill:{colours[0]};"
         />
 
         <rect
         class = "box"
-        width="60"
+        width="74"
         height="20"
-        x="136"
+        x="94"
         y="0"
         style="fill:{colours[1]};"
         />
 
         <rect
         class = "box"
-        width="60"
+        width="74"
         height="20"
-        x="200"
+        x="170"
         y="0"
         style="fill:{colours[2]};"
         />
 
         <rect
         class = "box"
-        width="60"
+        width="74"
         height="20"
-        x="264"
+        x="246"
         y="0"
         style="fill:{colours[3]};"
         />
 
         <rect
         class = "box"
-        width="60"
+        width="74"
         height="20"
-        x="328"
+        x="322"
         y="0"
         style="fill:{colours[4]};"
         />
 
-        <text class="legend-label"  x="115" y="35">&lt;{choropleths[mapSelected].breaks[0]}</text>
-        <text class="legend-label"  x="190" y="35">{choropleths[mapSelected].breaks[1]}</text>
-        <text class="legend-label"  x="250" y="35">{choropleths[mapSelected].breaks[2]}</text>
-        <text class="legend-label"  x="310" y="35">&gt{choropleths[mapSelected].breaks[3]}</text>
+        <text class="legend-label"  x="80" y="35">&lt;{choropleths[mapSelected].breaks[0]}</text>
+        <text class="legend-label"  x="160" y="35">{choropleths[mapSelected].breaks[1]}</text>
+        <text class="legend-label"  x="235" y="35">{choropleths[mapSelected].breaks[2]}</text>
+        <text class="legend-label"  x="305" y="35">&gt{choropleths[mapSelected].breaks[3]}</text>
 
     </svg>
 
-    <div>
-       
-    </div>
+    <p class="des">
+    {choropleths[mapSelected].text}
+    </p>
+    
+    <h3>Add Other Resources</h3>
+
 </div>
 
 <div id="map">
@@ -314,6 +385,30 @@ onMount(() => {
 </div>
 
 <style>
+    .check-box {
+        margin-left: 16px;
+        margin-right: 16px;
+        width: 387px
+    }
+
+    .label-format {
+        padding-right: 16px;
+    }
+
+    .check-box-item{ 
+        accent-color: #DA291C;
+        transform: scale(1.25);
+    }
+
+    .check-box-svg {
+        width: 16px;
+        height: 16px
+    }
+
+    .des {
+        margin-top: 4px;
+    }
+
     .box {
         stroke-width: 0.5px;
         stroke: rgb(206, 206, 206);

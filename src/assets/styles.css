@@ -93,42 +93,44 @@ body {
 }
 
 h1 {
-    font-family: TradeGothicBold;
-    font-size: 36px;
-    color: var(--brandBlack);
-    border-bottom: solid 1px var(--brandGray);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 29px;
+	font-weight: 600;
+	color: #DA291C;
+    /* color: var(--brandBlack); */
     text-decoration: none;
-    margin: 16px;
+    margin-left: 16px;
+	margin-bottom: 0px;
+	margin-right: 16px;
     padding: 0px;
 }
 
 h2 {
     text-align: left;
-    font-family: TradeGothicBold;
-    font-size: 26px;
-    margin: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+	font-weight: 600;
+    font-size: 24px;
+	color: #2C2A29;
+	padding-bottom: 4px;
+	border-bottom: solid 2px #DA291C;
+    margin-left: 16px;
+	margin-right: 16px;
+	margin-top: 8px;
     color: var(--brandBlack);
 }
 
 h3 {
     text-align: left;
-    font-family: TradeGothicBold;
-    font-size: 23px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
 	margin: 16px;
-    border-bottom: solid 1px #E35205;
-    color: var(--brandBlack);
-}
-
-h4 {
-	text-align: left;
-    font-family: TradeGothicBold;
-    font-size: 23px;
-	margin: 16px;
+	padding-left: 4px;
+    border-left: solid 1.5px #DA291C;
     color: var(--brandBlack);
 }
 
 p {
-    font-family: SourceSerif;
+    font-family: Arial, Helvetica, sans-serif;
     color: var(--brandBlack);
     text-align: left;
     font-size: 16px;
