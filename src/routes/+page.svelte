@@ -9,6 +9,7 @@ import admin from "../assets/admin_boundaries.geo.json";
 import Select from "svelte-select";
 import equity from "../assets/equitylayers.geo.json";
 import library from "../assets/library.geo.json";
+import rec from "../assets/rec.geo.json";
 
 //Changing the map layer
 
@@ -160,6 +161,20 @@ function filterlibrary() {
     }
 }
 
+let onRec = false;
+
+$:  onRec, filterRec()
+
+function filterRec() {
+    if (map) {
+        if (onRec) {
+            map.setPaintProperty('rec', 'circle-opacity', 1);
+        } else {
+            map.setPaintProperty('rec', 'circle-opacity', 0);
+        }
+    }
+}
+
 onMount(() => {
 
 	map = new maplibregl.Map({
@@ -297,6 +312,26 @@ onMount(() => {
             }
         })
 
+        map.addSource('rec', {
+            type: 'geojson',
+            data: rec
+        })
+
+        map.addLayer({
+            'id': 'rec',
+            'type': 'circle',
+            'source': 'rec',
+            'paint': {
+                "circle-color":"#00FF00",
+                "circle-radius" : [
+                            "interpolate", ["linear"], ["zoom"],
+                            8,1.5,
+                            12,5
+                        ],
+                "circle-opacity":0
+            }
+        })
+
     })
 })
 
@@ -413,6 +448,7 @@ onMount(() => {
 
     <div id="checkbox" class="check-box">
         <label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#F00000" stroke="#FF0000" stroke-width="1"/></label>
+        <label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#00FF00" stroke="#00FF00" stroke-width="1"/></label>
     </div>
 
 </div>
@@ -433,7 +469,7 @@ onMount(() => {
     }
 
     .label-format {
-        padding-right: 16px;
+        padding-right: 4px;
     }
 
     .check-box-item{ 
