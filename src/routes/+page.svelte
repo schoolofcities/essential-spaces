@@ -13,11 +13,19 @@ import rec from "../assets/rec.geo.json";
 
 //Changing the map layer
 
-let mapSelected = "Population Density"
+const defaultMap = "Equity Index"
+let mapSelected = defaultMap
 
 let colours = ["#fff5f0", "#fcbba1", "#fb6a4a", "#cb181d", "#67000d"]
 
 const choropleths = {
+    "Equity Index" :{
+        dataSource: "Equity Index",
+        breaks: [0.32, 0.40, 0.47, 0.57],
+        colours: colours,
+        text: "0 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+    },
+
     "Population Density":{
         dataSource: "PopuDenPerKM",
         breaks: [1000, 5000, 7500, 10000], 
@@ -362,7 +370,7 @@ onMount(() => {
         <Select
             id="select"
             items={Object.keys(choropleths)}
-            value={"Population Density"}
+            value={defaultMap}
             clearable={false}
             showChevron={true}
             listAutoWidth={false}
@@ -387,7 +395,7 @@ onMount(() => {
         />
     </div>
 
-    <svg width='400' height='40'>
+    <svg width='400' height='{mapSelected == "Equity Index" ? 24 : 40}'>
         <rect
         class = "box"
         width="74"
@@ -433,10 +441,22 @@ onMount(() => {
         style="fill:{colours[4]};"
         />
 
+        {#if mapSelected == "Equity Index"}
+        
+        <text class="legend-label"  x="20" y="15">1st Quintile</text>
+        <text class="legend-label"  x="120" y="15">2nd</text>
+        <text class="legend-label"  x="200" y="15">3rd</text>
+        <text class= "legend-label-dark"  x="275" y="15">4th</text>
+        <text class= "legend-label-dark"  x="350" y="15">5th</text>
+
+        {:else}
+
         <text class="legend-label"  x="80" y="35">&lt;{choropleths[mapSelected].breaks[0]}</text>
         <text class="legend-label"  x="160" y="35">{choropleths[mapSelected].breaks[1]}</text>
         <text class="legend-label"  x="235" y="35">{choropleths[mapSelected].breaks[2]}</text>
         <text class="legend-label"  x="305" y="35">&gt{choropleths[mapSelected].breaks[3]}</text>
+
+        {/if}
 
     </svg>
 
@@ -497,10 +517,17 @@ onMount(() => {
 
     .legend-label {
             font-size: 14px;
-            fill:var(--brandDarkBlue);
+            fill:var(--brandBlack);
             font-weight: 400;
             text-anchor: "middle";
         }
+
+    .legend-label-dark {
+        font-size: 14px;
+        fill:var(--brandWhite);
+        font-weight: 400;
+        text-anchor: "middle";
+    }
 
     #legend {
         background-color: white;
