@@ -16,7 +16,7 @@ import rec from "../assets/rec.geo.json";
 const defaultMap = "Equity Index"
 let mapSelected = defaultMap
 
-let colours = ["#fff5f0", "#fcbba1", "#fb6a4a", "#cb181d", "#67000d"]
+let colours = ["#fff5f0", "#fcbba1", "#fb6a4a", "#cb181d", "#810010"]
 
 const choropleths = {
     "Equity Index" :{
@@ -350,10 +350,10 @@ onMount(() => {
 
 <div id="panel">
 	<h1>Social Purpose Real Estate:</h1>
-	<h2>In Toronto, Peel, and York</h2>
+	<h2>In Toronto, Peel, & York</h2>
     <!-- Content for the left panel -->
     <!-- You can add text, images, or other elements here -->
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. 
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. 
 	</p>
 
     <h3>Add SPRE Locations</h3>
