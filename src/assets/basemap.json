@@ -21,34 +21,6 @@
 		  "background-color": "#fff",
 		  "background-opacity": 1
 		}
-	  },
-	  {
-		"id": "landcover",
-		"type": "fill",
-		"source": "carto",
-		"source-layer": "landcover",
-		"filter": [
-		  "any",
-		  [
-			"==",
-			"class",
-			"wood"
-		  ],
-		  [
-			"==",
-			"class",
-			"grass"
-		  ],
-		  [
-			"==",
-			"subclass",
-			"recreation_ground"
-		  ]
-		],
-		"paint": {
-		  "fill-color": "#f4f4f2",
-		  "fill-opacity": 0.42
-		}
 	  }
 	  
 	]

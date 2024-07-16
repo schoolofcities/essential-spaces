@@ -1,16 +1,23 @@
 <script>
 
 import { onMount } from "svelte";
-import maplibregl, { Color } from "maplibre-gl";
+import maplibregl from "maplibre-gl";
+import * as pmtiles from "pmtiles";
+
+
 import "../assets/styles.css";
 import baseMap from "../assets/basemap.json";
 import topMap from "../assets/topmap.json"
 import spre from "../assets/2021_clean.geo.json";
 import admin from "../assets/admin_boundaries.geo.json"; 
+import blocksOverlay from "../assets/blocks-overlay.geo.json"
 import Select from "svelte-select";
 import equity from "../assets/equitylayers.geo.json";
 import library from "../assets/library.geo.json";
 import rec from "../assets/rec.geo.json";
+
+let pmtilesBlocks = "/non-profit-real-estate/blocks-gta-2021-v4.pmtiles";
+
 
 //Changing the map layer
 
@@ -24,7 +31,9 @@ let mapSelected = defaultMap
 // let colours = ["#F4EFF7", "#EADFEF", "#D5C0DF", "#AB81BF", "#AB81BF"]
 
 
-let colours = ["#FBE9E8", "#F8D4D2", "#E97F77", "#E15449", "#E15449"]
+// let colours = ["#FBE9E8", "#F8D4D2", "#EB8B84", "#E15449", "#E15449"]
+
+let colours = ["#F8D4D2", "#F0A9A4", "#E97F77", "#E15449","#E15449"]
 
 let spreColours = [ "#793B91","#338ED8", "#4d4d4d"]
 
@@ -38,21 +47,21 @@ const choropleths = {
 		text: "Calculated by combining all other indicators in this list, weighting them equally",
 	},
 
-	"Population Density":{
-		dataSource: "PopuDenPerKM",
-		breaks: [1000, 5000, 7500, 10000], 
-		colours: colours,
-		text: "1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
-	},
+	// "Population Density":{
+	// 	dataSource: "PopuDenPerKM",
+	// 	breaks: [1000, 5000, 7500, 10000], 
+	// 	colours: colours,
+	// 	text: "1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+	// },
 	"% of Short-Term Workers":{
 		dataSource: "ShortTerm%",
-		breaks: [5, 10, 15, 20],
+		breaks: [8, 12, 16, 20],
 		colours: colours,
 		text: "2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
 	},
 	"% of Youth Not in Employment, Education or Training":{
 		dataSource: "Neet%", 
-		breaks:[5, 10, 15, 20],
+		breaks:[10, 15, 20, 25],
 		colours: colours,
 		text: "3 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
 	},
@@ -215,13 +224,16 @@ function filterRec() {
 
 onMount(() => {
 
+	let protocol = new pmtiles.Protocol();
+	maplibregl.addProtocol("pmtiles", protocol.tile);
+
 	map = new maplibregl.Map({
 		container: "map",
 		style: baseMap, //'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
 		center: [-79.0, 44.1], // starting position
 		zoom: 9, // starting zoom;
 		minZoom: 8, //furthest you can zoom out
-		maxZoom: 13, //furthest you can zoom in
+		maxZoom: 12.5, //furthest you can zoom in
 		projection: "globe",
 		scrollZoom: true,
 		attributionControl: false
@@ -248,11 +260,27 @@ onMount(() => {
 				source: "equity",
 				paint: {
 					"fill-opacity": 0.9,
-					"fill-color": "#cbcbcb",
+					"fill-color": "#fff",
 					"fill-outline-color": "#fff"
 				},
 			}
 		);
+
+		map.addSource("blocksOverlay", {
+			type: "geojson",
+			data: blocksOverlay
+		});
+
+		map.addLayer({
+			"id": "blocksOverlay",
+			"type": "fill",
+			"source": "blocksOverlay",
+			"paint": {
+				"fill-color": "#F7F7F7",
+				"fill-outline-color": "#F7F7F7",
+				"fill-opacity": 0.98
+			},
+		})
 
 		layerSet(mapSelected);
 
@@ -277,15 +305,16 @@ onMount(() => {
 				'line-opacity':[
 					'match', ['get', 'CSDUID'],
 					'0', 1,
-					1
+					0.5
 				],
 				'line-width':[
 					'match', ['get', 'CSDUID'],
-					'0', 2,
+					'0', 1,
 					1
 				],
 			}
 		})
+
 
 
 
@@ -309,7 +338,7 @@ onMount(() => {
 						"circle-radius" : [
 							"interpolate", ["linear"], ["zoom"],
 							8,1.5,
-							12,5
+							12,6
 						],
 						"circle-stroke-color": [
 							'match',
@@ -376,6 +405,9 @@ onMount(() => {
 				"circle-opacity":0
 			}
 		})
+
+
+		
 
 	})
 })
@@ -507,6 +539,8 @@ onMount(() => {
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#F00000" stroke="#FF0000" stroke-width="1"/></label>
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#00FF00" stroke="#00FF00" stroke-width="1"/></label>
 	</div>
+
+	<h3>Low Population Density</h3>
 
 </div>
 
