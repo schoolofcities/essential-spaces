@@ -1,0 +1,56 @@
+{
+	"version": 8,
+	"name": "Positron",
+	"metadata": {},
+	"sources": {
+	  "carto": {
+		"type": "vector",
+		"url": "https://tiles.basemaps.cartocdn.com/vector/carto.streets/v1/tiles.json"
+	  }
+	},
+	"sprite": "https://tiles.basemaps.cartocdn.com/gl/positron-gl-style/sprite",
+	"glyphs": "https://schoolofcities.github.io/fonts/fonts/{fontstack}/{range}.pbf",
+	"layers": [
+	  {
+		"id": "background",
+		"type": "background",
+		"layout": {
+		  "visibility": "visible"
+		},
+		"paint": {
+		  "background-color": "#fff",
+		  "background-opacity": 1
+		}
+	  },
+	  {
+		"id": "landcover",
+		"type": "fill",
+		"source": "carto",
+		"source-layer": "landcover",
+		"filter": [
+		  "any",
+		  [
+			"==",
+			"class",
+			"wood"
+		  ],
+		  [
+			"==",
+			"class",
+			"grass"
+		  ],
+		  [
+			"==",
+			"subclass",
+			"recreation_ground"
+		  ]
+		],
+		"paint": {
+		  "fill-color": "#f4f4f2",
+		  "fill-opacity": 0.42
+		}
+	  }
+	  
+	]
+
+}

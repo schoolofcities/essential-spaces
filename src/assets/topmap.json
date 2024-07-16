@@ -1,0 +1,105 @@
+[
+	{
+		"id": "water",
+		"type": "fill",
+		"source": "carto",
+		"source-layer": "water",
+		"minzoom": 0,
+		"maxzoom": 24,
+		"filter": [
+		  "all",
+		  [
+			"==",
+			"$type",
+			"Polygon"
+		  ]
+		],
+		"layout": {
+		  "visibility": "visible"
+		},
+		"paint": {
+		  "fill-color": "#F5F7F9",
+		  "fill-antialias": true,
+		  "fill-translate-anchor": "map",
+		  "fill-opacity": 1
+		}
+	},
+	{
+		"id": "waterlineborder",
+		"type": "line",
+		"source": "carto",
+		"source-layer": "water",
+		"minzoom": 0,
+		"maxzoom": 24,
+		"filter": [
+		  "all",
+		  [
+			"==",
+			"$type",
+			"Polygon"
+		  ]
+		],
+		"layout": {
+		  "visibility": "visible"
+		},
+		"paint": {
+		  "line-color": "#c7cad1",
+		  "line-opacity": 1,
+		  "line-width": 0.5
+		}
+	},
+	  {
+		  "id": "roads-minor",
+		  "type": "line",
+		  "source": "carto",
+		  "source-layer": "transportation",
+		  "minzoom": 8,
+		  "maxzoom": 24,
+		  "layout": {
+			"line-cap": "round",
+			"line-join": "round"
+		  },
+		  "filter": [
+			"all",
+			[
+				"in",
+				"class",
+				"minor"
+			]
+		   ],
+		  "paint": {
+			"line-width": 0.5,
+			"line-opacity": 1,
+			"line-color": "#D0D1C9"
+		  }
+		},
+	  {
+		  "id": "roads",
+		  "type": "line",
+		  "source": "carto",
+		  "source-layer": "transportation",
+		  "minzoom": 8,
+		  "maxzoom": 24,
+		  "layout": {
+			"line-cap": "round",
+			"line-join": "round"
+		  },
+		  "filter": [
+			"all",
+			[
+				"in",
+				"class",
+				"trunk",
+				"motorway",
+				"primary",
+				"secondary",
+				"tertiary"
+			]
+		   ],
+		  "paint": {
+			"line-width": 0.5,
+			"line-opacity": 1,
+			"line-color": "#D0D1C9"
+		  }
+		}
+]
