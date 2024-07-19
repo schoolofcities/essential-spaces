@@ -2,7 +2,7 @@
 
 import { onMount } from "svelte";
 import maplibregl from "maplibre-gl";
-import * as pmtiles from "pmtiles";
+// import * as pmtiles from "pmtiles";
 
 
 import "../assets/styles.css";
@@ -10,13 +10,15 @@ import baseMap from "../assets/basemap.json";
 import topMap from "../assets/topmap.json"
 import spre from "../assets/2021_clean.geo.json";
 import admin from "../assets/admin_boundaries.geo.json"; 
+import adminUpperTier from "../assets/admin-upper-tier.geo.json"; 
+import adminLowerTier from "../assets/admin-lower-tier.geo.json"; 
 import nonResMask from "../assets/non-residential-mask.geo.json"
 import Select from "svelte-select";
 import equity from "../assets/equitylayers.geo.json";
 import library from "../assets/library.geo.json";
 import rec from "../assets/rec.geo.json";
 
-let pmtilesBlocks = "/non-profit-real-estate/blocks-gta-2021-v4.pmtiles";
+
 
 
 //Changing the map layer
@@ -226,16 +228,17 @@ function filterRec() {
 
 onMount(() => {
 
-	let protocol = new pmtiles.Protocol();
-	maplibregl.addProtocol("pmtiles", protocol.tile);
+	// let protocol = new pmtiles.Protocol();
+	// maplibregl.addProtocol("pmtiles", protocol.tile);
 
 	map = new maplibregl.Map({
 		container: "map",
 		style: baseMap, //'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
-		center: [-79.0, 44.1], // starting position
-		zoom: 9, // starting zoom;
+		center: [-79.46, 43.78], // starting position
+		zoom: 10, // starting zoom;
 		minZoom: 8, //furthest you can zoom out
 		maxZoom: 12.5, //furthest you can zoom in
+		bearing: -17,
 		projection: "globe",
 		scrollZoom: true,
 		attributionControl: false
@@ -292,28 +295,38 @@ onMount(() => {
 
 
 		map.addSource(
-			'admin', {
+			'adminLowerTier', {
 				type: 'geojson', 
-				data: admin
+				data: adminLowerTier
 			}
 		)
 
 		map.addLayer({
-			'id':'admin',
+			'id':'adminLowerTier',
 			'type':'line',
-			'source':'admin',
+			'source':'adminLowerTier',
 			'paint': {
-				'line-color': '#4d4d4d',
-				'line-opacity':[
-					'match', ['get', 'CSDUID'],
-					'0', 1,
-					0.5
-				],
-				'line-width':[
-					'match', ['get', 'CSDUID'],
-					'0', 1,
-					1
-				],
+				'line-color': '#a09f9f',
+				'line-opacity': 0.75,
+				'line-width': 1
+			}
+		})
+
+		map.addSource(
+			'adminUpperTier', {
+				type: 'geojson', 
+				data: adminUpperTier
+			}
+		)
+
+		map.addLayer({
+			'id':'adminUpperTier',
+			'type':'line',
+			'source':'adminUpperTier',
+			'paint': {
+				'line-color': '#a09f9f',
+				'line-opacity': 1,
+				'line-width': 1.5
 			}
 		})
 
