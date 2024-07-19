@@ -37,15 +37,9 @@
 	--brandGray70: #4d4d4d;
 	--brandGray80: #333333;
 	--brandGray90: #191919;
-	--brandDarkBlue: #1E3765;
-	--brandMedBlue: #007FA3;
-	--brandLightBlue: #6FC7EA;
-	--brandPurple: #6D247A;
-	--brandDarkGreen: #0D534D;
-	--brandMedGreen: #00A189;
-	--brandLightGreen: #8DBF2E;
-	--brandRed: #DC4633; 
-	--brandYellow: #F1C500;
+	--brandRed: #DA291C;
+	--brandOrange: #D67C00;
+
 }
 
 body {
@@ -93,55 +87,55 @@ body {
 }
 
 h1 {
-    font-family: TradeGothicBold;
-    font-size: 36px;
-    color: var(--brandBlack);
-    border-bottom: solid 1px var(--brandGray);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 29px;
+	font-weight: 600;
+	color: var(--brandRed);
     text-decoration: none;
-    margin: 16px;
+    margin-left: 16px;
+	margin-bottom: 0px;
+	margin-right: 16px;
     padding: 0px;
 }
 
 h2 {
     text-align: left;
-    font-family: TradeGothicBold;
-    font-size: 26px;
-    margin: 16px;
-    color: var(--brandBlack);
+    font-family: Arial, Helvetica, sans-serif;
+	font-weight: 600;
+    font-size: 24px;
+	padding-bottom: 4px;
+	/* border-bottom: solid 2px var(--brandRed); */
+    margin-left: 16px;
+	margin-right: 16px;
+	margin-top: 8px;
+    color: var(--brandGray80);
 }
 
 h3 {
     text-align: left;
-    font-family: TradeGothicBold;
-    font-size: 23px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
 	margin: 16px;
-    border-bottom: solid 1px #E35205;
-    color: var(--brandBlack);
-}
-
-h4 {
-	text-align: left;
-    font-family: TradeGothicBold;
-    font-size: 23px;
-	margin: 16px;
+	padding-left: 4px;
+    border-left: solid 3px var(--brandRed);
     color: var(--brandBlack);
 }
 
 p {
-    font-family: SourceSerif;
+    font-family: Arial, Helvetica, sans-serif;
     color: var(--brandBlack);
     text-align: left;
-    font-size: 16px;
-    line-height: 22px;
+    font-size: 15px;
+    line-height: 20px;
 	margin: 16px;
 }
 
 
 a {
 	text-decoration: underline;
-	color: var(--brandMedBlue);
+	color: blue;
 }
 
 a:hover {
-	color: var(--brandMedGreen);
+	color: green;
 }
