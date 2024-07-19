@@ -48,13 +48,21 @@
 		  "line-width": 0.5
 		}
 	},
+	{
+		"id": "waterway",
+		"type": "line",
+		"source": "carto",
+		"source-layer": "waterway",
+		"paint": {
+		  "line-color": "#c7cad1",
+		  "line-width": 1
+		}
+	  },
 	  {
 		  "id": "roads-minor",
 		  "type": "line",
 		  "source": "carto",
 		  "source-layer": "transportation",
-		  "minzoom": 8,
-		  "maxzoom": 24,
 		  "layout": {
 			"line-cap": "round",
 			"line-join": "round"
@@ -78,8 +86,6 @@
 		  "type": "line",
 		  "source": "carto",
 		  "source-layer": "transportation",
-		  "minzoom": 8,
-		  "maxzoom": 24,
 		  "layout": {
 			"line-cap": "round",
 			"line-join": "round"

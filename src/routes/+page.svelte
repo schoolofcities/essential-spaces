@@ -10,7 +10,7 @@ import baseMap from "../assets/basemap.json";
 import topMap from "../assets/topmap.json"
 import spre from "../assets/2021_clean.geo.json";
 import admin from "../assets/admin_boundaries.geo.json"; 
-import blocksOverlay from "../assets/blocks-overlay.geo.json"
+import nonResMask from "../assets/non-residential-mask.geo.json"
 import Select from "svelte-select";
 import equity from "../assets/equitylayers.geo.json";
 import library from "../assets/library.geo.json";
@@ -33,7 +33,9 @@ let mapSelected = defaultMap
 
 // let colours = ["#FBE9E8", "#F8D4D2", "#EB8B84", "#E15449", "#E15449"]
 
-let colours = ["#F8D4D2", "#F0A9A4", "#E97F77", "#E15449","#E15449"]
+// let colours = ["#F8D4D2", "#F0A9A4", "#E97F77", "#E15449","#E15449"]
+
+let colours = ["#f7ecc3", "#f2cd8d", "#eeb05b", "#e78052", "#e15449"]
 
 let spreColours = [ "#793B91","#338ED8", "#4d4d4d"]
 
@@ -266,19 +268,19 @@ onMount(() => {
 			}
 		);
 
-		map.addSource("blocksOverlay", {
+		map.addSource("nonResMask", {
 			type: "geojson",
-			data: blocksOverlay
+			data: nonResMask
 		});
 
 		map.addLayer({
-			"id": "blocksOverlay",
+			"id": "nonResMask",
 			"type": "fill",
-			"source": "blocksOverlay",
+			"source": "nonResMask",
 			"paint": {
 				"fill-color": "#F7F7F7",
 				"fill-outline-color": "#F7F7F7",
-				"fill-opacity": 0.98
+				"fill-opacity": 0.935
 			},
 		})
 
@@ -539,8 +541,6 @@ onMount(() => {
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#F00000" stroke="#FF0000" stroke-width="1"/></label>
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#00FF00" stroke="#00FF00" stroke-width="1"/></label>
 	</div>
-
-	<h3>Low Population Density</h3>
 
 </div>
 
