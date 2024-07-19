@@ -271,6 +271,8 @@ onMount(() => {
 			}
 		);
 
+		layerSet(mapSelected);
+
 		map.addSource("nonResMask", {
 			type: "geojson",
 			data: nonResMask
@@ -283,16 +285,13 @@ onMount(() => {
 			"paint": {
 				"fill-color": "#F7F7F7",
 				"fill-outline-color": "#F7F7F7",
-				"fill-opacity": 0.935
+				"fill-opacity": 0.95
 			},
 		})
-
-		layerSet(mapSelected);
-
+		
 		topMap.forEach(e => {
 			map.addLayer(e);
 		});
-
 
 		map.addSource(
 			'adminLowerTier', {
@@ -330,8 +329,45 @@ onMount(() => {
 			}
 		})
 
+		map.addSource('library', {
+			type: 'geojson',
+			data: library
+		})
 
+		map.addLayer({
+			'id': 'library',
+			'type': 'circle',
+			'source': 'library',
+			'paint': {
+				"circle-color":"#FF0000",
+				"circle-radius" : [
+							"interpolate", ["linear"], ["zoom"],
+							8,1.5,
+							12,5
+						],
+				"circle-opacity":0
+			}
+		})
 
+		map.addSource('rec', {
+			type: 'geojson',
+			data: rec
+		})
+
+		map.addLayer({
+			'id': 'rec',
+			'type': 'circle',
+			'source': 'rec',
+			'paint': {
+				"circle-color":"#00FF00",
+				"circle-radius" : [
+							"interpolate", ["linear"], ["zoom"],
+							8,1.5,
+							12,5
+						],
+				"circle-opacity":0
+			}
+		})
 
 		map.addSource('spre', {
 					type: 'geojson',
@@ -378,51 +414,7 @@ onMount(() => {
 						],
 						"circle-stroke-width": 1
 					}
-
 		})
-
-		map.addSource('library', {
-			type: 'geojson',
-			data: library
-		})
-
-		map.addLayer({
-			'id': 'library',
-			'type': 'circle',
-			'source': 'library',
-			'paint': {
-				"circle-color":"#FF0000",
-				"circle-radius" : [
-							"interpolate", ["linear"], ["zoom"],
-							8,1.5,
-							12,5
-						],
-				"circle-opacity":0
-			}
-		})
-
-		map.addSource('rec', {
-			type: 'geojson',
-			data: rec
-		})
-
-		map.addLayer({
-			'id': 'rec',
-			'type': 'circle',
-			'source': 'rec',
-			'paint': {
-				"circle-color":"#00FF00",
-				"circle-radius" : [
-							"interpolate", ["linear"], ["zoom"],
-							8,1.5,
-							12,5
-						],
-				"circle-opacity":0
-			}
-		})
-
-
-		
 
 	})
 })
