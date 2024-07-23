@@ -8,7 +8,7 @@ import maplibregl from "maplibre-gl";
 import "../assets/styles.css";
 import baseMap from "../assets/basemap.json";
 import topMap from "../assets/topmap.json"
-import spre from "../assets/2021_clean.geo.json";
+import spre from "../assets/SPRE_2021.geo.json";
 import admin from "../assets/admin_boundaries.geo.json"; 
 import adminUpperTier from "../assets/admin-upper-tier.geo.json"; 
 import adminLowerTier from "../assets/admin-lower-tier.geo.json"; 
@@ -32,14 +32,13 @@ let mapSelected = defaultMap
 
 // let colours = ["#F4EFF7", "#EADFEF", "#D5C0DF", "#AB81BF", "#AB81BF"]
 
-
 // let colours = ["#FBE9E8", "#F8D4D2", "#EB8B84", "#E15449", "#E15449"]
 
 // let colours = ["#F8D4D2", "#F0A9A4", "#E97F77", "#E15449","#E15449"]
 
 let colours = ["#f7ecc3", "#f2cd8d", "#eeb05b", "#e78052", "#e15449"]
 
-let spreColours = [ "#793B91","#338ED8", "#4d4d4d"]
+let spreColours = [ "#793B91","#338ED8", "#A3A3A3"]
 
 
 
@@ -382,9 +381,9 @@ onMount(() => {
 						"circle-color": [
 							'match',
 							['get', 'Tenure'],
-							'Own', spreColours[1], //neon yellow
-							'Rent', spreColours[0], // neon blue
-							spreColours[2] //grey
+							'Own', spreColours[1], 
+							'Rent', spreColours[0], 
+							spreColours[2] 
 						],
 						"circle-radius" : [
 							"interpolate", ["linear"], ["zoom"],
@@ -394,33 +393,126 @@ onMount(() => {
 						"circle-stroke-color": [
 							'match',
 							['get', 'Tenure'],
-							'Own', '#fff', //neon yellow
-							'Rent', '#fff', // purple pink
-							'#A9A9A9' //grey
+							'Own', '#fff', 
+							'Rent', '#fff', 
+							'#fff' //grey
 						],
 						"circle-opacity": [
 							'match',
 							['get', 'Tenure'],
-							'Own', 1, //neon yellow
-							'Rent', 1, // purple pink
+							'Own', 1, 
+							'Rent', 1, 
 							1 //grey
 						],
 						"circle-stroke-opacity": [
 							'match',
 							['get', 'Tenure'],
-							'Own', 1, //neon yellow
-							'Rent', 1, // purple pink
-							1 //grey
+							'Own', 1, 
+							'Rent', 1, 
+							1 
 						],
-						"circle-stroke-width": 1
+						"circle-stroke-width": 0.7
 					}
 		})
 
 	})
+	// Add tool tips for SPRE
+	map.on('click', 'spre', (e) => {
+		const coordinates = e.features[0].geometry.coordinates.slice();
+		const description = e.features[0].properties["211 Parent Agency Name"];
+
+		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+		}
+
+		const popup = new maplibregl.Popup({closeOnClick: false})
+			.setLngLat(coordinates)
+			.setHTML(description)
+			.addTo(map);
+
+		const popupContent = popup._content;
+		if (popupContent) {
+			popupContent.style.padding = '6px 12px 6px 6px'
+			popupContent.style.backgroundColor = '#ffffff';
+			popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+			popupContent.style.opacity = 0.95;
+			}
+	});
+
+	map.on('mouseenter', 'spre', () => {
+			map.getCanvas().style.cursor = 'pointer';
+		});
+
+	map.on('mouseleave', 'spre', () => {
+		map.getCanvas().style.cursor = '';
+	});
+
+	// Add tool tips for Library
+	map.on('click', 'library', (e) => {
+		const coordinates = e.features[0].geometry.coordinates.slice();
+		const description = e.features[0].properties["Branch Name"];
+
+		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+		}
+
+		const popup = new maplibregl.Popup({closeOnClick: false})
+			.setLngLat(coordinates)
+			.setHTML(description)
+			.addTo(map);
+
+		const popupContent = popup._content;
+		if (popupContent) {
+			popupContent.style.padding = '6px 12px 6px 6px'
+			popupContent.style.backgroundColor = '#ffffff';
+			popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+			popupContent.style.opacity = 0.95;
+			}
+	});
+
+	map.on('mouseenter', 'library', () => {
+			map.getCanvas().style.cursor = 'pointer';
+		});
+
+	map.on('mouseleave', 'library', () => {
+		map.getCanvas().style.cursor = '';
+	});
+
+	// Add tool tips for RecCentre
+	map.on('click', 'rec', (e) => {
+		const coordinates = e.features[0].geometry.coordinates.slice();
+		const description = e.features[0].properties["Name"];
+
+		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+		}
+
+		const popup = new maplibregl.Popup({closeOnClick: false})
+			.setLngLat(coordinates)
+			.setHTML(description)
+			.addTo(map);
+
+		const popupContent = popup._content;
+		if (popupContent) {
+			popupContent.style.padding = '6px 12px 6px 6px'
+			popupContent.style.backgroundColor = '#ffffff';
+			popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+			popupContent.style.opacity = 0.95;
+			}
+	});
+
+	map.on('mouseenter', 'rec', () => {
+			map.getCanvas().style.cursor = 'pointer';
+		});
+
+	map.on('mouseleave', 'rec', () => {
+		map.getCanvas().style.cursor = '';
+	});
+
+
 })
 
 </script>
-
 
 <div id="container">
 
