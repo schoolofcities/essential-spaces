@@ -8,7 +8,7 @@ import maplibregl from "maplibre-gl";
 import "../assets/styles.css";
 import baseMap from "../assets/basemap.json";
 import topMap from "../assets/topmap.json"
-import spre from "../assets/SPRE_2021.geo.json";
+import spre from "../assets/SPRE_2021_map.geo.json";
 import admin from "../assets/admin_boundaries.geo.json"; 
 import adminUpperTier from "../assets/admin-upper-tier.geo.json"; 
 import adminLowerTier from "../assets/admin-lower-tier.geo.json"; 
