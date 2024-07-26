@@ -701,11 +701,11 @@ onMount(() => {
 	<h3>Add Other Resources</h3>
 
 	<div id="checkbox" class="check-box">
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#F00000" stroke="#FF0000" stroke-width="1"/></label>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#317873" stroke= "#808080" stroke-width="1" /></label>
 			
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#00FF00" stroke="#00FF00" stroke-width="1"/></label>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#FFC0CB" stroke= "#808080" stroke-width="1" /></label>
 
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onHousing}/> Community Housing & Shelter <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#000000" stroke="#000000" stroke-width="1"/></label>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onHousing}/> Community Housing & Shelter <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#FFC0CB" stroke= "#808080" stroke-width="1" /></label>
 			
 	</div>
 
