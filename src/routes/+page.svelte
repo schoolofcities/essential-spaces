@@ -8,15 +8,16 @@ import maplibregl from "maplibre-gl";
 import "../assets/styles.css";
 import baseMap from "../assets/basemap.json";
 import topMap from "../assets/topmap.json"
-import spre from "../assets/SPRE_2021_map.geo.json";
+import spre from "../assets/SPRE_2021_wgs84.geo.json";
 import admin from "../assets/admin_boundaries.geo.json"; 
 import adminUpperTier from "../assets/admin-upper-tier.geo.json"; 
 import adminLowerTier from "../assets/admin-lower-tier.geo.json"; 
-import nonResMask from "../assets/non-residential-mask.geo.json"
+import nonResMask from "../assets/non-residential-mask.geo.json";
 import Select from "svelte-select";
 import equity from "../assets/equitylayers.geo.json";
 import library from "../assets/library.geo.json";
 import rec from "../assets/rec.geo.json";
+import housing from "../assets/shelters_and_housing.geo.json";
 
 
 
@@ -211,6 +212,20 @@ function filterlibrary() {
 	}
 }
 
+let onHousing = false;
+
+$: onHousing, filterhousing()
+
+function filterhousing() {
+	if (map) {
+		if (onHousing) {
+			map.setPaintProperty('housing', 'circle-opacity', 1);
+		} else {
+			map.setPaintProperty('housing', 'circle-opacity', 0);
+		}
+	}
+}
+
 let onRec = false;
 
 $:  onRec, filterRec()
@@ -348,6 +363,26 @@ onMount(() => {
 			}
 		})
 
+		map.addSource('housing', {
+			type: 'geojson',
+			data: housing
+		})
+
+		map.addLayer({
+			'id': 'housing',
+			'type': 'circle',
+			'source': 'housing',
+			'paint': {
+				"circle-color":"#000000",
+				"circle-radius" : [
+							"interpolate", ["linear"], ["zoom"],
+							8,1.5,
+							12,5
+						],
+				"circle-opacity":0
+			}
+		})
+
 		map.addSource('rec', {
 			type: 'geojson',
 			data: rec
@@ -425,7 +460,7 @@ onMount(() => {
 			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 		}
 
-		const popup = new maplibregl.Popup({closeOnClick: false})
+		const popup = new maplibregl.Popup({closeOnClick: true})
 			.setLngLat(coordinates)
 			.setHTML(description)
 			.addTo(map);
@@ -456,7 +491,7 @@ onMount(() => {
 			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 		}
 
-		const popup = new maplibregl.Popup({closeOnClick: false})
+		const popup = new maplibregl.Popup({closeOnClick: true})
 			.setLngLat(coordinates)
 			.setHTML(description)
 			.addTo(map);
@@ -487,7 +522,7 @@ onMount(() => {
 			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 		}
 
-		const popup = new maplibregl.Popup({closeOnClick: false})
+		const popup = new maplibregl.Popup({closeOnClick: true})
 			.setLngLat(coordinates)
 			.setHTML(description)
 			.addTo(map);
@@ -506,6 +541,37 @@ onMount(() => {
 		});
 
 	map.on('mouseleave', 'rec', () => {
+		map.getCanvas().style.cursor = '';
+	});
+
+	// Add tool tips for Community Housing and Shelters
+	map.on('click', 'housing', (e) => {
+		const coordinates = e.features[0].geometry.coordinates.slice();
+		const description = e.features[0].properties["Name"];
+
+		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+		}
+
+		const popup = new maplibregl.Popup({closeOnClick: true})
+			.setLngLat(coordinates)
+			.setHTML(description)
+			.addTo(map);
+
+		const popupContent = popup._content;
+		if (popupContent) {
+			popupContent.style.padding = '6px 12px 6px 6px'
+			popupContent.style.backgroundColor = '#ffffff';
+			popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+			popupContent.style.opacity = 0.95;
+			}
+	});
+
+	map.on('mouseenter', 'housing', () => {
+			map.getCanvas().style.cursor = 'pointer';
+		});
+
+	map.on('mouseleave', 'housing', () => {
 		map.getCanvas().style.cursor = '';
 	});
 
@@ -636,7 +702,11 @@ onMount(() => {
 
 	<div id="checkbox" class="check-box">
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#F00000" stroke="#FF0000" stroke-width="1"/></label>
+			
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#00FF00" stroke="#00FF00" stroke-width="1"/></label>
+
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onHousing}/> Community Housing & Shelter <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#000000" stroke="#000000" stroke-width="1"/></label>
+			
 	</div>
 
 </div>
@@ -667,7 +737,8 @@ onMount(() => {
 
 	.check-box-svg {
 		width: 16px;
-		height: 16px
+		height: 16px; 
+		margin-top : 4px;
 	}
 
 	.des {
