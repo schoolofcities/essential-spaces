@@ -18,8 +18,9 @@ import equity from "../assets/equitylayers.geo.json";
 import library from "../assets/library.geo.json";
 import rec from "../assets/rec.geo.json";
 import housing from "../assets/shelters_and_housing.geo.json";
-
-
+import triangle_library from "../assets/triangle_library.svg";
+import triangle_housing from "../assets/triangle_housing.svg";
+import triangle_rec from "../assets/triangle_rec.svg";
 
 
 //Changing the map layer
@@ -205,9 +206,9 @@ $: onLibrary, filterlibrary()
 function filterlibrary() {
 	if (map) {
 		if (onLibrary) {
-			map.setPaintProperty('library', 'circle-opacity', 1);
+			map.setPaintProperty('library', 'icon-opacity', 1);
 		} else {
-			map.setPaintProperty('library', 'circle-opacity', 0);
+			map.setPaintProperty('library', 'icon-opacity', 0);
 		}
 	}
 }
@@ -219,9 +220,9 @@ $: onHousing, filterhousing()
 function filterhousing() {
 	if (map) {
 		if (onHousing) {
-			map.setPaintProperty('housing', 'circle-opacity', 1);
+			map.setPaintProperty('housing', 'icon-opacity', 1);
 		} else {
-			map.setPaintProperty('housing', 'circle-opacity', 0);
+			map.setPaintProperty('housing', 'icon-opacity', 0);
 		}
 	}
 }
@@ -233,9 +234,9 @@ $:  onRec, filterRec()
 function filterRec() {
 	if (map) {
 		if (onRec) {
-			map.setPaintProperty('rec', 'circle-opacity', 1);
+			map.setPaintProperty('rec', 'icon-opacity', 1);
 		} else {
-			map.setPaintProperty('rec', 'circle-opacity', 0);
+			map.setPaintProperty('rec', 'icon-opacity', 0);
 		}
 	}
 }
@@ -343,65 +344,7 @@ onMount(() => {
 			}
 		})
 
-		map.addSource('library', {
-			type: 'geojson',
-			data: library
-		})
-
-		map.addLayer({
-			'id': 'library',
-			'type': 'circle',
-			'source': 'library',
-			'paint': {
-				"circle-color":"#FF0000",
-				"circle-radius" : [
-							"interpolate", ["linear"], ["zoom"],
-							8,1.5,
-							12,5
-						],
-				"circle-opacity":0
-			}
-		})
-
-		map.addSource('housing', {
-			type: 'geojson',
-			data: housing
-		})
-
-		map.addLayer({
-			'id': 'housing',
-			'type': 'circle',
-			'source': 'housing',
-			'paint': {
-				"circle-color":"#000000",
-				"circle-radius" : [
-							"interpolate", ["linear"], ["zoom"],
-							8,1.5,
-							12,5
-						],
-				"circle-opacity":0
-			}
-		})
-
-		map.addSource('rec', {
-			type: 'geojson',
-			data: rec
-		})
-
-		map.addLayer({
-			'id': 'rec',
-			'type': 'circle',
-			'source': 'rec',
-			'paint': {
-				"circle-color":"#00FF00",
-				"circle-radius" : [
-							"interpolate", ["linear"], ["zoom"],
-							8,1.5,
-							12,5
-						],
-				"circle-opacity":0
-			}
-		})
+	
 
 		map.addSource('spre', {
 					type: 'geojson',
@@ -449,6 +392,113 @@ onMount(() => {
 						"circle-stroke-width": 0.7
 					}
 		})
+
+		map.addSource('library', {
+			type: 'geojson',
+			data: library
+		})
+
+		//triangle symbol for library
+
+		let libImage = new Image();
+		libImage.src = triangle_library; 
+		libImage.onload = function (){
+			
+			map.addImage('triangle_library', libImage);
+
+			map.addLayer({
+				'id': 'library',
+				'type': 'symbol',
+				'source': 'library',
+				'layout': {
+						"icon-image": "triangle_library",
+						"icon-size": [
+								"interpolate", ["linear"], ["zoom"],
+								0.05,
+								0.01,
+								25,
+								1.3
+						],
+						"icon-allow-overlap": true 
+				},
+				'paint': {
+					"icon-color":"#FF0000",
+					"icon-opacity":0
+				}
+			});
+
+		}
+
+		map.addSource('housing', {
+			type: 'geojson',
+			data: housing
+		})
+
+	//triangle symbol for housing
+
+		let housingImage = new Image();
+		housingImage.src = triangle_housing; 
+		housingImage.onload = function (){
+			
+			map.addImage('triangle_housing', housingImage);
+
+			map.addLayer({
+				'id': 'housing',
+				'type': 'symbol',
+				'source': 'housing',
+				'layout': {
+						"icon-image": "triangle_housing",
+						"icon-size": [
+								"interpolate", ["linear"], ["zoom"],
+								0.05,
+								0.01,
+								25,
+								1.3
+						],
+						"icon-allow-overlap": true 
+				},
+				'paint': {
+					"icon-color":"#FF0000",
+					"icon-opacity":0
+				}
+			});
+
+		}
+
+		map.addSource('rec', {
+			type: 'geojson',
+			data: rec
+		})
+
+		//triangle symbol for rec centre
+		let recImage = new Image();
+		recImage.src = triangle_rec; 
+		recImage.onload = function (){
+			
+			map.addImage('triangle_rec', recImage);
+
+			map.addLayer({
+				'id': 'rec',
+				'type': 'symbol',
+				'source': 'rec',
+				'layout': {
+						"icon-image": "triangle_rec",
+						"icon-size": [
+								"interpolate", ["linear"], ["zoom"],
+								0.05,
+								0.01,
+								25,
+								1.3
+						],
+						"icon-allow-overlap": true 
+				},
+				'paint': {
+					"icon-color":"#FF0000",
+					"icon-opacity":0
+				}
+			});
+
+		}
 
 	})
 	// Add tool tips for SPRE
@@ -701,11 +751,11 @@ onMount(() => {
 	<h3>Add Other Resources</h3>
 
 	<div id="checkbox" class="check-box">
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#317873" stroke= "#808080" stroke-width="1" /></label>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#7BF253" stroke= "#E3E3E3" stroke-width="1" /></label>
 			
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#FFC0CB" stroke= "#808080" stroke-width="1" /></label>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#E120D4" stroke= "#E3E3E3" stroke-width="1" /></label>
 
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onHousing}/> Community Housing & Shelter <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#FFC0CB" stroke= "#808080" stroke-width="1" /></label>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onHousing}/> Community Housing & Shelter <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#A1D9FF" stroke= "#E3E3E3" stroke-width="1" /></label>
 			
 	</div>
 
