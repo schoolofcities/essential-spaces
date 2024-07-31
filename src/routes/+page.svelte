@@ -49,9 +49,8 @@ const choropleths = {
 		dataSource: "Equity Index",
 		breaks: [0.32, 0.40, 0.47, 0.57],
 		colours: colours,
-		text: "Calculated by combining all other indicators in this list, weighting them equally",
+		text: "The index summarizes all equity indicators in this list with an equal weight. Areas in the higher quintiles may present a stronger need for community services due to the socio-economic disadvantages that residents might be experiencing.",
 	},
-
 	// "Population Density":{
 	// 	dataSource: "PopuDenPerKM",
 	// 	breaks: [1000, 5000, 7500, 10000], 
@@ -62,61 +61,64 @@ const choropleths = {
 		dataSource: "ShortTerm%",
 		breaks: [8, 12, 16, 20],
 		colours: colours,
-		text: "2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of workers who self-reported as an employee with a contract shorter than one year, out of the total number of employees in the 2021 Census",
 	},
 	"% of Youth Not in Employment, Education or Training":{
 		dataSource: "Neet%", 
 		breaks:[10, 15, 20, 25],
 		colours: colours,
-		text: "3 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of youth aged between 18-29 who were unemployed, not in school/training, or not in the labour force, out of the total youth population of the same age range",
 	},
 	"% of Recent Immigrants":{
 		dataSource: "Immigrant%",
 		breaks: [5, 10, 15, 20],
 		colours: colours,
-		text: "4 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of immigrants who migrated to Canada between 2016 to 2021 based on the 2021 Census, out of the total population",
 	},
 	"% of Visible Minority":{
 		dataSource: "VM%", 
 		breaks: [5, 25, 50, 75],
 		colours: colours,
-		text: "5- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of people who self-identified as visible minority in the 2021 Census, out of the total population",
 	},
 	"% of Single Parent Family":{
 		dataSource: "1-ParentFam%", 
 		breaks: [15, 20, 30, 40],
 		colours: colours,
-		text: "6- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of households self-reported as a one-parent household in the 2021 Census, out of the total number of household",
 	},
 	"% of Renter in Core Housing Need":{
 		dataSource: "%CHN", 
 		breaks: [10, 20, 30, 40], 
 		colours: colours,
-		text: "7 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of renters who reported experiencing at least one core housing need (e.g. housing affordability, suitability, and adequacy) in the 2021 Census, out of the total renter population",
 	},
 	"% of Renter in Unaffordable Housing":{
 		dataSource: "%Affordable", 
 		breaks: [5, 20, 30, 40],
 		colours: colours,
-		text: "8 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of renters who spent over 30% of their before-tax household income on rent as reported in the 2021 Census, out of the total renter population",
 	},
-	"% of Working Poor":{
-		dataSource: "%ofWP",
-		breaks: [5, 10, 15, 20],
-		colours: colours,
-		text: "9 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
-	},
-	"% of Low Income Housing by LIM":{
-		dataSource: "LIM%", 
-		breaks: [5, 15, 25, 35], 
-		colours: colours,
-		text: "10 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
-	},
+	
 	"% of Low Income Housing by MBM":{
 		dataSource: "MBM%",
 		breaks:[5, 10, 15, 20],
 		colours: colours,
-		text: "11 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of low-income household based on the 2021 Census data as measured by the Market Basket Measure (MBM), out of all households",
+	},
+
+	"% of Low Income Housing by LIM":{
+		dataSource: "LIM%", 
+		breaks: [5, 15, 25, 35], 
+		colours: colours,
+		text: "Percentage of low-income household based on 2021 T1 tax file income data as measured by the Low Income Measure (LIM), out of all households",
+	},
+
+	"% of Working Poor":{
+		dataSource: "%ofWP",
+		breaks: [5, 10, 15, 20],
+		colours: colours,
+		text: "Percentage of working adults aged 18-64 (excluding full-time and part-time students) who earned more than $3,000 monthly and lived in low-income households by LIM, out of all working adults of that age range",
 	},
 };
 
@@ -252,7 +254,7 @@ onMount(() => {
 		center: [-79.46, 43.78], // starting position
 		zoom: 10, // starting zoom;
 		minZoom: 8, //furthest you can zoom out
-		maxZoom: 12.5, //furthest you can zoom in
+		maxZoom: 14, //furthest you can zoom in
 		bearing: -17,
 		projection: "globe",
 		scrollZoom: true,
@@ -346,53 +348,7 @@ onMount(() => {
 
 	
 
-		map.addSource('spre', {
-					type: 'geojson',
-					data: spre
-				})
-
-		map.addLayer({
-			'id': 'spre',
-					'type': 'circle',
-					'source': 'spre',
-					'paint': {
-						"circle-color": [
-							'match',
-							['get', 'Tenure'],
-							'Own', spreColours[1], 
-							'Rent', spreColours[0], 
-							spreColours[2] 
-						],
-						"circle-radius" : [
-							"interpolate", ["linear"], ["zoom"],
-							8,1.5,
-							12,6
-						],
-						"circle-stroke-color": [
-							'match',
-							['get', 'Tenure'],
-							'Own', '#fff', 
-							'Rent', '#fff', 
-							'#fff' //grey
-						],
-						"circle-opacity": [
-							'match',
-							['get', 'Tenure'],
-							'Own', 1, 
-							'Rent', 1, 
-							1 //grey
-						],
-						"circle-stroke-opacity": [
-							'match',
-							['get', 'Tenure'],
-							'Own', 1, 
-							'Rent', 1, 
-							1 
-						],
-						"circle-stroke-width": 0.7
-					}
-		})
-
+		
 		map.addSource('library', {
 			type: 'geojson',
 			data: library
@@ -500,19 +456,69 @@ onMount(() => {
 
 		}
 
+		map.addSource('spre', {
+					type: 'geojson',
+					data: spre
+				})
+
+		map.addLayer({
+			'id': 'spre',
+					'type': 'circle',
+					'source': 'spre',
+					'paint': {
+						"circle-color": [
+							'match',
+							['get', 'Tenure'],
+							'Own', spreColours[1], 
+							'Rent', spreColours[0], 
+							spreColours[2] 
+						],
+						"circle-radius" : [
+							"interpolate", ["linear"], ["zoom"],
+							8,1.5,
+							12,6
+						],
+						"circle-stroke-color": [
+							'match',
+							['get', 'Tenure'],
+							'Own', '#fff', 
+							'Rent', '#fff', 
+							'#fff' //grey
+						],
+						"circle-opacity": [
+							'match',
+							['get', 'Tenure'],
+							'Own', 1, 
+							'Rent', 1, 
+							1 //grey
+						],
+						"circle-stroke-opacity": [
+							'match',
+							['get', 'Tenure'],
+							'Own', 1, 
+							'Rent', 1, 
+							1 
+						],
+						"circle-stroke-width": 0.7
+					}
+		})
+
 	})
 	// Add tool tips for SPRE
 	map.on('click', 'spre', (e) => {
 		const coordinates = e.features[0].geometry.coordinates.slice();
 		const description = e.features[0].properties["211 Parent Agency Name"];
+		const tenure = " (Tenure: " + e.features[0].properties["Tenure"] + ")";
 
 		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
 			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 		}
 
-		const popup = new maplibregl.Popup({closeOnClick: true})
+		const htmlContent =  description + tenure
+
+		const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
 			.setLngLat(coordinates)
-			.setHTML(description)
+			.setHTML(htmlContent)
 			.addTo(map);
 
 		const popupContent = popup._content;
@@ -536,14 +542,17 @@ onMount(() => {
 	map.on('click', 'library', (e) => {
 		const coordinates = e.features[0].geometry.coordinates.slice();
 		const description = e.features[0].properties["Branch Name"];
+		const type = " (Library)"
 
 		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
 			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 		}
 
-		const popup = new maplibregl.Popup({closeOnClick: true})
+		const htmlContent =  description + type
+
+		const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
 			.setLngLat(coordinates)
-			.setHTML(description)
+			.setHTML(htmlContent)
 			.addTo(map);
 
 		const popupContent = popup._content;
@@ -567,14 +576,17 @@ onMount(() => {
 	map.on('click', 'rec', (e) => {
 		const coordinates = e.features[0].geometry.coordinates.slice();
 		const description = e.features[0].properties["Name"];
+		const type = " (Community Centre)"
 
 		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
 			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 		}
 
-		const popup = new maplibregl.Popup({closeOnClick: true})
+		const htmlContent =  description + type
+
+		const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
 			.setLngLat(coordinates)
-			.setHTML(description)
+			.setHTML(htmlContent)
 			.addTo(map);
 
 		const popupContent = popup._content;
@@ -598,14 +610,17 @@ onMount(() => {
 	map.on('click', 'housing', (e) => {
 		const coordinates = e.features[0].geometry.coordinates.slice();
 		const description = e.features[0].properties["Name"];
+		const type = " (Type: " + e.features[0].properties["Type"] + ")";
 
 		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
 			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 		}
 
-		const popup = new maplibregl.Popup({closeOnClick: true})
+		const htmlContent =  description + type
+
+		const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
 			.setLngLat(coordinates)
-			.setHTML(description)
+			.setHTML(htmlContent)
 			.addTo(map);
 
 		const popupContent = popup._content;
@@ -624,8 +639,6 @@ onMount(() => {
 	map.on('mouseleave', 'housing', () => {
 		map.getCanvas().style.cursor = '';
 	});
-
-
 })
 
 </script>
@@ -637,7 +650,7 @@ onMount(() => {
 	<h2>In Toronto, Peel, & York</h2>
 	<!-- Content for the left panel -->
 	<!-- You can add text, images, or other elements here -->
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. 
+	<p>This interactive map examines the real estate landscape of the GTA’s community services sector as of 2021. The map allows us to analyze the distribution of owned and leased community real estate (CRE) offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing CRE within the community services sector. 
 	</p>
 
 	<h3>Add SPRE Locations</h3>
