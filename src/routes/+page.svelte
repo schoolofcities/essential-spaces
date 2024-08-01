@@ -8,17 +8,19 @@ import maplibregl from "maplibre-gl";
 import "../assets/styles.css";
 import baseMap from "../assets/basemap.json";
 import topMap from "../assets/topmap.json"
-import spre from "../assets/2021_clean.geo.json";
+import spre from "../assets/SPRE_2021_wgs84.geo.json";
 import admin from "../assets/admin_boundaries.geo.json"; 
 import adminUpperTier from "../assets/admin-upper-tier.geo.json"; 
 import adminLowerTier from "../assets/admin-lower-tier.geo.json"; 
-import nonResMask from "../assets/non-residential-mask.geo.json"
+import nonResMask from "../assets/non-residential-mask.geo.json";
 import Select from "svelte-select";
 import equity from "../assets/equitylayers.geo.json";
 import library from "../assets/library.geo.json";
 import rec from "../assets/rec.geo.json";
-
-
+import housing from "../assets/shelters_and_housing.geo.json";
+import triangle_library from "../assets/triangle_library.svg";
+import triangle_housing from "../assets/triangle_housing.svg";
+import triangle_rec from "../assets/triangle_rec.svg";
 
 
 //Changing the map layer
@@ -32,14 +34,13 @@ let mapSelected = defaultMap
 
 // let colours = ["#F4EFF7", "#EADFEF", "#D5C0DF", "#AB81BF", "#AB81BF"]
 
-
 // let colours = ["#FBE9E8", "#F8D4D2", "#EB8B84", "#E15449", "#E15449"]
 
 // let colours = ["#F8D4D2", "#F0A9A4", "#E97F77", "#E15449","#E15449"]
 
 let colours = ["#f7ecc3", "#f2cd8d", "#eeb05b", "#e78052", "#e15449"]
 
-let spreColours = [ "#793B91","#338ED8", "#4d4d4d"]
+let spreColours = [ "#793B91","#338ED8", "#A3A3A3"]
 
 
 
@@ -48,9 +49,8 @@ const choropleths = {
 		dataSource: "Equity Index",
 		breaks: [0.32, 0.40, 0.47, 0.57],
 		colours: colours,
-		text: "Calculated by combining all other indicators in this list, weighting them equally",
+		text: "The index summarizes all equity indicators in this list with an equal weight. Areas in the higher quintiles may present a stronger need for community services due to the socio-economic disadvantages that residents might be experiencing.",
 	},
-
 	// "Population Density":{
 	// 	dataSource: "PopuDenPerKM",
 	// 	breaks: [1000, 5000, 7500, 10000], 
@@ -61,61 +61,64 @@ const choropleths = {
 		dataSource: "ShortTerm%",
 		breaks: [8, 12, 16, 20],
 		colours: colours,
-		text: "2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of workers who self-reported as an employee with a contract shorter than one year, out of the total number of employees in the 2021 Census",
 	},
 	"% of Youth Not in Employment, Education or Training":{
 		dataSource: "Neet%", 
 		breaks:[10, 15, 20, 25],
 		colours: colours,
-		text: "3 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of youth aged between 18-29 who were unemployed, not in school/training, or not in the labour force, out of the total youth population of the same age range",
 	},
 	"% of Recent Immigrants":{
 		dataSource: "Immigrant%",
 		breaks: [5, 10, 15, 20],
 		colours: colours,
-		text: "4 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of immigrants who migrated to Canada between 2016 to 2021 based on the 2021 Census, out of the total population",
 	},
 	"% of Visible Minority":{
 		dataSource: "VM%", 
 		breaks: [5, 25, 50, 75],
 		colours: colours,
-		text: "5- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of people who self-identified as visible minority in the 2021 Census, out of the total population",
 	},
 	"% of Single Parent Family":{
 		dataSource: "1-ParentFam%", 
 		breaks: [15, 20, 30, 40],
 		colours: colours,
-		text: "6- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of households self-reported as a one-parent household in the 2021 Census, out of the total number of household",
 	},
 	"% of Renter in Core Housing Need":{
 		dataSource: "%CHN", 
 		breaks: [10, 20, 30, 40], 
 		colours: colours,
-		text: "7 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of renters who reported experiencing at least one core housing need (e.g. housing affordability, suitability, and adequacy) in the 2021 Census, out of the total renter population",
 	},
 	"% of Renter in Unaffordable Housing":{
 		dataSource: "%Affordable", 
 		breaks: [5, 20, 30, 40],
 		colours: colours,
-		text: "8 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of renters who spent over 30% of their before-tax household income on rent as reported in the 2021 Census, out of the total renter population",
 	},
-	"% of Working Poor":{
-		dataSource: "%ofWP",
-		breaks: [5, 10, 15, 20],
-		colours: colours,
-		text: "9 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
-	},
-	"% of Low Income Housing by LIM":{
-		dataSource: "LIM%", 
-		breaks: [5, 15, 25, 35], 
-		colours: colours,
-		text: "10 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
-	},
+	
 	"% of Low Income Housing by MBM":{
 		dataSource: "MBM%",
 		breaks:[5, 10, 15, 20],
 		colours: colours,
-		text: "11 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
+		text: "Percentage of low-income household based on the 2021 Census data as measured by the Market Basket Measure (MBM), out of all households",
+	},
+
+	"% of Low Income Housing by LIM":{
+		dataSource: "LIM%", 
+		breaks: [5, 15, 25, 35], 
+		colours: colours,
+		text: "Percentage of low-income household based on 2021 T1 tax file income data as measured by the Low Income Measure (LIM), out of all households",
+	},
+
+	"% of Working Poor":{
+		dataSource: "%ofWP",
+		breaks: [5, 10, 15, 20],
+		colours: colours,
+		text: "Percentage of working adults aged 18-64 (excluding full-time and part-time students) who earned more than $3,000 monthly and lived in low-income households by LIM, out of all working adults of that age range",
 	},
 };
 
@@ -205,9 +208,23 @@ $: onLibrary, filterlibrary()
 function filterlibrary() {
 	if (map) {
 		if (onLibrary) {
-			map.setPaintProperty('library', 'circle-opacity', 1);
+			map.setPaintProperty('library', 'icon-opacity', 1);
 		} else {
-			map.setPaintProperty('library', 'circle-opacity', 0);
+			map.setPaintProperty('library', 'icon-opacity', 0);
+		}
+	}
+}
+
+let onHousing = false;
+
+$: onHousing, filterhousing()
+
+function filterhousing() {
+	if (map) {
+		if (onHousing) {
+			map.setPaintProperty('housing', 'icon-opacity', 1);
+		} else {
+			map.setPaintProperty('housing', 'icon-opacity', 0);
 		}
 	}
 }
@@ -219,9 +236,9 @@ $:  onRec, filterRec()
 function filterRec() {
 	if (map) {
 		if (onRec) {
-			map.setPaintProperty('rec', 'circle-opacity', 1);
+			map.setPaintProperty('rec', 'icon-opacity', 1);
 		} else {
-			map.setPaintProperty('rec', 'circle-opacity', 0);
+			map.setPaintProperty('rec', 'icon-opacity', 0);
 		}
 	}
 }
@@ -237,7 +254,7 @@ onMount(() => {
 		center: [-79.46, 43.78], // starting position
 		zoom: 10, // starting zoom;
 		minZoom: 8, //furthest you can zoom out
-		maxZoom: 12.5, //furthest you can zoom in
+		maxZoom: 14, //furthest you can zoom in
 		bearing: -17,
 		projection: "globe",
 		scrollZoom: true,
@@ -329,45 +346,115 @@ onMount(() => {
 			}
 		})
 
+	
+
+		
 		map.addSource('library', {
 			type: 'geojson',
 			data: library
 		})
 
-		map.addLayer({
-			'id': 'library',
-			'type': 'circle',
-			'source': 'library',
-			'paint': {
-				"circle-color":"#FF0000",
-				"circle-radius" : [
-							"interpolate", ["linear"], ["zoom"],
-							8,1.5,
-							12,5
+		//triangle symbol for library
+
+		let libImage = new Image();
+		libImage.src = triangle_library; 
+		libImage.onload = function (){
+			
+			map.addImage('triangle_library', libImage);
+
+			map.addLayer({
+				'id': 'library',
+				'type': 'symbol',
+				'source': 'library',
+				'layout': {
+						"icon-image": "triangle_library",
+						"icon-size": [
+								"interpolate", ["linear"], ["zoom"],
+								0.05,
+								0.01,
+								25,
+								1.3
 						],
-				"circle-opacity":0
-			}
+						"icon-allow-overlap": true 
+				},
+				'paint': {
+					"icon-color":"#FF0000",
+					"icon-opacity":0
+				}
+			});
+
+		}
+
+		map.addSource('housing', {
+			type: 'geojson',
+			data: housing
 		})
+
+	//triangle symbol for housing
+
+		let housingImage = new Image();
+		housingImage.src = triangle_housing; 
+		housingImage.onload = function (){
+			
+			map.addImage('triangle_housing', housingImage);
+
+			map.addLayer({
+				'id': 'housing',
+				'type': 'symbol',
+				'source': 'housing',
+				'layout': {
+						"icon-image": "triangle_housing",
+						"icon-size": [
+								"interpolate", ["linear"], ["zoom"],
+								0.05,
+								0.01,
+								25,
+								1.3
+						],
+						"icon-allow-overlap": true 
+				},
+				'paint': {
+					"icon-color":"#FF0000",
+					"icon-opacity":0
+				}
+			});
+
+		}
 
 		map.addSource('rec', {
 			type: 'geojson',
 			data: rec
 		})
 
-		map.addLayer({
-			'id': 'rec',
-			'type': 'circle',
-			'source': 'rec',
-			'paint': {
-				"circle-color":"#00FF00",
-				"circle-radius" : [
-							"interpolate", ["linear"], ["zoom"],
-							8,1.5,
-							12,5
+		//triangle symbol for rec centre
+		let recImage = new Image();
+		recImage.src = triangle_rec; 
+		recImage.onload = function (){
+			
+			map.addImage('triangle_rec', recImage);
+
+			map.addLayer({
+				'id': 'rec',
+				'type': 'symbol',
+				'source': 'rec',
+				'layout': {
+						"icon-image": "triangle_rec",
+						"icon-size": [
+								"interpolate", ["linear"], ["zoom"],
+								0.05,
+								0.01,
+								25,
+								1.3
 						],
-				"circle-opacity":0
-			}
-		})
+						"icon-allow-overlap": true 
+				},
+				'paint': {
+					"icon-color":"#FF0000",
+					"icon-opacity":0
+				}
+			});
+
+		}
 
 		map.addSource('spre', {
 					type: 'geojson',
@@ -382,9 +469,9 @@ onMount(() => {
 						"circle-color": [
 							'match',
 							['get', 'Tenure'],
-							'Own', spreColours[1], //neon yellow
-							'Rent', spreColours[0], // neon blue
-							spreColours[2] //grey
+							'Own', spreColours[1], 
+							'Rent', spreColours[0], 
+							spreColours[2] 
 						],
 						"circle-radius" : [
 							"interpolate", ["linear"], ["zoom"],
@@ -394,33 +481,167 @@ onMount(() => {
 						"circle-stroke-color": [
 							'match',
 							['get', 'Tenure'],
-							'Own', '#fff', //neon yellow
-							'Rent', '#fff', // purple pink
-							'#A9A9A9' //grey
+							'Own', '#fff', 
+							'Rent', '#fff', 
+							'#fff' //grey
 						],
 						"circle-opacity": [
 							'match',
 							['get', 'Tenure'],
-							'Own', 1, //neon yellow
-							'Rent', 1, // purple pink
+							'Own', 1, 
+							'Rent', 1, 
 							1 //grey
 						],
 						"circle-stroke-opacity": [
 							'match',
 							['get', 'Tenure'],
-							'Own', 1, //neon yellow
-							'Rent', 1, // purple pink
-							1 //grey
+							'Own', 1, 
+							'Rent', 1, 
+							1 
 						],
-						"circle-stroke-width": 1
+						"circle-stroke-width": 0.7
 					}
 		})
 
 	})
+	// Add tool tips for SPRE
+	map.on('click', 'spre', (e) => {
+		const coordinates = e.features[0].geometry.coordinates.slice();
+		const description = e.features[0].properties["211 Parent Agency Name"];
+		const tenure = " (Tenure: " + e.features[0].properties["Tenure"] + ")";
+
+		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+		}
+
+		const htmlContent =  description + tenure
+
+		const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
+			.setLngLat(coordinates)
+			.setHTML(htmlContent)
+			.addTo(map);
+
+		const popupContent = popup._content;
+		if (popupContent) {
+			popupContent.style.padding = '6px 12px 6px 6px'
+			popupContent.style.backgroundColor = '#ffffff';
+			popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+			popupContent.style.opacity = 0.95;
+			}
+	});
+
+	map.on('mouseenter', 'spre', () => {
+			map.getCanvas().style.cursor = 'pointer';
+		});
+
+	map.on('mouseleave', 'spre', () => {
+		map.getCanvas().style.cursor = '';
+	});
+
+	// Add tool tips for Library
+	map.on('click', 'library', (e) => {
+		const coordinates = e.features[0].geometry.coordinates.slice();
+		const description = e.features[0].properties["Branch Name"];
+		const type = " (Library)"
+
+		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+		}
+
+		const htmlContent =  description + type
+
+		const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
+			.setLngLat(coordinates)
+			.setHTML(htmlContent)
+			.addTo(map);
+
+		const popupContent = popup._content;
+		if (popupContent) {
+			popupContent.style.padding = '6px 12px 6px 6px'
+			popupContent.style.backgroundColor = '#ffffff';
+			popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+			popupContent.style.opacity = 0.95;
+			}
+	});
+
+	map.on('mouseenter', 'library', () => {
+			map.getCanvas().style.cursor = 'pointer';
+		});
+
+	map.on('mouseleave', 'library', () => {
+		map.getCanvas().style.cursor = '';
+	});
+
+	// Add tool tips for RecCentre
+	map.on('click', 'rec', (e) => {
+		const coordinates = e.features[0].geometry.coordinates.slice();
+		const description = e.features[0].properties["Name"];
+		const type = " (Community Centre)"
+
+		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+		}
+
+		const htmlContent =  description + type
+
+		const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
+			.setLngLat(coordinates)
+			.setHTML(htmlContent)
+			.addTo(map);
+
+		const popupContent = popup._content;
+		if (popupContent) {
+			popupContent.style.padding = '6px 12px 6px 6px'
+			popupContent.style.backgroundColor = '#ffffff';
+			popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+			popupContent.style.opacity = 0.95;
+			}
+	});
+
+	map.on('mouseenter', 'rec', () => {
+			map.getCanvas().style.cursor = 'pointer';
+		});
+
+	map.on('mouseleave', 'rec', () => {
+		map.getCanvas().style.cursor = '';
+	});
+
+	// Add tool tips for Community Housing and Shelters
+	map.on('click', 'housing', (e) => {
+		const coordinates = e.features[0].geometry.coordinates.slice();
+		const description = e.features[0].properties["Name"];
+		const type = " (Type: " + e.features[0].properties["Type"] + ")";
+
+		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+		}
+
+		const htmlContent =  description + type
+
+		const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
+			.setLngLat(coordinates)
+			.setHTML(htmlContent)
+			.addTo(map);
+
+		const popupContent = popup._content;
+		if (popupContent) {
+			popupContent.style.padding = '6px 12px 6px 6px'
+			popupContent.style.backgroundColor = '#ffffff';
+			popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+			popupContent.style.opacity = 0.95;
+			}
+	});
+
+	map.on('mouseenter', 'housing', () => {
+			map.getCanvas().style.cursor = 'pointer';
+		});
+
+	map.on('mouseleave', 'housing', () => {
+		map.getCanvas().style.cursor = '';
+	});
 })
 
 </script>
-
 
 <div id="container">
 
@@ -429,7 +650,7 @@ onMount(() => {
 	<h2>In Toronto, Peel, & York</h2>
 	<!-- Content for the left panel -->
 	<!-- You can add text, images, or other elements here -->
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. 
+	<p>This interactive map examines the real estate landscape of the GTA’s community services sector as of 2021. The map allows us to analyze the distribution of owned and leased community real estate (CRE) offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing CRE within the community services sector. 
 	</p>
 
 	<h3>Add SPRE Locations</h3>
@@ -543,8 +764,12 @@ onMount(() => {
 	<h3>Add Other Resources</h3>
 
 	<div id="checkbox" class="check-box">
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#F00000" stroke="#FF0000" stroke-width="1"/></label>
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="#00FF00" stroke="#00FF00" stroke-width="1"/></label>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#7BF253" stroke= "#E3E3E3" stroke-width="1" /></label>
+			
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#E120D4" stroke= "#E3E3E3" stroke-width="1" /></label>
+
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onHousing}/> Community Housing & Shelter <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#A1D9FF" stroke= "#E3E3E3" stroke-width="1" /></label>
+			
 	</div>
 
 </div>
@@ -575,7 +800,8 @@ onMount(() => {
 
 	.check-box-svg {
 		width: 16px;
-		height: 16px
+		height: 16px; 
+		margin-top : 4px;
 	}
 
 	.des {
