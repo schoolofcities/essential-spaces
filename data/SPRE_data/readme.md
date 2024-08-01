@@ -5,7 +5,7 @@ The input data folder contains the raw CRA T3010 files and 211 Ontario data for 
 
 The SPRE_2021_wgs84 geojson is the cleaned up SPRE locations, where empty addresses were removed, saved in the WGS84 projection system.
 
-The "2021_SPRE_DATA_Jul23" csv file contains all relevant matches of SPRE locations (a match between CRA and 211 data), without removing empty addresses from the dataset
+The "2021_SPRE_DATA_Jul23" excel file (sheet name = Primary-2021-Clean) contains all relevant matches of SPRE locations (a match between CRA and 211 data), without removing empty addresses from the dataset. 
 
 ## Jupyter Notebooks
 

@@ -766,7 +766,7 @@ onMount(() => {
 	<div id="checkbox" class="check-box">
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#7BF253" stroke= "#E3E3E3" stroke-width="1" /></label>
 			
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#E120D4" stroke= "#E3E3E3" stroke-width="1" /></label>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#EAB4FF" stroke= "#E3E3E3" stroke-width="1" /></label>
 
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onHousing}/> Community Housing & Shelter <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#A1D9FF" stroke= "#E3E3E3" stroke-width="1" /></label>
 			
