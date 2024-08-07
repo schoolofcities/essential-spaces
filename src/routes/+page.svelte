@@ -47,9 +47,10 @@ let spreColours = [ "#793B91","#338ED8", "#A3A3A3"]
 const choropleths = {
 	"Equity Index" :{
 		dataSource: "Equity Index",
+		group: "Equity Layer",
 		breaks: [0.32, 0.40, 0.47, 0.57],
 		colours: colours,
-		text: "The index summarizes all equity indicators in this list with an equal weight. Areas in the higher quintiles may present a stronger need for community services due to the socio-economic disadvantages that residents might be experiencing.",
+		text: "The index summarizes all equity indicators in this sub-list with an equal weight. Areas in the higher quintiles may present a stronger need for community services due to the socio-economic disadvantages that residents might be experiencing.",
 	},
 	// "Population Density":{
 	// 	dataSource: "PopuDenPerKM",
@@ -57,58 +58,67 @@ const choropleths = {
 	// 	colours: colours,
 	// 	text: "1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
 	// },
-	"% of Short-Term Workers":{
+	"% Short-Term Workers":{
 		dataSource: "ShortTerm%",
-		breaks: [8, 12, 16, 20],
+		group: "Equity Layer",
+		breaks: [9, 11, 13, 15],
 		colours: colours,
 		text: "Percentage of workers who self-reported as an employee with a contract shorter than one year, out of the total number of employees in the 2021 Census",
 	},
 	"% of Youth Not in Employment, Education or Training":{
 		dataSource: "Neet%", 
+		group: "Equity Layer",
 		breaks:[10, 15, 20, 25],
 		colours: colours,
 		text: "Percentage of youth aged between 18-29 who were unemployed, not in school/training, or not in the labour force, out of the total youth population of the same age range",
 	},
 	"% of Recent Immigrants":{
 		dataSource: "Immigrant%",
+		group: "Other Layer",
 		breaks: [5, 10, 15, 20],
 		colours: colours,
 		text: "Percentage of immigrants who migrated to Canada between 2016 to 2021 based on the 2021 Census, out of the total population",
 	},
 	"% of Visible Minority":{
 		dataSource: "VM%", 
+		group: "Other Layer",
 		breaks: [5, 25, 50, 75],
 		colours: colours,
 		text: "Percentage of people who self-identified as visible minority in the 2021 Census, out of the total population",
 	},
 	"% of Single Parent Family":{
-		dataSource: "1-ParentFam%", 
+		dataSource: "1-ParentFam%",
+		group: "Other Layer", 
 		breaks: [15, 20, 30, 40],
 		colours: colours,
 		text: "Percentage of households self-reported as a one-parent household in the 2021 Census, out of the total number of household",
 	},
 	"% of Renter in Core Housing Need":{
 		dataSource: "%CHN", 
+		group: "Equity Layer",
 		breaks: [10, 20, 30, 40], 
 		colours: colours,
 		text: "Percentage of renters who reported experiencing at least one core housing need (e.g. housing affordability, suitability, and adequacy) in the 2021 Census, out of the total renter population",
 	},
 	"% of Renter in Unaffordable Housing":{
 		dataSource: "%Affordable", 
+		group: "Equity Layer",
 		breaks: [5, 20, 30, 40],
 		colours: colours,
 		text: "Percentage of renters who spent over 30% of their before-tax household income on rent as reported in the 2021 Census, out of the total renter population",
 	},
 	
-	"% of Low Income Housing by MBM":{
+	"% in Low Income Household (MBM)":{
 		dataSource: "MBM%",
+		group: "Equity Layer",
 		breaks:[5, 10, 15, 20],
 		colours: colours,
-		text: "Percentage of low-income household based on the 2021 Census data as measured by the Market Basket Measure (MBM), out of all households",
+		text: "Percentage of residents in low-income households, based on the 2021 Census data as measured by the Market Basket Measure (MBM)",
 	},
 
 	"% of Low Income Housing by LIM":{
 		dataSource: "LIM%", 
+		group: "Equity Layer",
 		breaks: [5, 15, 25, 35], 
 		colours: colours,
 		text: "Percentage of low-income household based on 2021 T1 tax file income data as measured by the Low Income Measure (LIM), out of all households",
@@ -116,17 +126,27 @@ const choropleths = {
 
 	"% of Working Poor":{
 		dataSource: "%ofWP",
+		group: "Equity Layer",
 		breaks: [5, 10, 15, 20],
 		colours: colours,
 		text: "Percentage of working adults aged 18-64 (excluding full-time and part-time students) who earned more than $3,000 monthly and lived in low-income households by LIM, out of all working adults of that age range",
 	},
 };
+const items = Object.keys(choropleths).map(key => {
+    return {
+        value: key,
+		label: key,
+        ...choropleths[key]
+    };
+});
+console.log(items);
 
 // console.log(choropleths["population-density"].colours[0]);
 
 let map = null;
 
 function layerSelect(e) {
+	console.log(layerSelect);
 	mapSelected = e.detail.value;
 	layerSet(mapSelected);
 }
@@ -646,14 +666,13 @@ onMount(() => {
 <div id="container">
 
 <div id="panel">
-	<h1>Social Purpose Real Estate:</h1>
-	<h2>In Toronto, Peel, & York</h2>
+	<h1>Community Real Estate</h1>
 	<!-- Content for the left panel -->
 	<!-- You can add text, images, or other elements here -->
-	<p>This interactive map examines the real estate landscape of the GTA’s community services sector as of 2021. The map allows us to analyze the distribution of owned and leased community real estate (CRE) offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing CRE within the community services sector. 
+	<p>This map examines the real estate landscape of the Greater Toronto Area's (GTA) community services sector as of 2021. The map allows us to analyze the distribution of owned and leased Community Real Estate (CRE) offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing CRE within the community services sector. 
 	</p>
 
-	<h3>Add SPRE Locations</h3>
+	<h3>Select CRE Locations By Tenure</h3>
 
 	<div id="checkbox" class="check-box">
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Own"} /> Own <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="{spreColours[1]}" stroke="#fff" stroke-width="1"/></svg></label>
@@ -661,12 +680,13 @@ onMount(() => {
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Unknown"} /> Unknown <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="{spreColours[2]}" stroke="#fff" stroke-width="1"/></label>
 	</div>
 
-	<h3>Select Equity Map Layer</h3>
+	<h3>Select Base Map Layer</h3>
 
 	<div id="select-wrapper">
 		<Select
 			id="select"
-			items={Object.keys(choropleths)}
+			items={items}
+			groupBy={(items) => items.group}
 			value={defaultMap}
 			clearable={false}
 			showChevron={true}
