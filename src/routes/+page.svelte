@@ -9,9 +9,9 @@ import "../assets/styles.css";
 import baseMap from "../assets/basemap.json";
 import topMap from "../assets/topmap.json"
 import spre from "../assets/SPRE_2021_wgs84.geo.json";
-import admin from "../assets/admin_boundaries.geo.json"; 
 import adminUpperTier from "../assets/admin-upper-tier.geo.json"; 
 import adminLowerTier from "../assets/admin-lower-tier.geo.json"; 
+import adminLowerTierCentroids from "../assets/admin-lower-tier-centroids.geo.json"; 
 import nonResMask from "../assets/non-residential-mask.geo.json";
 import Select from "svelte-select";
 import equity from "../assets/equitylayers.geo.json";
@@ -47,7 +47,7 @@ let spreColours = [ "#793B91","#338ED8", "#A3A3A3"]
 const choropleths = {
 	"Equity Index" :{
 		dataSource: "Equity Index",
-		group: "Equity Layer",
+		group: "Equity Layers",
 		breaks: [0.32, 0.40, 0.47, 0.57],
 		colours: colours,
 		text: "The index summarizes all equity indicators in this sub-list with an equal weight. Areas in the higher quintiles may present a stronger need for community services due to the socio-economic disadvantages that residents might be experiencing.",
@@ -58,79 +58,84 @@ const choropleths = {
 	// 	colours: colours,
 	// 	text: "1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
 	// },
+	"% in Low Income Household (MBM)":{
+		dataSource: "MBM%",
+		group: "Equity Layers",
+		breaks:[5, 10, 15, 20],
+		colours: colours,
+		text: "Percentage of residents in low-income households, based on the 2021 Census data as measured by the Market Basket Measure (MBM)",
+	},
+	"% of Low Income Housing by LIM":{
+		dataSource: "LIM%", 
+		group: "Equity Layers",
+		breaks: [5, 15, 25, 35], 
+		colours: colours,
+		text: "Percentage of residents low-income household based on 2021 T1 tax file income data as measured by the Low Income Measure (LIM)",
+	},
+	"% of Working Poor":{
+		dataSource: "%ofWP",
+		group: "Equity Layers",
+		breaks: [2.5, 5, 10, 15],
+		colours: colours,
+		text: "Percentage of working adults aged 18-64 (excluding full-time and part-time students) who earned more than $3,000 monthly and lived in low-income households by LIM, out of all working adults of that age range",
+	},
 	"% Short-Term Workers":{
 		dataSource: "ShortTerm%",
-		group: "Equity Layer",
+		group: "Equity Layers",
 		breaks: [9, 11, 13, 15],
 		colours: colours,
 		text: "Percentage of workers who self-reported as an employee with a contract shorter than one year, out of the total number of employees in the 2021 Census",
 	},
 	"% of Youth Not in Employment, Education or Training":{
 		dataSource: "Neet%", 
-		group: "Equity Layer",
+		group: "Equity Layers",
 		breaks:[10, 15, 20, 25],
 		colours: colours,
 		text: "Percentage of youth aged between 18-29 who were unemployed, not in school/training, or not in the labour force, out of the total youth population of the same age range",
 	},
 	"% of Recent Immigrants":{
 		dataSource: "Immigrant%",
-		group: "Other Layer",
-		breaks: [5, 10, 15, 20],
+		group: "Other Layers",
+		breaks: [2.5, 5, 10, 15],
 		colours: colours,
 		text: "Percentage of immigrants who migrated to Canada between 2016 to 2021 based on the 2021 Census, out of the total population",
 	},
 	"% of Visible Minority":{
 		dataSource: "VM%", 
-		group: "Other Layer",
-		breaks: [5, 25, 50, 75],
+		group: "Other Layers",
+		breaks: [10, 30, 50, 70],
 		colours: colours,
 		text: "Percentage of people who self-identified as visible minority in the 2021 Census, out of the total population",
 	},
 	"% of Single Parent Family":{
 		dataSource: "1-ParentFam%",
-		group: "Other Layer", 
-		breaks: [15, 20, 30, 40],
+		group: "Other Layers", 
+		breaks: [10, 20, 30, 40],
 		colours: colours,
-		text: "Percentage of households self-reported as a one-parent household in the 2021 Census, out of the total number of household",
+		text: "Percentage of households self-reported as a one-parent household in the 2021 Census, out of the total number of households",
 	},
 	"% of Renter in Core Housing Need":{
 		dataSource: "%CHN", 
-		group: "Equity Layer",
+		group: "Equity Layers",
 		breaks: [10, 20, 30, 40], 
 		colours: colours,
 		text: "Percentage of renters who reported experiencing at least one core housing need (e.g. housing affordability, suitability, and adequacy) in the 2021 Census, out of the total renter population",
 	},
 	"% of Renter in Unaffordable Housing":{
 		dataSource: "%Affordable", 
-		group: "Equity Layer",
+		group: "Equity Layers",
 		breaks: [5, 20, 30, 40],
 		colours: colours,
 		text: "Percentage of renters who spent over 30% of their before-tax household income on rent as reported in the 2021 Census, out of the total renter population",
 	},
-	
-	"% in Low Income Household (MBM)":{
-		dataSource: "MBM%",
-		group: "Equity Layer",
-		breaks:[5, 10, 15, 20],
-		colours: colours,
-		text: "Percentage of residents in low-income households, based on the 2021 Census data as measured by the Market Basket Measure (MBM)",
-	},
 
-	"% of Low Income Housing by LIM":{
-		dataSource: "LIM%", 
-		group: "Equity Layer",
-		breaks: [5, 15, 25, 35], 
-		colours: colours,
-		text: "Percentage of low-income household based on 2021 T1 tax file income data as measured by the Low Income Measure (LIM), out of all households",
-	},
-
-	"% of Working Poor":{
-		dataSource: "%ofWP",
-		group: "Equity Layer",
+	"Street Map":{
+		dataSource: "meow",
+		group: "Other Layers",
 		breaks: [5, 10, 15, 20],
 		colours: colours,
 		text: "Percentage of working adults aged 18-64 (excluding full-time and part-time students) who earned more than $3,000 monthly and lived in low-income households by LIM, out of all working adults of that age range",
-	},
+	}
 };
 const items = Object.keys(choropleths).map(key => {
     return {
@@ -336,7 +341,6 @@ onMount(() => {
 				data: adminLowerTier
 			}
 		)
-
 		map.addLayer({
 			'id':'adminLowerTier',
 			'type':'line',
@@ -349,19 +353,68 @@ onMount(() => {
 		})
 
 		map.addSource(
+			'adminLowerTierCentroids', {
+				type: 'geojson', 
+				data: adminLowerTierCentroids
+			}
+		)
+		map.addLayer({
+			'id': 'adminLowerTierCentroids',
+			'type': 'symbol',
+			'source': 'adminLowerTierCentroids',
+			'layout': {
+				'text-field': "{J_CSDNAME}", 
+				'text-font': [
+					"TradeGothic LT Bold"
+				],
+				'text-ignore-placement': true,
+				'text-allow-overlap': true,
+				'text-size': [
+					'interpolate',
+					['linear'],
+					['zoom'],
+					8, 12,
+					14, 22
+				], 
+				'text-anchor': 'center' 
+			},
+			'paint': {
+				'text-color': '#4d4d4d', 
+				'text-halo-color': '#ffffff', 
+				'text-halo-width': 1,
+				'text-opacity': [
+					'interpolate',
+					['linear'],
+					['zoom'],
+					8, 0,
+					10, 1
+				]
+			}
+		});
+
+		map.addSource(
 			'adminUpperTier', {
 				type: 'geojson', 
 				data: adminUpperTier
 			}
 		)
-
+		map.addLayer({
+			'id':'adminUpperTierCase',
+			'type':'line',
+			'source':'adminUpperTier',
+			'paint': {
+				'line-color': '#4d4d4d',
+				'line-opacity': 0.05,
+				'line-width': 8
+			}
+		})
 		map.addLayer({
 			'id':'adminUpperTier',
 			'type':'line',
 			'source':'adminUpperTier',
 			'paint': {
-				'line-color': '#a09f9f',
-				'line-opacity': 1,
+				'line-color': '#4d4d4d',
+				'line-opacity': 0.8,
 				'line-width': 1.5
 			}
 		})

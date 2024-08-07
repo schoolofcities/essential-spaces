@@ -1,0 +1,20 @@
+{
+"type": "FeatureCollection",
+"name": "lower-tier-centroids",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "J_CSDNAME": "Markham" }, "geometry": { "type": "Point", "coordinates": [ -79.2951, 43.8813 ] } },
+{ "type": "Feature", "properties": { "J_CSDNAME": "Vaughan" }, "geometry": { "type": "Point", "coordinates": [ -79.5648, 43.8367 ] } },
+{ "type": "Feature", "properties": { "J_CSDNAME": "Richmond Hill" }, "geometry": { "type": "Point", "coordinates": [ -79.4274, 43.9035 ] } },
+{ "type": "Feature", "properties": { "J_CSDNAME": "Whitchurch-Stouffville" }, "geometry": { "type": "Point", "coordinates": [ -79.306759085011862, 43.989213880479852 ] } },
+{ "type": "Feature", "properties": { "J_CSDNAME": "Aurora" }, "geometry": { "type": "Point", "coordinates": [ -79.4473, 43.9962 ] } },
+{ "type": "Feature", "properties": { "J_CSDNAME": "Newmarket" }, "geometry": { "type": "Point", "coordinates": [ -79.4609, 44.0499 ] } },
+{ "type": "Feature", "properties": { "J_CSDNAME": "King" }, "geometry": { "type": "Point", "coordinates": [ -79.6089, 43.976 ] } },
+{ "type": "Feature", "properties": { "J_CSDNAME": "East Gwillimbury" }, "geometry": { "type": "Point", "coordinates": [ -79.4077, 44.1395 ] } },
+{ "type": "Feature", "properties": { "J_CSDNAME": "Georgina" }, "geometry": { "type": "Point", "coordinates": [ -79.3268, 44.2729 ] } },
+{ "type": "Feature", "properties": { "J_CSDNAME": "Toronto" }, "geometry": { "type": "Point", "coordinates": [ -79.3896, 43.7226 ] } },
+{ "type": "Feature", "properties": { "J_CSDNAME": "Mississauga" }, "geometry": { "type": "Point", "coordinates": [ -79.6589, 43.5958 ] } },
+{ "type": "Feature", "properties": { "J_CSDNAME": "Brampton" }, "geometry": { "type": "Point", "coordinates": [ -79.7523, 43.7156 ] } },
+{ "type": "Feature", "properties": { "J_CSDNAME": "Caledon" }, "geometry": { "type": "Point", "coordinates": [ -79.9023, 43.8491 ] } }
+]
+}

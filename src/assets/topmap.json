@@ -76,7 +76,13 @@
 			]
 		   ],
 		  "paint": {
-			"line-width": 0.5,
+			"line-width": [
+				"interpolate",
+				["linear"],
+				["zoom"],
+				10, 0.5,
+				14, 1.5
+			],
 			"line-opacity": 0.5,
 			"line-color": "#fff"
 		  }
@@ -103,7 +109,13 @@
 			]
 		   ],
 		  "paint": {
-			"line-width": 1,
+			"line-width": [
+				"interpolate",
+				["linear"],
+				["zoom"],
+				10, 1,
+				14, 2.5
+			],
 			"line-opacity": 1,
 			"line-color": "#fff"
 		  }
