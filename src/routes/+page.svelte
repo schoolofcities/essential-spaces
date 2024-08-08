@@ -65,7 +65,7 @@ const choropleths = {
 		colours: colours,
 		text: "Percentage of residents in low-income households, based on the 2021 Census data as measured by the Market Basket Measure (MBM)",
 	},
-	"% of Low Income Housing by LIM":{
+	"% of Low Income Housing (LIM)":{
 		dataSource: "LIM%", 
 		group: "Equity Layers",
 		breaks: [5, 15, 25, 35], 
@@ -208,23 +208,18 @@ let spreSelection = ["Own", "Rent", "Unknown"];
 $:spreSelection, filterSPRE()
 
 function filterSPRE() {
-		console.log (spreSelection)
-
-		let opacity =[
-					'match',
-					['get', 'Tenure'],
-					'Own', spreSelection.includes("Own")?1:0,
-					'Rent', spreSelection.includes("Rent")?1:0,
-					spreSelection.includes("Unknown")?1:0,
-				]
-
-		console.log (opacity)
-		
-		if (map) {
-			map.setPaintProperty('spre', 'circle-opacity', opacity);
-			map.setPaintProperty('spre', 'circle-stroke-opacity', opacity);
-		}
-	}   
+	let opacity =[
+				'match',
+				['get', 'Tenure'],
+				'Own', spreSelection.includes("Own")?1:0,
+				'Rent', spreSelection.includes("Rent")?1:0,
+				spreSelection.includes("Unknown")?1:0,
+			]	
+	if (map) {
+		map.setPaintProperty('spre', 'circle-opacity', opacity);
+		map.setPaintProperty('spre', 'circle-stroke-opacity', opacity);
+	}
+}   
 
 let onLibrary = false;
 
@@ -728,8 +723,8 @@ onMount(() => {
 	<h3>Select CRE Locations By Tenure</h3>
 
 	<div id="checkbox" class="check-box">
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Own"} /> Own <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="{spreColours[1]}" stroke="#fff" stroke-width="1"/></svg></label>
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Rent"} /> Rent <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="{spreColours[0]}" stroke="#fff" stroke-width="1"/></label>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Own"} /> Owned <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="{spreColours[1]}" stroke="#fff" stroke-width="1"/></svg></label>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Rent"} /> Leased <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="{spreColours[0]}" stroke="#fff" stroke-width="1"/></label>
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Unknown"} /> Unknown <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="{spreColours[2]}" stroke="#fff" stroke-width="1"/></label>
 	</div>
 
