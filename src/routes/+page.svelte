@@ -2,7 +2,8 @@
 
 import { onMount } from "svelte";
 import maplibregl from "maplibre-gl";
-// import * as pmtiles from "pmtiles";
+import * as pmtiles from "pmtiles";
+import Select from "svelte-select";
 
 import "../assets/styles.css";
 
@@ -14,7 +15,7 @@ import adminUpperTier from "../assets/admin-upper-tier.geo.json";
 import adminLowerTier from "../assets/admin-lower-tier.geo.json"; 
 import adminLowerTierCentroids from "../assets/admin-lower-tier-centroids.geo.json"; 
 import nonResMask from "../assets/non-residential-mask.geo.json";
-import Select from "svelte-select";
+
 // import equity from "../assets/equitylayers.geo.json";
 import equity from "../assets/ct-data-all.geo.json";
 import library from "../assets/library.geo.json";
@@ -23,6 +24,7 @@ import housing from "../assets/shelters_and_housing.geo.json";
 import transitStops from "../assets/transitStops-toronto.geo.json";
 import transitLines from "../assets/transitLines-toronto.geo.json";
 
+let blocksURL = "/non-profit-real-estate/blocks-data-2021.pmtiles";
 
 import triangle_library from "../assets/triangle_library_2.svg";
 import triangle_housing from "../assets/triangle_housing.svg";
@@ -58,12 +60,20 @@ const choropleths = {
 		colours: colours,
 		text: "The layer combines the seven other equity layers as a single metric. Areas in the higher quintiles likely have a greater need for community services due to the socio-economic disadvantages that residents might be experiencing."
 	},
-	// "Population Density":{
-	// 	dataSource: "PopuDenPerKM",
-	// 	breaks: [1000, 5000, 7500, 10000], 
-	// 	colours: colours,
-	// 	text: "1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. Vivamus efficitur nunc ut sem luctus, at feugiat nisi fermentum. Integer varius est sit amet turpis.",
-	// },
+	"Street Map":{
+		dataSource: "meow",
+		group: "Other Layers",
+		breaks: [5, 10, 15, 20],
+		colours: [streetBaseColour,streetBaseColour,streetBaseColour,streetBaseColour,streetBaseColour],
+		text: "Street data from OpenStreetMap",
+	},
+	"Population Density":{
+		dataSource: "PopuDenPerKM",
+		group: "Other Layers",
+		breaks: [1000, 2000, 4000, 8000], 
+		colours: colours,
+		text: "Block-level population density from the 2021 Canadian census  (residents per square kilometre)",
+	},
 	"% in Low Income Household (MBM)":{
 		dataSource: "MBM%",
 		group: "Equity Layers",
@@ -133,14 +143,6 @@ const choropleths = {
 		breaks: [5, 20, 30, 40],
 		colours: colours,
 		text: "Percentage of renters who spent over 30% of their before-tax household income on rent as reported in the 2021 Census, out of the total renter population",
-	},
-
-	"Street Map":{
-		dataSource: "meow",
-		group: "Other Layers",
-		breaks: [5, 10, 15, 20],
-		colours: [streetBaseColour,streetBaseColour,streetBaseColour,streetBaseColour,streetBaseColour],
-		text: "Street data from OpenStreetMap",
 	}
 };
 const items = Object.keys(choropleths).map(key => {
@@ -169,12 +171,20 @@ function layerSet(layer) {
 		map.setPaintProperty("background", "background-color", streetBaseColour);
 		map.setPaintProperty("water", "fill-color", "#e4e4ed");
 		map.setPaintProperty("nonResMask", "fill-opacity", 0);
+		map.setPaintProperty("blocks", "fill-opacity", 0);
+	} else if (layer === "Population Density") {
+		map.setPaintProperty("equity", "fill-opacity", 0);
+		map.setPaintProperty("nonResMask", "fill-opacity", 0.95);
+		map.setPaintProperty("background", "background-color", "#f5f5f5");
+		map.setPaintProperty("water", "fill-color", "#fff");
+		map.setPaintProperty("blocks", "fill-opacity", 0.9);
 	} else {
 		let choropleth = choropleths[layer]
 		map.setPaintProperty("equity", "fill-opacity", 0.9)
 		map.setPaintProperty("nonResMask", "fill-opacity", 0.95);
 		map.setPaintProperty("background", "background-color", "#f5f5f5");
 		map.setPaintProperty("water", "fill-color", "#fff");
+		map.setPaintProperty("blocks", "fill-opacity", 0);
 		map.setPaintProperty("equity", "fill-color", [
 			"case",
 			["!=", ["get", choropleth.dataSource], null],
@@ -302,8 +312,8 @@ function filterRec() {
 
 onMount(() => {
 
-	// let protocol = new pmtiles.Protocol();
-	// maplibregl.addProtocol("pmtiles", protocol.tile);
+	let protocol = new pmtiles.Protocol();
+	maplibregl.addProtocol("pmtiles", protocol.tile);
 
 	map = new maplibregl.Map({
 		container: "map",
@@ -345,7 +355,38 @@ onMount(() => {
 			}
 		);
 
-		layerSet(mapSelected);
+		map.addSource("blocks", {
+			type: "vector",
+			url: "pmtiles://" + blocksURL,
+		});
+
+		map.addLayer({
+			"id": "blocks",
+			"type": "fill",
+			"source": "blocks",
+			"source-layer": "blockdata2021wgs84",
+			"paint": {
+				"fill-opacity": 0,
+				"fill-color": [
+					"case",
+					["!=", ["get", "popdens"], null],
+					[
+						"step",
+						["get", "popdens"],
+						colours[0],
+						1000,
+						colours[1],
+						2000,
+						colours[2],
+						4000,
+						colours[3],
+						8000,
+						colours[4],
+					],
+					"#cbcbcb",
+				]
+			}
+		})
 
 		map.addSource("nonResMask", {
 			type: "geojson",
@@ -362,6 +403,8 @@ onMount(() => {
 				"fill-opacity": 0.95
 			},
 		})
+
+		layerSet(mapSelected);
 		
 		topMap.forEach(e => {
 			map.addLayer(e);
