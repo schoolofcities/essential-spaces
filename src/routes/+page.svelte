@@ -14,7 +14,8 @@ import adminLowerTier from "../assets/admin-lower-tier.geo.json";
 import adminLowerTierCentroids from "../assets/admin-lower-tier-centroids.geo.json"; 
 import nonResMask from "../assets/non-residential-mask.geo.json";
 import Select from "svelte-select";
-import equity from "../assets/equitylayers.geo.json";
+// import equity from "../assets/equitylayers.geo.json";
+import equity from "../assets/ct-data-all.geo.json";
 import library from "../assets/library.geo.json";
 import rec from "../assets/rec.geo.json";
 import housing from "../assets/shelters_and_housing.geo.json";
@@ -48,9 +49,9 @@ const choropleths = {
 	"Equity Index" :{
 		dataSource: "Equity Index",
 		group: "Equity Layers",
-		breaks: [0.32, 0.40, 0.47, 0.57],
+		breaks: [0.3584, 0.4262, 0.4841, 0.5532],
 		colours: colours,
-		text: "The layer summarizes the seven equity layers as a single metric. Areas in the higher quintiles may present a stronger need for community services due to the socio-economic disadvantages that residents might be experiencing."
+		text: "The layer summarizes the seven equity layers as a single metric. Areas in the higher quintiles likely have a greater need for community services due to the socio-economic disadvantages that residents might be experiencing."
 	},
 	// "Population Density":{
 	// 	dataSource: "PopuDenPerKM",
@@ -210,7 +211,7 @@ $:spreSelection, filterSPRE()
 function filterSPRE() {
 	let opacity =[
 				'match',
-				['get', 'Tenure'],
+				['get', 'T'],
 				'Own', spreSelection.includes("Own")?1:0,
 				'Rent', spreSelection.includes("Rent")?1:0,
 				spreSelection.includes("Unknown")?1:0,
