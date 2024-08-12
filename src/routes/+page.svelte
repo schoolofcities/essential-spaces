@@ -50,7 +50,7 @@ const choropleths = {
 		group: "Equity Layers",
 		breaks: [0.32, 0.40, 0.47, 0.57],
 		colours: colours,
-		text: "The index summarizes all equity indicators in this sub-list with an equal weight. Areas in the higher quintiles may present a stronger need for community services due to the socio-economic disadvantages that residents might be experiencing.",
+		text: "The layer summarizes the seven equity layers as a single metric. Areas in the higher quintiles may present a stronger need for community services due to the socio-economic disadvantages that residents might be experiencing."
 	},
 	// "Population Density":{
 	// 	dataSource: "PopuDenPerKM",
