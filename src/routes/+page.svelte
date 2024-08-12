@@ -536,7 +536,7 @@ onMount(() => {
 					'paint': {
 						"circle-color": [
 							'match',
-							['get', 'Tenure'],
+							['get', 'T'],
 							'Own', spreColours[1], 
 							'Rent', spreColours[0], 
 							spreColours[2] 
@@ -548,21 +548,21 @@ onMount(() => {
 						],
 						"circle-stroke-color": [
 							'match',
-							['get', 'Tenure'],
+							['get', 'T'],
 							'Own', '#fff', 
 							'Rent', '#fff', 
 							'#fff' //grey
 						],
 						"circle-opacity": [
 							'match',
-							['get', 'Tenure'],
+							['get', 'T'],
 							'Own', 1, 
 							'Rent', 1, 
 							1 //grey
 						],
 						"circle-stroke-opacity": [
 							'match',
-							['get', 'Tenure'],
+							['get', 'T'],
 							'Own', 1, 
 							'Rent', 1, 
 							1 
@@ -575,8 +575,8 @@ onMount(() => {
 	// Add tool tips for SPRE
 	map.on('click', 'spre', (e) => {
 		const coordinates = e.features[0].geometry.coordinates.slice();
-		const description = e.features[0].properties["211 Parent Agency Name"];
-		const tenure = " (Tenure: " + e.features[0].properties["Tenure"] + ")";
+		const description = e.features[0].properties["N"];
+		const tenure = " (Tenure: " + e.features[0].properties["T"] + ")";
 
 		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
 			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
