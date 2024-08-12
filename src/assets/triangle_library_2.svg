@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="20"
+   height="20"
+   viewBox="0 0 20 20"
+   fill="none"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="triangle_library_2.svg"
+   inkscape:version="1.3.2 (1:1.3.2+202311252150+091e20ef0f)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="11.382353"
+     inkscape:cx="22.139535"
+     inkscape:cy="10.981912"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <rect
+     style="fill:#ffffff;fill-rule:evenodd;stroke:#3d3846;stroke-width:1.95934;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:5;stroke-dasharray:none;paint-order:markers stroke fill"
+     id="rect1-9"
+     width="18.040663"
+     height="18.040663"
+     x="0.97966945"
+     y="0.97966766"
+     rx="3.8569694"
+     ry="3.8569694" />
+  <rect
+     style="opacity:1;fill:none;fill-rule:evenodd;stroke:#3d3846;stroke-width:1.95934;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:5;stroke-dasharray:none;paint-order:markers stroke fill"
+     id="rect1"
+     width="18.040663"
+     height="18.040663"
+     x="0.97966927"
+     y="0.97966856"
+     rx="3.8569694"
+     ry="3.8569694" />
+  <text
+     xml:space="preserve"
+     style="font-size:17.2427px;line-height:1.2;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;text-align:center;text-anchor:middle;fill:#3d3846;stroke-width:0.680632"
+     x="9.9025555"
+     y="16.010208"
+     id="text1"><tspan
+       sodipodi:role="line"
+       id="tspan1"
+       x="9.9025555"
+       y="16.010208"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, ';fill:#3d3846;stroke-width:0.680632">L</tspan></text>
+</svg>

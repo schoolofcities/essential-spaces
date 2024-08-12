@@ -19,9 +19,9 @@ import equity from "../assets/ct-data-all.geo.json";
 import library from "../assets/library.geo.json";
 import rec from "../assets/rec.geo.json";
 import housing from "../assets/shelters_and_housing.geo.json";
-import triangle_library from "../assets/triangle_library.svg";
+import triangle_library from "../assets/triangle_library_2.svg";
 import triangle_housing from "../assets/triangle_housing.svg";
-import triangle_rec from "../assets/triangle_rec.svg";
+import triangle_rec from "../assets/triangle_rec_2.svg";
 
 
 //Changing the map layer
@@ -243,9 +243,9 @@ $: onHousing, filterhousing()
 function filterhousing() {
 	if (map) {
 		if (onHousing) {
-			map.setPaintProperty('housing', 'icon-opacity', 1);
+			map.setPaintProperty('housing', 'circle-opacity', 1);
 		} else {
-			map.setPaintProperty('housing', 'icon-opacity', 0);
+			map.setPaintProperty('housing', 'circle-opacity', 0);
 		}
 	}
 }
@@ -469,22 +469,28 @@ onMount(() => {
 
 			map.addLayer({
 				'id': 'housing',
-				'type': 'symbol',
+				'type': 'circle',
 				'source': 'housing',
-				'layout': {
-						"icon-image": "triangle_housing",
-						"icon-size": [
-								"interpolate", ["linear"], ["zoom"],
-								0.05,
-								0.01,
-								25,
-								1.3
-						],
-						"icon-allow-overlap": true 
-				},
+				// 'layout': {
+				// 		"icon-image": "triangle_housing",
+				// 		"icon-size": [
+				// 				"interpolate", ["linear"], ["zoom"],
+				// 				0.05,
+				// 				0.01,
+				// 				25,
+				// 				1.3
+				// 		],
+				// 		"icon-allow-overlap": true 
+				// },
 				'paint': {
-					"icon-color":"#FF0000",
-					"icon-opacity":0
+					"circle-color":"#000",
+					"circle-radius": [
+						"interpolate", ["linear"], ["zoom"],
+						8, 1,
+						12, 3.5
+					],
+					"circle-opacity": 0
+					// "icon-opacity":0
 				}
 			});
 
@@ -522,54 +528,53 @@ onMount(() => {
 					"icon-opacity":0
 				}
 			});
-
 		}
 
 		map.addSource('spre', {
-					type: 'geojson',
-					data: spre
-				})
+			type: 'geojson',
+			data: spre
+		})
 
 		map.addLayer({
 			'id': 'spre',
-					'type': 'circle',
-					'source': 'spre',
-					'paint': {
-						"circle-color": [
-							'match',
-							['get', 'T'],
-							'Own', spreColours[1], 
-							'Rent', spreColours[0], 
-							spreColours[2] 
-						],
-						"circle-radius" : [
-							"interpolate", ["linear"], ["zoom"],
-							8,1.5,
-							12,6
-						],
-						"circle-stroke-color": [
-							'match',
-							['get', 'T'],
-							'Own', '#fff', 
-							'Rent', '#fff', 
-							'#fff' //grey
-						],
-						"circle-opacity": [
-							'match',
-							['get', 'T'],
-							'Own', 1, 
-							'Rent', 1, 
-							1 //grey
-						],
-						"circle-stroke-opacity": [
-							'match',
-							['get', 'T'],
-							'Own', 1, 
-							'Rent', 1, 
-							1 
-						],
-						"circle-stroke-width": 0.7
-					}
+			'type': 'circle',
+			'source': 'spre',
+			'paint': {
+				"circle-color": [
+					'match',
+					['get', 'T'],
+					'Own', spreColours[1], 
+					'Rent', spreColours[0], 
+					spreColours[2] 
+				],
+				"circle-radius" : [
+					"interpolate", ["linear"], ["zoom"],
+					8,1.5,
+					12,7
+				],
+				"circle-stroke-color": [
+					'match',
+					['get', 'T'],
+					'Own', '#fff', 
+					'Rent', '#fff', 
+					'#fff' //grey
+				],
+				"circle-opacity": [
+					'match',
+					['get', 'T'],
+					'Own', 1, 
+					'Rent', 1, 
+					1 //grey
+				],
+				"circle-stroke-opacity": [
+					'match',
+					['get', 'T'],
+					'Own', 1, 
+					'Rent', 1, 
+					1 
+				],
+				"circle-stroke-width": 1
+			}
 		})
 
 	})
@@ -607,107 +612,111 @@ onMount(() => {
 		map.getCanvas().style.cursor = '';
 	});
 
+
+
 	// Add tool tips for Library
-	map.on('click', 'library', (e) => {
-		const coordinates = e.features[0].geometry.coordinates.slice();
-		const description = e.features[0].properties["Branch Name"];
-		const type = " (Library)"
+	// map.on('click', 'library', (e) => {
+	// 	const coordinates = e.features[0].geometry.coordinates.slice();
+	// 	const description = e.features[0].properties["Branch Name"];
+	// 	const type = " (Library)"
 
-		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-		}
+	// 	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+	// 		coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+	// 	}
 
-		const htmlContent =  description + type
+	// 	const htmlContent =  description + type
 
-		const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
-			.setLngLat(coordinates)
-			.setHTML(htmlContent)
-			.addTo(map);
+	// 	const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
+	// 		.setLngLat(coordinates)
+	// 		.setHTML(htmlContent)
+	// 		.addTo(map);
 
-		const popupContent = popup._content;
-		if (popupContent) {
-			popupContent.style.padding = '6px 12px 6px 6px'
-			popupContent.style.backgroundColor = '#ffffff';
-			popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
-			popupContent.style.opacity = 0.95;
-			}
-	});
+	// 	const popupContent = popup._content;
+	// 	if (popupContent) {
+	// 		popupContent.style.padding = '6px 12px 6px 6px'
+	// 		popupContent.style.backgroundColor = '#ffffff';
+	// 		popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+	// 		popupContent.style.opacity = 0.95;
+	// 		}
+	// });
 
-	map.on('mouseenter', 'library', () => {
-			map.getCanvas().style.cursor = 'pointer';
-		});
+	// map.on('mouseenter', 'library', () => {
+	// 		map.getCanvas().style.cursor = 'pointer';
+	// 	});
 
-	map.on('mouseleave', 'library', () => {
-		map.getCanvas().style.cursor = '';
-	});
+	// map.on('mouseleave', 'library', () => {
+	// 	map.getCanvas().style.cursor = '';
+	// });
 
-	// Add tool tips for RecCentre
-	map.on('click', 'rec', (e) => {
-		const coordinates = e.features[0].geometry.coordinates.slice();
-		const description = e.features[0].properties["Name"];
-		const type = " (Community Centre)"
+	// // Add tool tips for RecCentre
+	// map.on('click', 'rec', (e) => {
+	// 	const coordinates = e.features[0].geometry.coordinates.slice();
+	// 	const description = e.features[0].properties["Name"];
+	// 	const type = " (Community Centre)"
 
-		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-		}
+	// 	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+	// 		coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+	// 	}
 
-		const htmlContent =  description + type
+	// 	const htmlContent =  description + type
 
-		const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
-			.setLngLat(coordinates)
-			.setHTML(htmlContent)
-			.addTo(map);
+	// 	const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
+	// 		.setLngLat(coordinates)
+	// 		.setHTML(htmlContent)
+	// 		.addTo(map);
 
-		const popupContent = popup._content;
-		if (popupContent) {
-			popupContent.style.padding = '6px 12px 6px 6px'
-			popupContent.style.backgroundColor = '#ffffff';
-			popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
-			popupContent.style.opacity = 0.95;
-			}
-	});
+	// 	const popupContent = popup._content;
+	// 	if (popupContent) {
+	// 		popupContent.style.padding = '6px 12px 6px 6px'
+	// 		popupContent.style.backgroundColor = '#ffffff';
+	// 		popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+	// 		popupContent.style.opacity = 0.95;
+	// 		}
+	// });
 
-	map.on('mouseenter', 'rec', () => {
-			map.getCanvas().style.cursor = 'pointer';
-		});
+	// map.on('mouseenter', 'rec', () => {
+	// 		map.getCanvas().style.cursor = 'pointer';
+	// 	});
 
-	map.on('mouseleave', 'rec', () => {
-		map.getCanvas().style.cursor = '';
-	});
+	// map.on('mouseleave', 'rec', () => {
+	// 	map.getCanvas().style.cursor = '';
+	// });
 
-	// Add tool tips for Community Housing and Shelters
-	map.on('click', 'housing', (e) => {
-		const coordinates = e.features[0].geometry.coordinates.slice();
-		const description = e.features[0].properties["Name"];
-		const type = " (Type: " + e.features[0].properties["Type"] + ")";
+	// // Add tool tips for Community Housing and Shelters
+	// map.on('click', 'housing', (e) => {
+	// 	const coordinates = e.features[0].geometry.coordinates.slice();
+	// 	const description = e.features[0].properties["Name"];
+	// 	const type = " (Type: " + e.features[0].properties["Type"] + ")";
 
-		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-		}
+	// 	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+	// 		coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+	// 	}
 
-		const htmlContent =  description + type
+	// 	const htmlContent =  description + type
 
-		const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
-			.setLngLat(coordinates)
-			.setHTML(htmlContent)
-			.addTo(map);
+	// 	const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
+	// 		.setLngLat(coordinates)
+	// 		.setHTML(htmlContent)
+	// 		.addTo(map);
 
-		const popupContent = popup._content;
-		if (popupContent) {
-			popupContent.style.padding = '6px 12px 6px 6px'
-			popupContent.style.backgroundColor = '#ffffff';
-			popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
-			popupContent.style.opacity = 0.95;
-			}
-	});
+	// 	const popupContent = popup._content;
+	// 	if (popupContent) {
+	// 		popupContent.style.padding = '6px 12px 6px 6px'
+	// 		popupContent.style.backgroundColor = '#ffffff';
+	// 		popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+	// 		popupContent.style.opacity = 0.95;
+	// 		}
+	// });
 
-	map.on('mouseenter', 'housing', () => {
-			map.getCanvas().style.cursor = 'pointer';
-		});
+	// map.on('mouseenter', 'housing', () => {
+	// 		map.getCanvas().style.cursor = 'pointer';
+	// 	});
 
-	map.on('mouseleave', 'housing', () => {
-		map.getCanvas().style.cursor = '';
-	});
+	// map.on('mouseleave', 'housing', () => {
+	// 	map.getCanvas().style.cursor = '';
+	// });
+
+	
 })
 
 </script>
@@ -833,13 +842,37 @@ onMount(() => {
 	<h3>Add Other Resources</h3>
 
 	<div id="checkbox" class="check-box">
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> Library <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#7BF253" stroke= "#E3E3E3" stroke-width="1" /></label>
-			
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> Recreation & Community Centre <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#EAB4FF" stroke= "#E3E3E3" stroke-width="1" /></label>
-
-		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onHousing}/> Community Housing & Shelter <svg height="16" width="16" class="check-box-svg"><polygon points="8,2 2,16 15,16" fill="#A1D9FF" stroke= "#E3E3E3" stroke-width="1" /></label>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> 
+			Library
+			<img src="{triangle_library}" alt="Library Symbol" width="13" height="13">
+		</label>
+		<br>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> 
+			Recreation & Community Centre
+			<img src="{triangle_rec}" alt="Recreation Symbol" width="13" height="13">
+		</label>
+		<br>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onHousing}/>
+			Community Housing & Shelter
+			<svg width="6px" height="10px" viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg">
+				<circle cx="3" cy="3" r="2" fill="black" />
+			  </svg>
+		</label>
 			
 	</div>
+
+	<div class="line"></div>
+
+	<h4>About This Map</h4>
+
+	<p class="notes">
+		Short paragraph about this map, why and data sources, link to other project info, report, etc.
+	</p>
+
+	<p class="notes">
+		Place logos here.
+	</p>
+
 
 </div>
 
@@ -903,4 +936,6 @@ onMount(() => {
 	#legend {
 		background-color: white;
 	}
+
+	
 </style>
