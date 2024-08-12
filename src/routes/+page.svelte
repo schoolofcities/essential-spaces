@@ -4,10 +4,11 @@ import { onMount } from "svelte";
 import maplibregl from "maplibre-gl";
 // import * as pmtiles from "pmtiles";
 
-
 import "../assets/styles.css";
+
 import baseMap from "../assets/basemap.json";
 import topMap from "../assets/topmap.json"
+
 import spre from "../assets/SPRE_2021_wgs84.geo.json";
 import adminUpperTier from "../assets/admin-upper-tier.geo.json"; 
 import adminLowerTier from "../assets/admin-lower-tier.geo.json"; 
@@ -19,6 +20,10 @@ import equity from "../assets/ct-data-all.geo.json";
 import library from "../assets/library.geo.json";
 import rec from "../assets/rec.geo.json";
 import housing from "../assets/shelters_and_housing.geo.json";
+import transitStops from "../assets/transitStops-toronto.geo.json";
+import transitLines from "../assets/transitLines-toronto.geo.json";
+
+
 import triangle_library from "../assets/triangle_library_2.svg";
 import triangle_housing from "../assets/triangle_housing.svg";
 import triangle_rec from "../assets/triangle_rec_2.svg";
@@ -39,8 +44,8 @@ let mapSelected = defaultMap
 
 // let colours = ["#F8D4D2", "#F0A9A4", "#E97F77", "#E15449","#E15449"]
 
-let colours = ["#f7ecc3", "#f2cd8d", "#eeb05b", "#e78052", "#e15449"]
-
+let colours = ["#f7ecc3", "#f2cd8d", "#eeb05b", "#e78052", "#e15449"];
+let streetBaseColour = "#cbcbd4";
 let spreColours = [ "#793B91","#338ED8", "#A3A3A3"]
 
 
@@ -51,7 +56,7 @@ const choropleths = {
 		group: "Equity Layers",
 		breaks: [0.3584, 0.4262, 0.4841, 0.5532],
 		colours: colours,
-		text: "The layer summarizes the seven equity layers as a single metric. Areas in the higher quintiles likely have a greater need for community services due to the socio-economic disadvantages that residents might be experiencing."
+		text: "The layer combines the seven other equity layers as a single metric. Areas in the higher quintiles likely have a greater need for community services due to the socio-economic disadvantages that residents might be experiencing."
 	},
 	// "Population Density":{
 	// 	dataSource: "PopuDenPerKM",
@@ -134,8 +139,8 @@ const choropleths = {
 		dataSource: "meow",
 		group: "Other Layers",
 		breaks: [5, 10, 15, 20],
-		colours: colours,
-		text: "Percentage of working adults aged 18-64 (excluding full-time and part-time students) who earned more than $3,000 monthly and lived in low-income households by LIM, out of all working adults of that age range",
+		colours: [streetBaseColour,streetBaseColour,streetBaseColour,streetBaseColour,streetBaseColour],
+		text: "Street data from OpenStreetMap",
 	}
 };
 const items = Object.keys(choropleths).map(key => {
@@ -159,43 +164,55 @@ function layerSelect(e) {
 
 function layerSet(layer) {
 	console.log(layer)
-	let choropleth = choropleths[layer]
-	map.setPaintProperty("equity", "fill-color", [
-		"case",
-		["!=", ["get", choropleth.dataSource], null],
-		[
-			"step",
-			["get", choropleth.dataSource],
-			choropleth.colours[0],
-			choropleth.breaks[0],
-			choropleth.colours[1],
-			choropleth.breaks[1],
-			choropleth.colours[2],
-			choropleth.breaks[2],
-			choropleth.colours[3],
-			choropleth.breaks[3],
-			choropleth.colours[4],
-		],
-		"#cbcbcb",
-	])
-	map.setPaintProperty("equity", "fill-outline-color", [
-		"case",
-		["!=", ["get", choropleth.dataSource], null],
-		[
-			"step",
-			["get", choropleth.dataSource],
-			choropleth.colours[0],
-			choropleth.breaks[0],
-			choropleth.colours[1],
-			choropleth.breaks[1],
-			choropleth.colours[2],
-			choropleth.breaks[2],
-			choropleth.colours[3],
-			choropleth.breaks[3],
-			choropleth.colours[4],
-		],
-		"#cbcbcb",
-	])
+	if (layer === "Street Map") {
+		map.setPaintProperty("equity", "fill-opacity", 0);
+		map.setPaintProperty("background", "background-color", streetBaseColour);
+		map.setPaintProperty("water", "fill-color", "#e4e4ed");
+		map.setPaintProperty("nonResMask", "fill-opacity", 0);
+	} else {
+		let choropleth = choropleths[layer]
+		map.setPaintProperty("equity", "fill-opacity", 0.9)
+		map.setPaintProperty("nonResMask", "fill-opacity", 0.95);
+		map.setPaintProperty("background", "background-color", "#f5f5f5");
+		map.setPaintProperty("water", "fill-color", "#fff");
+		map.setPaintProperty("equity", "fill-color", [
+			"case",
+			["!=", ["get", choropleth.dataSource], null],
+			[
+				"step",
+				["get", choropleth.dataSource],
+				choropleth.colours[0],
+				choropleth.breaks[0],
+				choropleth.colours[1],
+				choropleth.breaks[1],
+				choropleth.colours[2],
+				choropleth.breaks[2],
+				choropleth.colours[3],
+				choropleth.breaks[3],
+				choropleth.colours[4],
+			],
+			"#cbcbcb",
+		])
+		map.setPaintProperty("equity", "fill-outline-color", [
+			"case",
+			["!=", ["get", choropleth.dataSource], null],
+			[
+				"step",
+				["get", choropleth.dataSource],
+				choropleth.colours[0],
+				choropleth.breaks[0],
+				choropleth.colours[1],
+				choropleth.breaks[1],
+				choropleth.colours[2],
+				choropleth.breaks[2],
+				choropleth.colours[3],
+				choropleth.breaks[3],
+				choropleth.colours[4],
+			],
+			"#cbcbcb",
+		])
+	}
+	
 }
 
 let bounds = [
@@ -221,6 +238,25 @@ function filterSPRE() {
 		map.setPaintProperty('spre', 'circle-stroke-opacity', opacity);
 	}
 }   
+
+
+let onTransit = true;
+
+$:  onTransit, filterTransit()
+
+function filterTransit() {
+	if (map) {
+		if (onTransit) {
+			map.setPaintProperty('transitLines', 'line-opacity', 0.8);
+			map.setPaintProperty('transitStops', 'circle-opacity', 1);
+			map.setPaintProperty('transitStops', 'circle-stroke-opacity', 1);
+		} else {
+			map.setPaintProperty('transitLines', 'line-opacity', 0);
+			map.setPaintProperty('transitStops', 'circle-opacity', 0);
+			map.setPaintProperty('transitStops', 'circle-stroke-opacity', 0);
+		}
+	}
+}
 
 let onLibrary = false;
 
@@ -330,6 +366,50 @@ onMount(() => {
 		topMap.forEach(e => {
 			map.addLayer(e);
 		});
+
+		map.addSource(
+			'transitLines', {
+				type: 'geojson', 
+				data: transitLines
+			}
+		)
+		map.addLayer({
+			'id':'transitLines',
+			'type':'line',
+			'source':'transitLines',
+			'paint': {
+				'line-color': '#3d3846',
+				'line-opacity': 0.8,
+				'line-width': 1,
+				'line-dasharray': [3, 2] 
+			}
+		})
+
+		map.addSource(
+			'transitStops', {
+				type: 'geojson', 
+				data: transitStops
+			}
+		)
+		map.addLayer({
+			'id':'transitStops',
+			'type':'circle',
+			'source':'transitStops',
+			'paint': {
+				'circle-stroke-color': '#3d3846',
+				'circle-color': "#fff",
+				'circle-radius': [
+					'interpolate',
+					['linear'],
+					['zoom'],
+					8, 1,
+					14, 4
+				],
+				"circle-stroke-width": 1,
+				"circle-opacity": 1,
+				"circle-stroke-opacity": 1
+			}
+		})
 
 		map.addSource(
 			'adminLowerTier', {
@@ -777,7 +857,7 @@ onMount(() => {
 		height="20"
 		x="18"
 		y="0"
-		style="fill:{colours[0]};"
+		style="fill:{choropleths[mapSelected].colours[0]};"
 		/>
 
 		<rect
@@ -786,7 +866,7 @@ onMount(() => {
 		height="20"
 		x="94"
 		y="0"
-		style="fill:{colours[1]};"
+		style="fill:{choropleths[mapSelected].colours[1]};"
 		/>
 
 		<rect
@@ -795,7 +875,7 @@ onMount(() => {
 		height="20"
 		x="170"
 		y="0"
-		style="fill:{colours[2]};"
+		style="fill:{choropleths[mapSelected].colours[2]};"
 		/>
 
 		<rect
@@ -804,7 +884,7 @@ onMount(() => {
 		height="20"
 		x="246"
 		y="0"
-		style="fill:{colours[3]};"
+		style="fill:{choropleths[mapSelected].colours[3]};"
 		/>
 
 		<rect
@@ -813,7 +893,7 @@ onMount(() => {
 		height="20"
 		x="322"
 		y="0"
-		style="fill:{colours[4]};"
+		style="fill:{choropleths[mapSelected].colours[4]};"
 		/>
 
 		{#if mapSelected == "Equity Index"}
@@ -823,6 +903,9 @@ onMount(() => {
 		<text class="legend-label"  x="200" y="15">3rd</text>
 		<text class= "legend-label-dark"  x="275" y="15">4th</text>
 		<text class= "legend-label-dark"  x="350" y="15">5th</text>
+
+		{:else if mapSelected == "Street Map"}
+
 
 		{:else}
 
@@ -839,17 +922,22 @@ onMount(() => {
 	{choropleths[mapSelected].text}
 	</p>
 	
-	<h3>Add Other Resources</h3>
+	<h3>Select Other Reference Layers</h3>
 
 	<div id="checkbox" class="check-box">
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onTransit}/> 
+			Major Transit Lines
+			<!-- <img src="{triangle_library}" alt="Library Symbol" width="13" height="13"> -->
+		</label>
+		<br>
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> 
 			Library
-			<img src="{triangle_library}" alt="Library Symbol" width="13" height="13">
+			<img src="{triangle_library}" alt="Library Symbol" width="14" height="14">
 		</label>
 		<br>
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onRec}/> 
 			Recreation & Community Centre
-			<img src="{triangle_rec}" alt="Recreation Symbol" width="13" height="13">
+			<img src="{triangle_rec}" alt="Recreation Symbol" width="14" height="14">
 		</label>
 		<br>
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onHousing}/>
@@ -863,14 +951,16 @@ onMount(() => {
 
 	<div class="line"></div>
 
-	<h4>About This Map</h4>
+	<h4>Data Sources</h4>
 
 	<p class="notes">
-		Short paragraph about this map, why and data sources, link to other project info, report, etc.
+		Short paragraph about the data sources
 	</p>
 
+	<div class="line"></div>
+
 	<p class="notes">
-		Place logos here.
+		Place logos here
 	</p>
 
 
