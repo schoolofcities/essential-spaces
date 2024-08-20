@@ -121,16 +121,16 @@ const choropleths = {
 	"% of Visible Minority":{
 		dataSource: "VM%", 
 		group: "Other Layers",
-		breaks: [10, 30, 50, 70],
+		breaks: [20, 40, 60, 80],
 		colours: colours,
 		text: "Percentage of people who self-identified as visible minority in the 2021 Census, out of the total population",
 	},
-	"% of Single Parent Family":{
+	"% Single Parent Household":{
 		dataSource: "1-ParentFam%",
 		group: "Other Layers", 
-		breaks: [10, 20, 30, 40],
+		breaks: [15, 20, 25, 30],
 		colours: colours,
-		text: "Percentage of households self-reported as a one-parent household in the 2021 Census, out of the total number of households",
+		text: "Percentage of households self-reported as a one-parent household in the 2021 Census, out of the total number of households with children",
 	},
 	"% of Renters in Core Housing Need":{
 		dataSource: "%CHN", 
@@ -737,6 +737,7 @@ onMount(() => {
 				"circle-radius" : [
 					"interpolate", ["linear"], ["zoom"],
 					8,1.5,
+					10,3,
 					12,7
 				],
 				"circle-stroke-color": [
