@@ -23,6 +23,8 @@ import rec from "../assets/rec.geo.json";
 import housing from "../assets/shelters_and_housing.geo.json";
 import transitStops from "../assets/transitStops-toronto.geo.json";
 import transitLines from "../assets/transitLines-toronto.geo.json";
+import transitStopsFuture from "../assets/transitStops-toronto-future.geo.json";
+import transitLinesFuture from "../assets/transitLines-toronto-future.geo.json";
 
 let blocksURL = "/non-profit-real-estate/blocks-data-2021.pmtiles";
 
@@ -70,7 +72,7 @@ const choropleths = {
 	"Population Density":{
 		dataSource: "PopuDenPerKM",
 		group: "Other Layers",
-		breaks: [1000, 2000, 4000, 8000], 
+		breaks: [2000, 4000, 8000, 16000], 
 		colours: colours,
 		text: "Block-level population density from the 2021 Canadian census  (residents per square kilometre)",
 	},
@@ -268,6 +270,24 @@ function filterTransit() {
 	}
 }
 
+let onTransitFuture = false;
+
+$:  onTransitFuture, filterTransitFuture()
+
+function filterTransitFuture() {
+	if (map) {
+		if (onTransitFuture) {
+			map.setPaintProperty('transitLinesFuture', 'line-opacity', 0.8);
+			map.setPaintProperty('transitStopsFuture', 'circle-opacity', 1);
+			map.setPaintProperty('transitStopsFuture', 'circle-stroke-opacity', 1);
+		} else {
+			map.setPaintProperty('transitLinesFuture', 'line-opacity', 0);
+			map.setPaintProperty('transitStopsFuture', 'circle-opacity', 0);
+			map.setPaintProperty('transitStopsFuture', 'circle-stroke-opacity', 0);
+		}
+	}
+}
+
 let onLibrary = false;
 
 $: onLibrary, filterlibrary()
@@ -374,13 +394,13 @@ onMount(() => {
 						"step",
 						["get", "popdens"],
 						colours[0],
-						1000,
-						colours[1],
 						2000,
-						colours[2],
+						colours[1],
 						4000,
-						colours[3],
+						colours[2],
 						8000,
+						colours[3],
+						16000,
 						colours[4],
 					],
 					"#cbcbcb",
@@ -411,6 +431,50 @@ onMount(() => {
 		});
 
 		map.addSource(
+			'transitLinesFuture', {
+				type: 'geojson', 
+				data: transitLinesFuture
+			}
+		)
+		map.addLayer({
+			'id':'transitLinesFuture',
+			'type':'line',
+			'source':'transitLinesFuture',
+			'paint': {
+				'line-color': '#3d3846',
+				'line-opacity': 0,
+				'line-width': 1.5,
+				'line-dasharray': [2, 2] 
+			}
+		})
+
+		map.addSource(
+			'transitStopsFuture', {
+				type: 'geojson', 
+				data: transitStopsFuture
+			}
+		)
+		map.addLayer({
+			'id':'transitStopsFuture',
+			'type':'circle',
+			'source':'transitStopsFuture',
+			'paint': {
+				'circle-stroke-color': '#3d3846',
+				'circle-color': "#fff",
+				'circle-radius': [
+					'interpolate',
+					['linear'],
+					['zoom'],
+					8, 1,
+					14, 4
+				],
+				"circle-stroke-width": 1,
+				"circle-opacity": 0,
+				"circle-stroke-opacity": 0
+			}
+		})
+
+		map.addSource(
 			'transitLines', {
 				type: 'geojson', 
 				data: transitLines
@@ -423,8 +487,8 @@ onMount(() => {
 			'paint': {
 				'line-color': '#3d3846',
 				'line-opacity': 0.8,
-				'line-width': 1,
-				'line-dasharray': [3, 2] 
+				'line-width': 1.5,
+				'line-dasharray': [8, 2] 
 			}
 		})
 
@@ -970,7 +1034,12 @@ onMount(() => {
 
 	<div id="checkbox" class="check-box">
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onTransit}/> 
-			Major Transit Lines
+			Major Transit Lines (Existing)
+			<!-- <img src="{triangle_library}" alt="Library Symbol" width="13" height="13"> -->
+		</label>
+		<br>
+		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onTransitFuture}/> 
+			Major Transit Lines (Future)
 			<!-- <img src="{triangle_library}" alt="Library Symbol" width="13" height="13"> -->
 		</label>
 		<br>
