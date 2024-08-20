@@ -132,17 +132,17 @@ const choropleths = {
 		colours: colours,
 		text: "Percentage of households self-reported as a one-parent household in the 2021 Census, out of the total number of households",
 	},
-	"% of Renter in Core Housing Need":{
+	"% of Renters in Core Housing Need":{
 		dataSource: "%CHN", 
 		group: "Equity Layers",
 		breaks: [10, 20, 30, 40], 
 		colours: colours,
 		text: "Percentage of renters who reported experiencing at least one core housing need (e.g. housing affordability, suitability, and adequacy) in the 2021 Census, out of the total renter population",
 	},
-	"% of Renter in Unaffordable Housing":{
+	"% of Renters in Unaffordable Housing":{
 		dataSource: "%Affordable", 
 		group: "Equity Layers",
-		breaks: [5, 20, 30, 40],
+		breaks: [10, 20, 30, 40],
 		colours: colours,
 		text: "Percentage of renters who spent over 30% of their before-tax household income on rent as reported in the 2021 Census, out of the total renter population",
 	}
@@ -1096,6 +1096,7 @@ onMount(() => {
 
 	.label-format {
 		padding-right: 4px;
+		font-size: 14px;
 	}
 
 	.check-box-item{ 
