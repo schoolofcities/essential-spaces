@@ -646,8 +646,6 @@ onMount(() => {
 			data: housing
 		})
 
-	//triangle symbol for housing
-
 		let housingImage = new Image();
 		housingImage.src = triangle_housing; 
 		housingImage.onload = function (){
@@ -658,17 +656,6 @@ onMount(() => {
 				'id': 'housing',
 				'type': 'circle',
 				'source': 'housing',
-				// 'layout': {
-				// 		"icon-image": "triangle_housing",
-				// 		"icon-size": [
-				// 				"interpolate", ["linear"], ["zoom"],
-				// 				0.05,
-				// 				0.01,
-				// 				25,
-				// 				1.3
-				// 		],
-				// 		"icon-allow-overlap": true 
-				// },
 				'paint': {
 					"circle-color":"#000",
 					"circle-radius": [
@@ -677,7 +664,6 @@ onMount(() => {
 						12, 3.5
 					],
 					"circle-opacity": 0
-					// "icon-opacity":0
 				}
 			});
 
@@ -688,7 +674,6 @@ onMount(() => {
 			data: rec
 		})
 
-		//triangle symbol for rec centre
 		let recImage = new Image();
 		recImage.src = triangle_rec; 
 		recImage.onload = function (){
@@ -745,14 +730,14 @@ onMount(() => {
 					['get', 'T'],
 					'Own', '#fff', 
 					'Rent', '#fff', 
-					'#fff' //grey
+					'#fff' 
 				],
 				"circle-opacity": [
 					'match',
 					['get', 'T'],
 					'Own', 1, 
 					'Rent', 1, 
-					1 //grey
+					1 
 				],
 				"circle-stroke-opacity": [
 					'match',
@@ -800,111 +785,6 @@ onMount(() => {
 		map.getCanvas().style.cursor = '';
 	});
 
-
-
-	// Add tool tips for Library
-	// map.on('click', 'library', (e) => {
-	// 	const coordinates = e.features[0].geometry.coordinates.slice();
-	// 	const description = e.features[0].properties["Branch Name"];
-	// 	const type = " (Library)"
-
-	// 	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-	// 		coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-	// 	}
-
-	// 	const htmlContent =  description + type
-
-	// 	const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
-	// 		.setLngLat(coordinates)
-	// 		.setHTML(htmlContent)
-	// 		.addTo(map);
-
-	// 	const popupContent = popup._content;
-	// 	if (popupContent) {
-	// 		popupContent.style.padding = '6px 12px 6px 6px'
-	// 		popupContent.style.backgroundColor = '#ffffff';
-	// 		popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
-	// 		popupContent.style.opacity = 0.95;
-	// 		}
-	// });
-
-	// map.on('mouseenter', 'library', () => {
-	// 		map.getCanvas().style.cursor = 'pointer';
-	// 	});
-
-	// map.on('mouseleave', 'library', () => {
-	// 	map.getCanvas().style.cursor = '';
-	// });
-
-	// // Add tool tips for RecCentre
-	// map.on('click', 'rec', (e) => {
-	// 	const coordinates = e.features[0].geometry.coordinates.slice();
-	// 	const description = e.features[0].properties["Name"];
-	// 	const type = " (Community Centre)"
-
-	// 	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-	// 		coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-	// 	}
-
-	// 	const htmlContent =  description + type
-
-	// 	const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
-	// 		.setLngLat(coordinates)
-	// 		.setHTML(htmlContent)
-	// 		.addTo(map);
-
-	// 	const popupContent = popup._content;
-	// 	if (popupContent) {
-	// 		popupContent.style.padding = '6px 12px 6px 6px'
-	// 		popupContent.style.backgroundColor = '#ffffff';
-	// 		popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
-	// 		popupContent.style.opacity = 0.95;
-	// 		}
-	// });
-
-	// map.on('mouseenter', 'rec', () => {
-	// 		map.getCanvas().style.cursor = 'pointer';
-	// 	});
-
-	// map.on('mouseleave', 'rec', () => {
-	// 	map.getCanvas().style.cursor = '';
-	// });
-
-	// // Add tool tips for Community Housing and Shelters
-	// map.on('click', 'housing', (e) => {
-	// 	const coordinates = e.features[0].geometry.coordinates.slice();
-	// 	const description = e.features[0].properties["Name"];
-	// 	const type = " (Type: " + e.features[0].properties["Type"] + ")";
-
-	// 	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-	// 		coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-	// 	}
-
-	// 	const htmlContent =  description + type
-
-	// 	const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
-	// 		.setLngLat(coordinates)
-	// 		.setHTML(htmlContent)
-	// 		.addTo(map);
-
-	// 	const popupContent = popup._content;
-	// 	if (popupContent) {
-	// 		popupContent.style.padding = '6px 12px 6px 6px'
-	// 		popupContent.style.backgroundColor = '#ffffff';
-	// 		popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
-	// 		popupContent.style.opacity = 0.95;
-	// 		}
-	// });
-
-	// map.on('mouseenter', 'housing', () => {
-	// 		map.getCanvas().style.cursor = 'pointer';
-	// 	});
-
-	// map.on('mouseleave', 'housing', () => {
-	// 	map.getCanvas().style.cursor = '';
-	// });
-
-	
 })
 
 </script>
@@ -913,8 +793,6 @@ onMount(() => {
 
 <div id="panel">
 	<h1>Community Real Estate</h1>
-	<!-- Content for the left panel -->
-	<!-- You can add text, images, or other elements here -->
 	<p>This map examines the real estate landscape of the Greater Toronto Area's (GTA) community services sector as of 2021. The map allows us to analyze the distribution of owned and leased Community Real Estate (CRE) offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing CRE within the community services sector. 
 	</p>
 
@@ -1080,15 +958,17 @@ onMount(() => {
 
 </div>
 
-<div id="map">
-	
-	<!-- Content for the right panel -->
-	<!-- You can add text, images, or other elements here -->
-</div>
+
+<div id="map"></div>
+
 
 </div>
+
+
+
 
 <style>
+	
 	.check-box {
 		margin-left: 16px;
 		margin-right: 16px;

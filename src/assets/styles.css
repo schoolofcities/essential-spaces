@@ -39,7 +39,6 @@
 	--brandGray90: #191919;
 	--brandRed: #DA291C;
 	--brandOrange: #D67C00;
-
 }
 
 body {
@@ -58,7 +57,6 @@ body {
 	height: 420px;
 	height: 100vh;
 	overflow: auto;
-	/* float: left; */
 	background-color: var(--brandWhite); 
 	border-right: solid 1px var(--brandGray);
 }
@@ -74,15 +72,13 @@ body {
 	height: 100vh;
 	width: calc(100vw - 420px);
 	min-width: 420px;
-	/* flex-grow: 1; */
-	/* float: left; */
 	background-color: var(--brandLightBlue); 
 }
 
 @media screen and (max-width: 820px) {
 	#container {
-        flex-direction: column-reverse;
-    }
+		flex-direction: column-reverse;
+	}
 	#map {
 		height: 50vh;
 		width: 100vw;
@@ -111,48 +107,47 @@ h1 {
 }
 
 h2 {
-    text-align: left;
-    font-family: Arial, Helvetica, sans-serif;
+	text-align: left;
+	font-family: Arial, Helvetica, sans-serif;
 	font-weight: 600;
-    font-size: 24px;
+	font-size: 24px;
 	padding-bottom: 4px;
 	/* border-bottom: solid 2px var(--brandRed); */
-    margin-left: 16px;
+	margin-left: 16px;
 	margin-right: 16px;
 	margin-top: 8px;
-    color: var(--brandGray80);
+	color: var(--brandGray80);
 }
 
 h3 {
-    text-align: left;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
+	text-align: left;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
 	margin: 16px;
 	padding-left: 4px;
-    border-left: solid 3px var(--brandRed);
-    color: var(--brandBlack);
+	border-left: solid 3px var(--brandRed);
+	color: var(--brandBlack);
 }
 
 h4 {
-    text-align: left;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 15px;
+	text-align: left;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
 	margin: 13px;
 	margin-top: 26px;
 	margin-bottom: -10px;
 	font-weight: 400;
 	text-decoration: underline;
 	padding-left: 4px;
-    /* border-left: solid 3px var(--brandRed); */
-    color: var(--brandBlack);
+	color: var(--brandBlack);
 }
 
 p {
-    font-family: Arial, Helvetica, sans-serif;
-    color: var(--brandBlack);
-    text-align: left;
-    font-size: 14px;
-    line-height: 20px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: var(--brandBlack);
+	text-align: left;
+	font-size: 14px;
+	line-height: 20px;
 	margin: 16px;
 }
 
