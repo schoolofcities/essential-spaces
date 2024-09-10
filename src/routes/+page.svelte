@@ -38,16 +38,6 @@ import triangle_rec from "../assets/triangle_rec_2.svg";
 const defaultMap = "Equity Index"
 let mapSelected = defaultMap
 
-// let colours = ["#fff5f0", "#fcbba1", "#fb6a4a", "#cb181d", "#810010"]
-
-// let colours = ["#FCEDE6", "#F9DCCD", "#EE9769", "#E97537", "#E97537"]
-
-// let colours = ["#F4EFF7", "#EADFEF", "#D5C0DF", "#AB81BF", "#AB81BF"]
-
-// let colours = ["#FBE9E8", "#F8D4D2", "#EB8B84", "#E15449", "#E15449"]
-
-// let colours = ["#F8D4D2", "#F0A9A4", "#E97F77", "#E15449","#E15449"]
-
 let colours = ["#f7ecc3", "#f2cd8d", "#eeb05b", "#e78052", "#e15449"];
 let streetBaseColour = "#cbcbd4";
 let spreColours = [ "#793B91","#338ED8", "#A3A3A3"]
@@ -60,7 +50,7 @@ const choropleths = {
 		group: "Equity Layers",
 		breaks: [0.3584, 0.4262, 0.4841, 0.5532],
 		colours: colours,
-		text: "The layer combines the seven other equity layers as a single metric. Areas in the higher quintiles likely have a greater need for community services due to the socio-economic disadvantages that residents might be experiencing."
+		text: "The layer combines the seven equity layers as a single metric. Areas in the higher quintiles likely have a greater need for community services due to the socio-economic disadvantages that residents might be experiencing."
 	},
 	"Street Map":{
 		dataSource: "meow",
@@ -792,11 +782,11 @@ onMount(() => {
 <div id="container">
 
 <div id="panel">
-	<h1>Community Real Estate</h1>
-	<p>This map examines the real estate landscape of the Greater Toronto Area's (GTA) community services sector as of 2021. The map allows us to analyze the distribution of owned and leased Community Real Estate (CRE) offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing CRE within the community services sector. 
+	<h1>Community Services Sector Agencies</h1>
+	<p>This map examines the real estate landscape of the Greater Toronto Area's (GTA) community services sector as of 2021. The map allows us to analyze the distribution of owned and leased agency spaces offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing real estate within the community services sector. 
 	</p>
 
-	<h3>Select CRE Locations By Tenure</h3>
+	<h3>Select Agency Spaces By Tenure</h3>
 
 	<div id="checkbox" class="check-box">
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Own"} /> Owned <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="{spreColours[1]}" stroke="#fff" stroke-width="1"/></svg></label>
@@ -968,7 +958,7 @@ onMount(() => {
 
 
 <style>
-	
+
 	.check-box {
 		margin-left: 16px;
 		margin-right: 16px;
