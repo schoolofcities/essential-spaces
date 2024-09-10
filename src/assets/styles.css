@@ -58,7 +58,7 @@ body {
 	height: 100vh;
 	overflow: auto;
 	background-color: var(--brandWhite); 
-	border-right: solid 1px var(--brandGray);
+	border-right: solid 2px var(--brandRed);
 }
 
 .line {
@@ -92,18 +92,20 @@ body {
 }
 
 h1 {
-	height: 35px;
+	/* height: 35px; */
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 33px;
+	font-size: 34px;
 	font-weight: 700;
-	color: var(--brandRed);
+	color: var(--brandWhite);
 	text-decoration: none;
 	margin-left: 16px;
 	margin-bottom: 0px;
 	margin-right: 16px;
-	padding: 4px;
+	margin-top: 10px;
+	padding: 10px;
+	text-align: center;
 	border-bottom: solid 2px var(--brandRed);
-	background-color: var(--brandWhite);
+	background-color: var(--brandRed);
 }
 
 h2 {
