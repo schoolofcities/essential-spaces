@@ -792,8 +792,18 @@ onMount(() => {
 <div id="container">
 
 <div id="panel">
-	<h1>Community Services Sector Agency Spaces</h1>
-	<p>This map examines the real estate landscape of the Greater Toronto Area's (GTA) community services sector as of 2021. The map allows us to analyze the distribution of owned and leased agency spaces offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing real estate within the community services sector. 
+
+	<div id="title">
+		
+		<h1>Essential Spaces</h1>
+
+		<h2>Real (Estate) Solutions for Community Needs</h2>
+
+	</div>
+	
+
+	<p>
+		This map examines the real estate landscape of the Greater Toronto Area's (GTA) community services sector as of 2021. The map allows us to analyze the distribution of owned and leased agency spaces offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing real estate within the community services sector. 
 	</p>
 
 	<h3>Select Agency Spaces By Tenure</h3>
