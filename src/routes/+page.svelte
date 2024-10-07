@@ -10,13 +10,23 @@ import "../assets/styles.css";
 import baseMap from "../assets/basemap.json";
 import topMap from "../assets/topmap.json"
 
-import spre from "../assets/SPRE_2021_wgs84.geo.json";
+// this geo.json has been edited manually oct 7 2024 to include the case study locations
+// original data is in the /data top folder 
+import spre from "../assets/SPRE_2021_wgs84.geo.json"; 
+// New locations added to map
+// -- Leonard's Place Peel - 1105 Queen St. E, Brampton, rented
+// -- Krasman Centre, 10121 Yonge St., Richmond Hill, rented
+// -- Unison Health (Bathurst Finch Hub) - 540 Finch Ave W, Toronto, own
+// Ones that we already have listed but need some editing
+// -- Inn from the cold - change from own to rent
+// -- Miziwe Biik  on Gerrard - change from rent to own
+// -- Family Service Toronto is already there with no edits needed!
+
 import adminUpperTier from "../assets/admin-upper-tier.geo.json"; 
 import adminLowerTier from "../assets/admin-lower-tier.geo.json"; 
 import adminLowerTierCentroids from "../assets/admin-lower-tier-centroids.geo.json"; 
 import nonResMask from "../assets/non-residential-mask.geo.json";
 
-// import equity from "../assets/equitylayers.geo.json";
 import equity from "../assets/ct-data-all.geo.json";
 import library from "../assets/library.geo.json";
 import rec from "../assets/rec.geo.json";

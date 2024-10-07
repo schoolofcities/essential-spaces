@@ -441,7 +441,7 @@
 { "type": "Feature", "properties": { "N": "Mary Centre", "A": "1 Bartley Bull Pkwy Unit 18", "C": 1, "S": 99, "T": "Rent" }, "geometry": { "type": "Point", "coordinates": [ -79.735169, 43.667679 ] } },
 { "type": "Feature", "properties": { "N": "Mary Centre", "A": "842 Wilson Ave 2nd Floor", "C": 1, "S": 99, "T": "Rent" }, "geometry": { "type": "Point", "coordinates": [ -79.4674, 43.7308 ] } },
 { "type": "Feature", "properties": { "N": "Mississauga Seventh-day Adventist Church", "A": "2250 Credit Valley Rd", "C": 30, "S": 1, "T": "Rent" }, "geometry": { "type": "Point", "coordinates": [ -79.702036, 43.55592 ] } },
-{ "type": "Feature", "properties": { "N": "Miziwe Biik Aboriginal Employment and Training", "A": "167 Gerrard St E", "C": 160, "S": 17, "T": "Rent" }, "geometry": { "type": "Point", "coordinates": [ -79.373882, 43.660661 ] } },
+{ "type": "Feature", "properties": { "N": "Miziwe Biik Aboriginal Employment and Training", "A": "167 Gerrard St E", "C": 160, "S": 17, "T": "Own" }, "geometry": { "type": "Point", "coordinates": [ -79.373882, 43.660661 ] } },
 { "type": "Feature", "properties": { "N": "Mon Sheong Foundation", "A": "2030 McNicoll Ave", "C": 1, "S": 99, "T": "Own" }, "geometry": { "type": "Point", "coordinates": [ -79.299988, 43.813088 ] } },
 { "type": "Feature", "properties": { "N": "Mon Sheong Foundation", "A": "11199 Yonge St", "C": 1, "S": 99, "T": "Own" }, "geometry": { "type": "Point", "coordinates": [ -79.443199, 43.901336 ] } },
 { "type": "Feature", "properties": { "N": "Mon Sheong Foundation", "A": "36 D'Arcy St", "C": 1, "S": 99, "T": "Own" }, "geometry": { "type": "Point", "coordinates": [ -79.39308, 43.6551 ] } },
@@ -842,7 +842,7 @@
 { "type": "Feature", "properties": { "N": "Rhema Christian Ministries", "A": "40 Carl Hall Rd Unit 49", "C": 30, "S": 99, "T": "Rent" }, "geometry": { "type": "Point", "coordinates": [ -79.479177, 43.749767 ] } },
 { "type": "Feature", "properties": { "N": "Holland Christian Homes", "A": "7900 McLaughlin Rd S", "C": 1, "S": 99, "T": "Own" }, "geometry": { "type": "Point", "coordinates": [ -79.741395, 43.654009 ] } },
 { "type": "Feature", "properties": { "N": "Nishnawbe Homes", "A": "Administrative Office; 244 Church St", "C": 1, "S": 99, "T": "Rent" }, "geometry": { "type": "Point", "coordinates": [ -79.3772, 43.655906 ] } },
-{ "type": "Feature", "properties": { "N": "Inn From the Cold", "A": "510 Penrose St", "C": 1, "S": 9, "T": "Own" }, "geometry": { "type": "Point", "coordinates": [ -79.45346, 44.043044 ] } },
+{ "type": "Feature", "properties": { "N": "Inn From the Cold", "A": "510 Penrose St", "C": 1, "S": 9, "T": "Rent" }, "geometry": { "type": "Point", "coordinates": [ -79.45346, 44.043044 ] } },
 { "type": "Feature", "properties": { "N": "Ukrainian Canadian Social Services (Toronto)", "A": "2445 Bloor St W", "C": 1, "S": 99, "T": "Rent" }, "geometry": { "type": "Point", "coordinates": [ -79.48423, 43.649066 ] } },
 { "type": "Feature", "properties": { "N": "Silent Voice Canada", "A": "60 St Clair Ave E Suite 400", "C": 1, "S": 99, "T": "Rent" }, "geometry": { "type": "Point", "coordinates": [ -79.391165, 43.688916 ] } },
 { "type": "Feature", "properties": { "N": "Carmelite Missionary Sisters of St Theresa Of Child Jesus", "A": "Carmelite Missionary Sisters; 1196 WILSON AVE", "C": 70, "S": 2, "T": "Own" }, "geometry": { "type": "Point", "coordinates": [ -79.488637, 43.725592 ] } },
@@ -1226,5 +1226,11 @@
 { "type": "Feature", "properties": { "N": "West Neighbourhood House", "A": "248 Ossington Ave", "C": 1, "S": 99, "T": "Unknown" }, "geometry": { "type": "Point", "coordinates": [ -79.421113, 43.649648 ] } },
 { "type": "Feature", "properties": { "N": "West Neighbourhood House", "A": "248 Ossington Ave", "C": 1, "S": 99, "T": "Unknown" }, "geometry": { "type": "Point", "coordinates": [ -79.421113, 43.649648 ] } },
 { "type": "Feature", "properties": { "N": "West Neighbourhood House", "A": "Parkdale Activity-Recreation Centre; 1499 Queen St W", "C": 1, "S": 99, "T": "Unknown" }, "geometry": { "type": "Point", "coordinates": [ -79.440527, 43.639574 ] } }
+,
+{ "type": "Feature", "properties": { "N": "Leonard's Place Peel", "A": "1105 Queen St. E, Brampton", "C": 1, "S": 99, "T": "Rent" }, "geometry": { "type": "Point", "coordinates": [ -79.733263, 43.7093299 ] } }
+,
+{ "type": "Feature", "properties": { "N": "Krasman Centre", "A": "10121 Yonge St., Richmond Hill", "C": 1, "S": 99, "T": "Rent" }, "geometry": { "type": "Point", "coordinates": [ -79.4377294, 43.8742374 ] } }
+,
+{ "type": "Feature", "properties": { "N": "Unison Health (Bathurst Finch Hub)", "A": "540 Finch Ave W, Toronto", "C": 1, "S": 99, "T": "Own" }, "geometry": { "type": "Point", "coordinates": [ -79.4458409, 43.7741099 ] } }
 ]
 }
