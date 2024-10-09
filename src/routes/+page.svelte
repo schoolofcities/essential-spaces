@@ -60,7 +60,7 @@ const choropleths = {
 		group: "Equity Layers",
 		breaks: [0.3584, 0.4262, 0.4841, 0.5532],
 		colours: colours,
-		text: "The layer combines the seven equity layers as a single metric. Areas in the higher quintiles likely have a greater need for community services due to the socio-economic disadvantages that residents might be experiencing."
+		text: "The layer combines the seven equity layers as a single metric. Areas in the higher quintiles have a greater need for community services due to the greater socio-economic disadvantages experienced by residents."
 	},
 	"Street Map":{
 		dataSource: "meow",
