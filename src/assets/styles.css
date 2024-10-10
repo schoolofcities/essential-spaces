@@ -57,6 +57,7 @@ body {
 	height: 420px;
 	height: 100vh;
 	overflow: auto;
+	overflow-x: hidden;
 	background-color: var(--brandWhite); 
 	border-right: solid 2px var(--brandRed);
 }
