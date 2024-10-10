@@ -809,6 +809,9 @@ onMount(() => {
 		This map examines the real estate landscape of the Greater Toronto Area's (GTA) community services sector as of 2021. The map allows us to analyze the distribution of owned and leased agency spaces offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing real estate within the community services sector. 
 	</p>
 
+	<div class="line"></div>
+
+
 	<h3>Select Agency Spaces By Tenure</h3>
 
 	<div id="checkbox" class="check-box">
@@ -954,19 +957,21 @@ onMount(() => {
 			
 	</div>
 
+
 	<div class="line"></div>
 
-	<h4>Data Sources</h4>
+
+	<h4>Data & Methods</h4>
 
 	<p class="notes">
-		Short paragraph about the data sources
+		Data on the location of agency spaces were derived from joining datasets from 211 and the Canadian Revenue Agency. Their respective tenure (own or lease), was sourced from property tax assessment roles in each municipality. The equity index and all other demographic data are derived from the 2021 Census of Population. All other built environment data (streets, transit, buildings) are from OpenStreetMap. The map was built by Jeff Allen and Teresa Lau at the School of Cities, University of Toronto. Data and code are on <a href="https://github.com/schoolofcities/non-profit-real-estate" target="_blank">GitHub</a>
 	</p>
 
 	<div class="line"></div>
 
-	<p class="notes">
-		Place logos here
-	</p>
+	<img src="./logos.svg" alt="United Way & University of Toronto Logos" />
+
+	<div class="line"></div>
 
 
 </div>
