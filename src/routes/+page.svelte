@@ -345,12 +345,15 @@ onMount(() => {
 		bearing: -17,
 		projection: "globe",
 		scrollZoom: true,
+		maxPitch: 0,
 		attributionControl: false
 	});
 
 	map.setMaxBounds(bounds);
 
-	map.touchZoomRotate.disableRotation();
+	// map.touchZoomRotate.disableRotation();
+	// map.dragRotate.disable();
+
 
 	map.addControl(new maplibregl.NavigationControl());
 	map.addControl(new maplibregl.ScaleControl(), "bottom-right");
@@ -721,8 +724,8 @@ onMount(() => {
 				],
 				"circle-radius" : [
 					"interpolate", ["linear"], ["zoom"],
-					8,1.5,
-					10,3,
+					8,2.5,
+					10,3.5,
 					12,7
 				],
 				"circle-stroke-color": [
