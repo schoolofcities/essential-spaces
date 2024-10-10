@@ -836,6 +836,7 @@ onMount(() => {
 			on:input={layerSelect}
 			--margin = 16px
 			--width=380px
+			--multi-max-width=300px
 			--background="white"
 			--selected-item-color= var(--brandBlack)
 			--height=22px
@@ -844,7 +845,7 @@ onMount(() => {
 			--border="1px solid var(--brandGray)"
 			--border-focused='1px solid #A50F00'
 			--list-border-radius="0px"
-			--font-size="14.45px"
+			--font-size="13.8px"
 			--max-height="30px"
 			--item-is-active-color="#FFFFFF"
 			--item-is-active-bg="#DA291C"
@@ -1037,10 +1038,6 @@ onMount(() => {
 		fill:var(--brandWhite);
 		font-weight: 400;
 		text-anchor: "middle";
-	}
-
-	#legend {
-		background-color: white;
 	}
 
 	
