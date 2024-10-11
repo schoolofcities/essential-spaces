@@ -36,7 +36,7 @@ import transitLines from "./assets/transitLines-toronto.geo.json";
 import transitStopsFuture from "./assets/transitStops-toronto-future.geo.json";
 import transitLinesFuture from "./assets/transitLines-toronto-future.geo.json";
 
-let blocksURL = "/essential-spaces/blocks-data-2021.pmtiles";
+let blocksURL = "/essential-spaces/map/blocks-data-2021.pmtiles";
 
 import triangle_library from "./assets/triangle_library_2.svg";
 import triangle_housing from "./assets/triangle_housing.svg";
@@ -970,7 +970,7 @@ onMount(() => {
 
 	<div class="line"></div>
 
-	<img src="./logos.svg" alt="United Way & University of Toronto Logos" />
+	<img src="./map/logos.svg" alt="United Way & University of Toronto Logos" />
 
 	<div class="line"></div>
 
