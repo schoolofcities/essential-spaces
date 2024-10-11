@@ -5,14 +5,14 @@ import maplibregl from "maplibre-gl";
 import * as pmtiles from "pmtiles";
 import Select from "svelte-select";
 
-import "../assets/styles.css";
+import "../../assets/styles.css";
 
-import baseMap from "../assets/basemap.json";
-import topMap from "../assets/topmap.json"
+import baseMap from "./assets/basemap.json";
+import topMap from "./assets/topmap.json"
 
 // this geo.json has been edited manually oct 7 2024 to include the case study locations
 // original data is in the /data top folder 
-import spre from "../assets/SPRE_2021_wgs84.geo.json"; 
+import spre from "./assets/SPRE_2021_wgs84.geo.json"; 
 // New locations added to map
 // -- Leonard's Place Peel - 1105 Queen St. E, Brampton, rented
 // -- Krasman Centre, 10121 Yonge St., Richmond Hill, rented
@@ -22,25 +22,25 @@ import spre from "../assets/SPRE_2021_wgs84.geo.json";
 // -- Miziwe Biik  on Gerrard - change from rent to own
 // -- Family Service Toronto is already there with no edits needed!
 
-import adminUpperTier from "../assets/admin-upper-tier.geo.json"; 
-import adminLowerTier from "../assets/admin-lower-tier.geo.json"; 
-import adminLowerTierCentroids from "../assets/admin-lower-tier-centroids.geo.json"; 
-import nonResMask from "../assets/non-residential-mask.geo.json";
+import adminUpperTier from "./assets/admin-upper-tier.geo.json"; 
+import adminLowerTier from "./assets/admin-lower-tier.geo.json"; 
+import adminLowerTierCentroids from "./assets/admin-lower-tier-centroids.geo.json"; 
+import nonResMask from "./assets/non-residential-mask.geo.json";
 
-import equity from "../assets/ct-data-all.geo.json";
-import library from "../assets/library.geo.json";
-import rec from "../assets/rec.geo.json";
-import housing from "../assets/shelters_and_housing.geo.json";
-import transitStops from "../assets/transitStops-toronto.geo.json";
-import transitLines from "../assets/transitLines-toronto.geo.json";
-import transitStopsFuture from "../assets/transitStops-toronto-future.geo.json";
-import transitLinesFuture from "../assets/transitLines-toronto-future.geo.json";
+import equity from "./assets/ct-data-all.geo.json";
+import library from "./assets/library.geo.json";
+import rec from "./assets/rec.geo.json";
+import housing from "./assets/shelters_and_housing.geo.json";
+import transitStops from "./assets/transitStops-toronto.geo.json";
+import transitLines from "./assets/transitLines-toronto.geo.json";
+import transitStopsFuture from "./assets/transitStops-toronto-future.geo.json";
+import transitLinesFuture from "./assets/transitLines-toronto-future.geo.json";
 
-let blocksURL = "/non-profit-real-estate/blocks-data-2021.pmtiles";
+let blocksURL = "/essential-spaces/blocks-data-2021.pmtiles";
 
-import triangle_library from "../assets/triangle_library_2.svg";
-import triangle_housing from "../assets/triangle_housing.svg";
-import triangle_rec from "../assets/triangle_rec_2.svg";
+import triangle_library from "./assets/triangle_library_2.svg";
+import triangle_housing from "./assets/triangle_housing.svg";
+import triangle_rec from "./assets/triangle_rec_2.svg";
 
 
 //Changing the map layer
@@ -116,7 +116,7 @@ const choropleths = {
 		group: "Other Layers",
 		breaks: [2.5, 5, 10, 15],
 		colours: colours,
-		text: "Percentage of immigrants who migrated to Canada between 2016 to 2021 based on the 2021 Census, out of the total population",
+		text: "Percentage of population who migrated to Canada between 2016 to 2021 based on the 2021 Census",
 	},
 	"% of Visible Minority":{
 		dataSource: "VM%", 

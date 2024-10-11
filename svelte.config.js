@@ -20,7 +20,7 @@ const config = {
 		}),
 		paths: {
 		    // change below to your repo name
-		    base: dev ? "" : "/non-profit-real-estate",
+		    base: dev ? "" : "/essential-spaces",
 		}
 	}
 };
