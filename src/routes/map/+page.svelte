@@ -803,10 +803,9 @@ onMount(() => {
 		<h2>Real (Estate) Solutions for Community Needs</h2>
 
 	</div>
-	
 
 	<p>
-		This map examines the real estate landscape of the Greater Toronto Area's (GTA) community services sector as of 2021. The map allows us to analyze the distribution of owned and leased agency spaces offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing real estate within the community services sector. 
+		This map examines the real estate landscape of the Greater Toronto Area's (GTA) community services sector as of 2021. The map allows us to analyze the location of a sample of owned and leased agency spaces offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing real estate within the community services sector. <a href="" target="_blank">Click here to read our research report</a>.
 	</p>
 
 	<div class="line"></div>
@@ -965,7 +964,7 @@ onMount(() => {
 	<h4>Data & Methods</h4>
 
 	<p class="notes">
-		Data on the location of agency spaces were derived from joining datasets from 211 and the Canadian Revenue Agency. Their respective tenure (own or lease), was sourced from property tax assessment roles in each municipality. The equity index and all other demographic data are derived from the 2021 Census of Population. All other built environment data (streets, transit, buildings) are from OpenStreetMap. The map was built by Jeff Allen and Teresa Lau at the School of Cities, University of Toronto. Data and code are on <a href="https://github.com/schoolofcities/non-profit-real-estate" target="_blank">GitHub</a>
+		Data on the location of agency spaces were derived from joining datasets from the <a href="https://open.canada.ca/data/en/dataset/08ae3944-1a9d-483a-a7ae-116bc58199fd" target="_blank">Canadian Revenue Agency</a> and <a href="https://211ontario.ca/211-data/" target="_blank">211</a>, both from 2021. Their respective tenure (own or lease), was sourced from property tax assessment roles in each municipality. The equity index and all other demographic data are derived from the <a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/index.cfm?Lang=E" target="_blank">2021 Census of Population</a>. <a href="" target="_blank">Read our report</a> for details about our data collection and analysis process. All other built environment data (streets, transit, buildings) shown on a the map are from <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a>. The map and website was built by Jeff Allen and Teresa Lau at the <a href="https://schoolofcities.utoronto.ca/" target="_blank">School of Cities, University of Toronto</a> as part of a wider research effort alongside <a href="https://www.unitedwaygt.org/" target="_blank">United Way Greater Toronto</a> and the <a href="https://infrastructureinstitute.ca/" target="_blank">Infrastructure Institute</a>. Data and code for this map are on <a href="https://github.com/schoolofcities/non-profit-real-estate" target="_blank">GitHub</a>.
 	</p>
 
 	<div class="line"></div>
