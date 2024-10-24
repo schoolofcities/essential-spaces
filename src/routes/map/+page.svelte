@@ -154,38 +154,31 @@ const items = Object.keys(choropleths).map(key => {
         ...choropleths[key]
     };
 });
-console.log(items);
 
-// console.log(choropleths["population-density"].colours[0]);
 
 let map = null;
 
 function layerSelect(e) {
-	console.log(layerSelect);
 	mapSelected = e.detail.value;
 	layerSet(mapSelected);
 }
 
 function layerSet(layer) {
-	console.log(layer)
 	if (layer === "Street Map") {
 		map.setPaintProperty("equity", "fill-opacity", 0);
 		map.setPaintProperty("background", "background-color", streetBaseColour);
-		map.setPaintProperty("water", "fill-color", "#e4e4ed");
 		map.setPaintProperty("nonResMask", "fill-opacity", 0);
 		map.setPaintProperty("blocks", "fill-opacity", 0);
 	} else if (layer === "Population Density") {
 		map.setPaintProperty("equity", "fill-opacity", 0);
 		map.setPaintProperty("nonResMask", "fill-opacity", 0.95);
 		map.setPaintProperty("background", "background-color", "#f5f5f5");
-		map.setPaintProperty("water", "fill-color", "#fff");
 		map.setPaintProperty("blocks", "fill-opacity", 0.9);
 	} else {
 		let choropleth = choropleths[layer]
 		map.setPaintProperty("equity", "fill-opacity", 0.9)
 		map.setPaintProperty("nonResMask", "fill-opacity", 0.95);
 		map.setPaintProperty("background", "background-color", "#f5f5f5");
-		map.setPaintProperty("water", "fill-color", "#fff");
 		map.setPaintProperty("blocks", "fill-opacity", 0);
 		map.setPaintProperty("equity", "fill-color", [
 			"case",
