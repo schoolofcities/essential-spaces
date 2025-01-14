@@ -252,7 +252,7 @@ $:  onTransit, filterTransit()
 function filterTransit() {
 	if (map) {
 		if (onTransit) {
-			map.setPaintProperty('transitLines', 'line-opacity', 0.8);
+			map.setPaintProperty('transitLines', 'line-opacity', 0.95);
 			map.setPaintProperty('transitStops', 'circle-opacity', 1);
 			map.setPaintProperty('transitStops', 'circle-stroke-opacity', 1);
 		} else {
@@ -270,7 +270,7 @@ $:  onTransitFuture, filterTransitFuture()
 function filterTransitFuture() {
 	if (map) {
 		if (onTransitFuture) {
-			map.setPaintProperty('transitLinesFuture', 'line-opacity', 0.8);
+			map.setPaintProperty('transitLinesFuture', 'line-opacity', 0.95);
 			map.setPaintProperty('transitStopsFuture', 'circle-opacity', 1);
 			map.setPaintProperty('transitStopsFuture', 'circle-stroke-opacity', 1);
 		} else {
@@ -482,7 +482,7 @@ onMount(() => {
 			'source':'transitLines',
 			'paint': {
 				'line-color': '#3d3846',
-				'line-opacity': 0.8,
+				'line-opacity': 0.95,
 				'line-width': 1.5,
 				'line-dasharray': [8, 2] 
 			}
@@ -924,12 +924,16 @@ onMount(() => {
 	<div id="checkbox" class="check-box">
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onTransit}/> 
 			Major Transit Lines (Existing)
-			<!-- <img src="{triangle_library}" alt="Library Symbol" width="13" height="13"> -->
+			<svg width="30" height="10" xmlns="http://www.w3.org/2000/svg">
+				<line x1="0" y1="6" x2="40" y2="6" stroke="black" stroke-width="2" stroke-dasharray="8, 2" />
+			</svg>
 		</label>
 		<br>
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onTransitFuture}/> 
 			Major Transit Lines (Future)
-			<!-- <img src="{triangle_library}" alt="Library Symbol" width="13" height="13"> -->
+			<svg width="30" height="10" xmlns="http://www.w3.org/2000/svg">
+				<line x1="0" y1="6" x2="40" y2="6" stroke="black" stroke-width="2" stroke-dasharray="3, 2" />
+			</svg>
 		</label>
 		<br>
 		<label class="label-format"><input type="checkbox" class="check-box-item" bind:checked={onLibrary}/> 
