@@ -6,7 +6,7 @@ This repo contains the code and data to build https://schoolofcities.github.io/e
 
 Spatial data download links:
 - [Agency spaces](/src/routes/map/assets/SPRE_2021_wgs84.geo.json) (note that this data are a sample and not 100% representative of all locations in the region)
-- [Census tract demographic and equity data](/src/routes/map/assets/ct-data-all.geo.json) 
+- [Demographic and socio-economic data](/src/routes/map/assets/ct-data-all.geo.json) (at Census Tract geography)
 - [Libraries](/src/routes/map/assets/library.geo.json)
 - [Recreation centres](/src/routes/map/assets/rec.geo.json)
 - [Major Transit Lines (Existing)](/src/routes/map/assets/transitLines-toronto.geo.json)
