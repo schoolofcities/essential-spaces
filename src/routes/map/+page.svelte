@@ -440,7 +440,7 @@ onMount(() => {
 				'line-color': '#3d3846',
 				'line-opacity': 0,
 				'line-width': 1.5,
-				'line-dasharray': [2, 2] 
+				'line-dasharray': [1.5, 1.5] 
 			}
 		})
 
@@ -484,7 +484,7 @@ onMount(() => {
 				'line-color': '#3d3846',
 				'line-opacity': 0.95,
 				'line-width': 1.5,
-				'line-dasharray': [8, 2] 
+				'line-dasharray': [6, 1.5] 
 			}
 		})
 
