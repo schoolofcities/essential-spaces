@@ -783,6 +783,94 @@ onMount(() => {
 
 })
 
+
+
+let query = "";
+let results;
+
+const baseUrl = "https://nominatim.openstreetmap.org/search.php?format=jsonv2&q=";
+
+const getResults = async () => {
+
+	results = await fetch(baseUrl + query).then((res) => res.json());
+
+	if (map.getSource("address")) {
+        map.removeLayer("address");
+		map.removeSource("address");
+		console.log("remove")
+    }
+
+	if (results.length > 0) {
+
+		var queryResults = []
+		for (let i = 0; i <results.length; i++){
+			if ((parseFloat(results[i].lon) > -80.168 && parseFloat(results[i].lon) < -79.0935) && (parseFloat(results[i].lat) < 44.338 && parseFloat(results[i].lat) > 43.471))  {
+				console.log(results[i])
+				queryResults.push([results[i].lat, results[i].lon])
+				break
+			}
+		}
+
+		if (queryResults.length > 0) {
+
+			let lat = queryResults[0][0];
+			let lon = queryResults[0][1];
+
+			map.flyTo({
+				center: [lon, lat],
+				zoom: 14,
+				bearing: -17,
+				speed: 2,
+				curve: 1,
+				easing(t) {
+					return t;
+				},
+				essential: true,
+			});
+
+			map.addSource("address", {
+				type: "geojson",
+				data: {
+				type: "Point",
+				coordinates: [lon, lat],
+				},
+			});
+			map.addLayer({
+				id: "address",
+				type: "circle",
+				source: "address",
+				paint: {
+					"circle-radius": 12, 
+					"circle-color": "white",
+					"circle-opacity": 0.85,
+					"circle-stroke-color": "black",
+					"circle-stroke-width": 4
+				},
+			});
+
+		}
+
+		else {
+
+			alert("Sorry, no address results for " + query + " in the GTA. Please double check your input and include a municipality name");
+
+		}
+
+	}
+	
+	else {
+
+		alert("Sorry, no address results for " + query + " in the GTA. Please double check your input and include a municipality name");
+
+	}
+
+}
+
+
+
+
+
+
 </script>
 
 <div id="container">
@@ -950,7 +1038,7 @@ onMount(() => {
 			Community Housing & Shelter
 			<svg width="6px" height="10px" viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg">
 				<circle cx="3" cy="3" r="2" fill="black" />
-			  </svg>
+			</svg>
 		</label>
 			
 	</div>
@@ -958,6 +1046,19 @@ onMount(() => {
 
 	<div class="line"></div>
 
+	<p>
+		<b>Address Search</b> 
+		<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+			<circle cx="8" cy="8" r="6" fill="white" fill-opacity="0.85" stroke="black" stroke-width="3" />
+		</svg>
+	</p>
+
+    <input id="address-search" bind:value={query} placeholder="e.g. 100 Queen St West, Toronto" />
+	
+	<button id="address-button" on:click={getResults} disabled={query.length < 1}>Search</button>
+
+
+	<div class="line"></div>
 
 	<h4>Data & Methods</h4>
 
@@ -1038,5 +1139,15 @@ onMount(() => {
 		text-anchor: "middle";
 	}
 
+	#address-search {
+		width: calc(100% - 50px);
+		margin-left: 15px;
+		margin-right: 15px;
+		margin-bottom: 10px;
+	}
+
+	#address-button {
+		margin-left: 15px;
+	}
 	
 </style>
