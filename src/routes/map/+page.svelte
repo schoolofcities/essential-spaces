@@ -334,7 +334,7 @@ onMount(() => {
 		center: [-79.46, 43.78], // starting position
 		zoom: 10, // starting zoom;
 		minZoom: 8, //furthest you can zoom out
-		maxZoom: 14, //furthest you can zoom in
+		maxZoom: 14.5, //furthest you can zoom in
 		bearing: -17,
 		projection: "globe",
 		scrollZoom: true,
@@ -788,16 +788,22 @@ onMount(() => {
 let query = "";
 let results;
 
-const baseUrl = "https://nominatim.openstreetmap.org/search.php?format=jsonv2&q=";
+const baseUrl = "https://nominatim.openstreetmap.org/search?format=jsonv2&q=";
 
 const getResults = async () => {
 
-	results = await fetch(baseUrl + query).then((res) => res.json());
+	let inputQuery = "";
+	if (query.endsWith("Canada") || query.endsWith("CA") || query.endsWith("Can")) {
+		inputQuery = query
+	} else {
+		inputQuery = query + ", Canada"
+	}
+
+	results = await fetch(baseUrl + inputQuery).then((res) => res.json());
 
 	if (map.getSource("address")) {
         map.removeLayer("address");
 		map.removeSource("address");
-		console.log("remove")
     }
 
 	if (results.length > 0) {
@@ -818,7 +824,7 @@ const getResults = async () => {
 
 			map.flyTo({
 				center: [lon, lat],
-				zoom: 14,
+				zoom: 14.5,
 				bearing: -17,
 				speed: 2,
 				curve: 1,
@@ -1148,6 +1154,7 @@ const getResults = async () => {
 
 	#address-button {
 		margin-left: 15px;
+		width: 100px;
 	}
 	
 </style>
