@@ -1,5 +1,6 @@
 - update cra category filters (which originally omitted some stuff)
-- - input CRA data is in data/2025-work/cra-data
+- - input CRA data is in `data/2025-work/cra-data`
+- - look in 
 
 - re-run and improve 211-cra join process
 - - 
