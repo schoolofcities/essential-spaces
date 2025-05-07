@@ -1,6 +1,14 @@
-- update cra filters (which originally omitted some stuff)
+- update cra category filters (which originally omitted some stuff)
+- - input CRA data is in data/2025-work/cra-data
+
 - re-run and improve 211-cra join process
-- manually check and include all UW orgs
+- - 
+
+
+- UW organization list, for checking
+- - 
+
+
 - manually check 211 and cra for any other possible missing orgs
 - join in existing rent/own from 1st phase
 - go to places to get rent/own
