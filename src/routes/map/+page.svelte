@@ -222,6 +222,12 @@
 
     let spreSelection = ["Own", "Rent", "Unknown"]; 
 
+    const spreOptions = [
+        { value: "Own", label: "Owned", colorIndex: 1 },
+        { value: "Rent", label: "Leased", colorIndex: 0 },
+        { value: "Unknown", label: "Unknown", colorIndex: 2 }
+    ];
+
     $:spreSelection, filterSPRE()
 
     function filterSPRE() {
@@ -871,9 +877,27 @@
         <h3>Select Agency Spaces By Tenure</h3>
 
         <div id="checkbox" class="check-box">
-            <label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Own"} /> Owned <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="{spreColours[1]}" stroke="#fff" stroke-width="1"/></svg></label>
-            <label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Rent"} /> Leased <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="{spreColours[0]}" stroke="#fff" stroke-width="1"/></label>
-            <label class="label-format"><input type="checkbox" class="check-box-item" bind:group={spreSelection} value={"Unknown"} /> Unknown <svg class="check-box-svg"><circle cx="6" cy="10.5" r="5" fill="{spreColours[2]}" stroke="#fff" stroke-width="1"/></label>
+            {#each spreOptions as option}
+                <label class="label-format">
+                    <input 
+                        type="checkbox" 
+                        class="check-box-item" 
+                        bind:group={spreSelection} 
+                        value={option.value} 
+                    /> 
+                    {option.label}
+                    <svg class="check-box-svg">
+                        <circle 
+                            cx="6" 
+                            cy="10.5" 
+                            r="5" 
+                            fill="{spreColours[option.colorIndex]}" 
+                            stroke="#fff" 
+                            stroke-width="1"
+                        />
+                    </svg>
+                </label>
+            {/each}
         </div>
 
         <h3>Select Base Map Layer</h3>
