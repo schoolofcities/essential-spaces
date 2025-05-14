@@ -935,66 +935,44 @@
         </div>
 
         <svg width='400' height='{mapSelected == "Equity Index" ? 24 : 40}'>
-            <rect
-                class = "box"
-                width="74"
-                height="20"
-                x="18"
-                y="0"
-                style="fill:{choropleths[mapSelected].colours[0]};"
-            />
+            <!-- Rectangles -->
+            {#each { length: 5 } as _, i}
+                <rect
+                    class="box"
+                    width="74"
+                    height="20"
+                    x={18 + i * 76}
+                    y="0"
+                    style="fill:{choropleths[mapSelected].colours[i]};"
+                />
+            {/each}
 
-            <rect
-                class = "box"
-                width="74"
-                height="20"
-                x="94"
-                y="0"
-                style="fill:{choropleths[mapSelected].colours[1]};"
-            />
-
-            <rect
-                class = "box"
-                width="74"
-                height="20"
-                x="170"
-                y="0"
-                style="fill:{choropleths[mapSelected].colours[2]};"
-            />
-
-            <rect
-                class = "box"
-                width="74"
-                height="20"
-                x="246"
-                y="0"
-                style="fill:{choropleths[mapSelected].colours[3]};"
-            />
-
-            <rect
-                class = "box"
-                width="74"
-                height="20"
-                x="322"
-                y="0"
-                style="fill:{choropleths[mapSelected].colours[4]};"
-            />
-
+            <!-- Labels -->
             {#if mapSelected == "Equity Index"}
-                <text class="legend-label"  x="20" y="15">1st Quintile</text>
-                <text class="legend-label"  x="120" y="15">2nd</text>
-                <text class="legend-label"  x="200" y="15">3rd</text>
-                <text class= "legend-label-dark"  x="275" y="15">4th</text>
-                <text class= "legend-label-dark"  x="350" y="15">5th</text>
-            {:else if mapSelected == "Street Map"}
-            {:else}
-                <text class="legend-label"  x="80" y="35">&lt;{choropleths[mapSelected].breaks[0]}</text>
-                <text class="legend-label"  x="160" y="35">{choropleths[mapSelected].breaks[1]}</text>
-                <text class="legend-label"  x="235" y="35">{choropleths[mapSelected].breaks[2]}</text>
-                <text class="legend-label"  x="305" y="35">&gt{choropleths[mapSelected].breaks[3]}</text>
-
+                {#each [
+                    { x: 20, text: "1st Quintile" },
+                    { x: 120, text: "2nd" },
+                    { x: 200, text: "3rd" },
+                    { x: 275, text: "4th" },
+                    { x: 350, text: "5th" }
+                ] as label, i}
+                    <text 
+                        class={i >= 3 ? "legend-label-dark" : "legend-label"} 
+                        x={label.x} 
+                        y="15"
+                    >
+                        {label.text}
+                    </text>
+                {/each}
+            {:else if mapSelected != "Street Map"}
+                {#each [80, 160, 235, 305] as x, i}
+                    <text class="legend-label" x={x} y="35">
+                        {i === 0 ? `<${choropleths[mapSelected].breaks[0]}` : 
+                        i === 3 ? `>${choropleths[mapSelected].breaks[3]}` : 
+                        choropleths[mapSelected].breaks[i]}
+                    </text>
+                {/each}
             {/if}
-
         </svg>
 
         <p class="des">
@@ -1109,11 +1087,11 @@
     }
 
     .legend-label {
-            font-size: 14px;
-            fill:var(--brandBlack);
-            font-weight: 400;
-            text-anchor: "middle";
-        }
+        font-size: 14px;
+        fill:var(--brandBlack);
+        font-weight: 400;
+        text-anchor: "middle";
+    }
 
     .legend-label-dark {
         font-size: 14px;
