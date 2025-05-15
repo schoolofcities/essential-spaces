@@ -166,6 +166,10 @@
     }
 
     function layerSet(layer) {
+        if (!map) return;
+
+        const choropleth = choropleths[layer];
+        
         if (layer === "Street Map") {
             map.setPaintProperty("equity", "fill-opacity", 0);
             map.setPaintProperty("background", "background-color", STREET_BASE_COLOUR);
@@ -177,121 +181,91 @@
             map.setPaintProperty("background", "background-color", "#f5f5f5");
             map.setPaintProperty("blocks", "fill-opacity", 0.9);
         } else {
-            let choropleth = choropleths[layer]
-            map.setPaintProperty("equity", "fill-opacity", 0.9)
+            const fillColor = [
+                "case",
+                ["!=", ["get", choropleth.dataSource], null],
+                [
+                    "step",
+                    ["get", choropleth.dataSource],
+                    choropleth.colours[0],
+                    choropleth.breaks[0],
+                    choropleth.colours[1],
+                    choropleth.breaks[1],
+                    choropleth.colours[2],
+                    choropleth.breaks[2],
+                    choropleth.colours[3],
+                    choropleth.breaks[3],
+                    choropleth.colours[4],
+                ],
+                "#cbcbcb",
+            ];
+            
+            map.setPaintProperty("equity", "fill-opacity", 0.9);
             map.setPaintProperty("nonResMask", "fill-opacity", 0.95);
             map.setPaintProperty("background", "background-color", "#f5f5f5");
             map.setPaintProperty("blocks", "fill-opacity", 0);
-            map.setPaintProperty("equity", "fill-color", [
-                "case",
-                ["!=", ["get", choropleth.dataSource], null],
-                [
-                    "step",
-                    ["get", choropleth.dataSource],
-                    choropleth.colours[0],
-                    choropleth.breaks[0],
-                    choropleth.colours[1],
-                    choropleth.breaks[1],
-                    choropleth.colours[2],
-                    choropleth.breaks[2],
-                    choropleth.colours[3],
-                    choropleth.breaks[3],
-                    choropleth.colours[4],
-                ],
-                "#cbcbcb",
-            ])
-            map.setPaintProperty("equity", "fill-outline-color", [
-                "case",
-                ["!=", ["get", choropleth.dataSource], null],
-                [
-                    "step",
-                    ["get", choropleth.dataSource],
-                    choropleth.colours[0],
-                    choropleth.breaks[0],
-                    choropleth.colours[1],
-                    choropleth.breaks[1],
-                    choropleth.colours[2],
-                    choropleth.breaks[2],
-                    choropleth.colours[3],
-                    choropleth.breaks[3],
-                    choropleth.colours[4],
-                ],
-                "#cbcbcb",
-            ])
+            map.setPaintProperty("equity", "fill-color", fillColor);
+            map.setPaintProperty("equity", "fill-outline-color", fillColor);
         }
-        
     }
 
+    // Filter functions
     function filterSPRE() {
-        let opacity =[
-                    'match',
-                    ['get', 'T'],
-                    'Own', spreSelection.includes("Own")?1:0,
-                    'Rent', spreSelection.includes("Rent")?1:0,
-                    spreSelection.includes("Unknown")?1:0,
-                ]	
-        if (map) {
-            map.setPaintProperty('spre', 'circle-opacity', opacity);
-            map.setPaintProperty('spre', 'circle-stroke-opacity', opacity);
-        }
-    }   
+        if (!map) return;
+        
+        const opacity = [
+            'match',
+            ['get', 'T'],
+            'Own', spreSelection.includes("Own") ? 1 : 0,
+            'Rent', spreSelection.includes("Rent") ? 1 : 0,
+            spreSelection.includes("Unknown") ? 1 : 0,
+        ];
+        
+        map.setPaintProperty('spre', 'circle-opacity', opacity);
+        map.setPaintProperty('spre', 'circle-stroke-opacity', opacity);
+    }
 
     function filterTransit() {
-        if (map) {
-            if (onTransit) {
-                map.setPaintProperty('transitLines', 'line-opacity', 0.95);
-                map.setPaintProperty('transitStops', 'circle-opacity', 1);
-                map.setPaintProperty('transitStops', 'circle-stroke-opacity', 1);
-            } else {
-                map.setPaintProperty('transitLines', 'line-opacity', 0);
-                map.setPaintProperty('transitStops', 'circle-opacity', 0);
-                map.setPaintProperty('transitStops', 'circle-stroke-opacity', 0);
-            }
+        if (!map) return;
+        
+        if (onTransit) {
+            map.setPaintProperty('transitLines', 'line-opacity', 0.95);
+            map.setPaintProperty('transitStops', 'circle-opacity', 1);
+            map.setPaintProperty('transitStops', 'circle-stroke-opacity', 1);
+        } else {
+            map.setPaintProperty('transitLines', 'line-opacity', 0);
+            map.setPaintProperty('transitStops', 'circle-opacity', 0);
+            map.setPaintProperty('transitStops', 'circle-stroke-opacity', 0);
         }
     }
 
     function filterTransitFuture() {
-        if (map) {
-            if (onTransitFuture) {
-                map.setPaintProperty('transitLinesFuture', 'line-opacity', 0.95);
-                map.setPaintProperty('transitStopsFuture', 'circle-opacity', 1);
-                map.setPaintProperty('transitStopsFuture', 'circle-stroke-opacity', 1);
-            } else {
-                map.setPaintProperty('transitLinesFuture', 'line-opacity', 0);
-                map.setPaintProperty('transitStopsFuture', 'circle-opacity', 0);
-                map.setPaintProperty('transitStopsFuture', 'circle-stroke-opacity', 0);
-            }
+        if (!map) return;
+        
+        if (onTransitFuture) {
+            map.setPaintProperty('transitLinesFuture', 'line-opacity', 0.95);
+            map.setPaintProperty('transitStopsFuture', 'circle-opacity', 1);
+            map.setPaintProperty('transitStopsFuture', 'circle-stroke-opacity', 1);
+        } else {
+            map.setPaintProperty('transitLinesFuture', 'line-opacity', 0);
+            map.setPaintProperty('transitStopsFuture', 'circle-opacity', 0);
+            map.setPaintProperty('transitStopsFuture', 'circle-stroke-opacity', 0);
         }
     }
 
     function filterLibrary() {
-        if (map) {
-            if (onLibrary) {
-                map.setPaintProperty('library', 'icon-opacity', 1);
-            } else {
-                map.setPaintProperty('library', 'icon-opacity', 0);
-            }
-        }
+        if (!map) return;
+        map.setPaintProperty('library', 'icon-opacity', onLibrary ? 1 : 0);
     }
 
     function filterHousing() {
-        if (map) {
-            if (onHousing) {
-                map.setPaintProperty('housing', 'circle-opacity', 1);
-            } else {
-                map.setPaintProperty('housing', 'circle-opacity', 0);
-            }
-        }
+        if (!map) return;
+        map.setPaintProperty('housing', 'circle-opacity', onHousing ? 1 : 0);
     }
 
     function filterRec() {
-        if (map) {
-            if (onRec) {
-                map.setPaintProperty('rec', 'icon-opacity', 1);
-            } else {
-                map.setPaintProperty('rec', 'icon-opacity', 0);
-            }
-        }
+        if (!map) return;
+        map.setPaintProperty('rec', 'icon-opacity', onRec ? 1 : 0);
     }
 
     // Reactive statements
