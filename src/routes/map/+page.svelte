@@ -594,14 +594,11 @@
         });
     })
 
+    // Address search
     const getResults = async () => {
-
-        let inputQuery = "";
-        if (query.endsWith("Canada") || query.endsWith("CA") || query.endsWith("Can")) {
-            inputQuery = query
-        } else {
-            inputQuery = query + ", Canada"
-        }
+        let inputQuery = query.endsWith("Canada") || query.endsWith("CA") || query.endsWith("Can") 
+            ? query 
+            : query + ", Canada";
 
         results = await fetch(NOMINATIM_URL + inputQuery).then((res) => res.json());
 
@@ -611,20 +608,13 @@
         }
 
         if (results.length > 0) {
+            const gtaResults = results.filter(result => 
+                (parseFloat(result.lon) > -80.168 && parseFloat(result.lon) < -79.0935) && 
+                (parseFloat(result.lat) < 44.338 && parseFloat(result.lat) > 43.471)
+            );
 
-            var queryResults = []
-            for (let i = 0; i <results.length; i++){
-                if ((parseFloat(results[i].lon) > -80.168 && parseFloat(results[i].lon) < -79.0935) && (parseFloat(results[i].lat) < 44.338 && parseFloat(results[i].lat) > 43.471))  {
-                    console.log(results[i])
-                    queryResults.push([results[i].lat, results[i].lon])
-                    break
-                }
-            }
-
-            if (queryResults.length > 0) {
-
-                let lat = queryResults[0][0];
-                let lon = queryResults[0][1];
+            if (gtaResults.length > 0) {
+                const { lat, lon } = gtaResults[0];
 
                 map.flyTo({
                     center: [lon, lat],
@@ -632,38 +622,31 @@
                     bearing: -17,
                     speed: 2,
                     curve: 1,
-                    easing(t) {
-                        return t;
-                    },
+                    easing(t) { return t; },
                     essential: true,
                 });
 
                 map.addSource("address", {
                     type: "geojson",
-                    data: {
-                    type: "Point",
-                    coordinates: [lon, lat],
-                    },
+                    data: { type: "Point", coordinates: [lon, lat] }
                 });
                 map.addLayer({
                     id: "address",
                     type: "circle",
                     source: "address",
                     paint: {
-                        "circle-radius": 12, 
+                        "circle-radius": 12,
                         "circle-color": "white",
                         "circle-opacity": 0.85,
                         "circle-stroke-color": "black",
                         "circle-stroke-width": 4
-                    },
+                    }
                 });
 
-            }
-            else {
+            } else {
                 alert("Sorry, no address results for " + query + " in the GTA. Please double check your input and include a municipality name");
             }
-        }
-        else {
+        } else {
             alert("Sorry, no address results for " + query + " in the GTA. Please double check your input and include a municipality name");
         }
     }
