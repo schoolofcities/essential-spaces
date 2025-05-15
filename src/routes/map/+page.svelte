@@ -277,8 +277,7 @@
     $: onRec, filterRec();
 
     onMount(() => {
-
-        let protocol = new pmtiles.Protocol();
+        const protocol = new pmtiles.Protocol();
         maplibregl.addProtocol("pmtiles", protocol.tile);
 
         map = new maplibregl.Map({
@@ -296,39 +295,30 @@
         });
 
         map.setMaxBounds(BOUNDS);
-
         // map.touchZoomRotate.disableRotation();
         // map.dragRotate.disable();
-
-
         map.addControl(new maplibregl.NavigationControl());
         map.addControl(new maplibregl.ScaleControl(), "bottom-right");
 
         map.on('load', () => {
-
-            map.addSource('equity', {
-                type: 'geojson',
-                data: equity
-            })
-
-            map.addLayer(
-                {
-                    id: "equity",
-                    type: "fill",
-                    source: "equity",
-                    paint: {
-                        "fill-opacity": 0.9,
-                        "fill-color": "#fff",
-                        "fill-outline-color": "#fff"
-                    },
+            // Add equity source and layer
+            map.addSource('equity', { type: 'geojson', data: equity });
+            map.addLayer({
+                id: "equity",
+                type: "fill",
+                source: "equity",
+                paint: {
+                    "fill-opacity": 0.9,
+                    "fill-color": "#fff",
+                    "fill-outline-color": "#fff"
                 }
-            );
+            });
 
+            // Add blocks source and layer
             map.addSource("blocks", {
                 type: "vector",
                 url: "pmtiles://" + BLOCKS_URL,
             });
-
             map.addLayer({
                 "id": "blocks",
                 "type": "fill",
@@ -355,13 +345,10 @@
                         "#cbcbcb",
                     ]
                 }
-            })
-
-            map.addSource("nonResMask", {
-                type: "geojson",
-                data: nonResMask
             });
 
+            // Add non-residential mask
+            map.addSource("nonResMask", { type: "geojson", data: nonResMask });
             map.addLayer({
                 "id": "nonResMask",
                 "type": "fill",
@@ -370,21 +357,19 @@
                     "fill-color": "#F7F7F7",
                     "fill-outline-color": "#F7F7F7",
                     "fill-opacity": 0.95
-                },
-            })
+                }
+            });
 
+            // Set initial layer
             layerSet(mapSelected);
             
+            // Add top map layers
             topMap.forEach(e => {
                 map.addLayer(e);
             });
 
-            map.addSource(
-                'transitLinesFuture', {
-                    type: 'geojson', 
-                    data: transitLinesFuture
-                }
-            )
+            // Add future transit layers
+            map.addSource('transitLinesFuture', { type: 'geojson', data: transitLinesFuture });
             map.addLayer({
                 'id':'transitLinesFuture',
                 'type':'line',
@@ -395,14 +380,9 @@
                     'line-width': 1.5,
                     'line-dasharray': [1.5, 1.5] 
                 }
-            })
+            });
 
-            map.addSource(
-                'transitStopsFuture', {
-                    type: 'geojson', 
-                    data: transitStopsFuture
-                }
-            )
+            map.addSource('transitStopsFuture', { type: 'geojson', data: transitStopsFuture });
             map.addLayer({
                 'id':'transitStopsFuture',
                 'type':'circle',
@@ -410,25 +390,15 @@
                 'paint': {
                     'circle-stroke-color': '#3d3846',
                     'circle-color': "#fff",
-                    'circle-radius': [
-                        'interpolate',
-                        ['linear'],
-                        ['zoom'],
-                        8, 1,
-                        14, 4
-                    ],
+                    'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 1, 14, 4],
                     "circle-stroke-width": 1,
                     "circle-opacity": 0,
                     "circle-stroke-opacity": 0
                 }
-            })
+            });
 
-            map.addSource(
-                'transitLines', {
-                    type: 'geojson', 
-                    data: transitLines
-                }
-            )
+            // Add current transit layers
+            map.addSource('transitLines', { type: 'geojson', data: transitLines });
             map.addLayer({
                 'id':'transitLines',
                 'type':'line',
@@ -439,14 +409,9 @@
                     'line-width': 1.5,
                     'line-dasharray': [6, 1.5] 
                 }
-            })
+            });
 
-            map.addSource(
-                'transitStops', {
-                    type: 'geojson', 
-                    data: transitStops
-                }
-            )
+            map.addSource('transitStops', { type: 'geojson', data: transitStops });
             map.addLayer({
                 'id':'transitStops',
                 'type':'circle',
@@ -454,25 +419,15 @@
                 'paint': {
                     'circle-stroke-color': '#3d3846',
                     'circle-color': "#fff",
-                    'circle-radius': [
-                        'interpolate',
-                        ['linear'],
-                        ['zoom'],
-                        8, 1,
-                        14, 4
-                    ],
+                    'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 1, 14, 4],
                     "circle-stroke-width": 1,
                     "circle-opacity": 1,
                     "circle-stroke-opacity": 1
                 }
-            })
+            });
 
-            map.addSource(
-                'adminLowerTier', {
-                    type: 'geojson', 
-                    data: adminLowerTier
-                }
-            )
+            // Add admin boundaries
+            map.addSource('adminLowerTier', { type: 'geojson', data: adminLowerTier });
             map.addLayer({
                 'id':'adminLowerTier',
                 'type':'line',
@@ -482,54 +437,30 @@
                     'line-opacity': 0.75,
                     'line-width': 1
                 }
-            })
+            });
 
-            map.addSource(
-                'adminLowerTierCentroids', {
-                    type: 'geojson', 
-                    data: adminLowerTierCentroids
-                }
-            )
+            map.addSource('adminLowerTierCentroids', { type: 'geojson', data: adminLowerTierCentroids });
             map.addLayer({
                 'id': 'adminLowerTierCentroids',
                 'type': 'symbol',
                 'source': 'adminLowerTierCentroids',
                 'layout': {
                     'text-field': "{J_CSDNAME}", 
-                    'text-font': [
-                        "TradeGothic LT Bold"
-                    ],
+                    'text-font': ["TradeGothic LT Bold"],
                     'text-ignore-placement': true,
                     'text-allow-overlap': true,
-                    'text-size': [
-                        'interpolate',
-                        ['linear'],
-                        ['zoom'],
-                        8, 12,
-                        14, 22
-                    ], 
+                    'text-size': ['interpolate', ['linear'], ['zoom'], 8, 12, 14, 22],
                     'text-anchor': 'center' 
                 },
                 'paint': {
-                    'text-color': '#4d4d4d', 
-                    'text-halo-color': '#ffffff', 
+                    'text-color': '#4d4d4d',
+                    'text-halo-color': '#ffffff',
                     'text-halo-width': 1,
-                    'text-opacity': [
-                        'interpolate',
-                        ['linear'],
-                        ['zoom'],
-                        8, 0,
-                        10, 1
-                    ]
+                    'text-opacity': ['interpolate', ['linear'], ['zoom'], 8, 0, 10, 1]
                 }
             });
 
-            map.addSource(
-                'adminUpperTier', {
-                    type: 'geojson', 
-                    data: adminUpperTier
-                }
-            )
+            map.addSource('adminUpperTier', { type: 'geojson', data: adminUpperTier });
             map.addLayer({
                 'id':'adminUpperTierCase',
                 'type':'line',
@@ -539,7 +470,7 @@
                     'line-opacity': 0.05,
                     'line-width': 8
                 }
-            })
+            });
             map.addLayer({
                 'id':'adminUpperTier',
                 'type':'line',
@@ -549,188 +480,118 @@
                     'line-opacity': 0.8,
                     'line-width': 1.5
                 }
-            })
+            });
             
-            map.addSource('library', {
-                type: 'geojson',
-                data: library
-            })
-
-            //triangle symbol for library
-
-            let libImage = new Image();
-            libImage.src = triangle_library; 
-            libImage.onload = function (){
-                
+            // Add library layer
+            map.addSource('library', { type: 'geojson', data: library });
+            const libImage = new Image();
+            libImage.src = triangle_library;
+            libImage.onload = function() {
                 map.addImage('triangle_library', libImage);
-
                 map.addLayer({
                     'id': 'library',
                     'type': 'symbol',
                     'source': 'library',
                     'layout': {
-                            "icon-image": "triangle_library",
-                            "icon-size": [
-                                    "interpolate", ["linear"], ["zoom"],
-                                    0.05,
-                                    0.01,
-                                    25,
-                                    1.3
-                            ],
-                            "icon-allow-overlap": true 
+                        "icon-image": "triangle_library",
+                        "icon-size": ["interpolate", ["linear"], ["zoom"], 0.05, 0.01, 25, 1.3],
+                        "icon-allow-overlap": true 
                     },
                     'paint': {
                         "icon-color":"#FF0000",
                         "icon-opacity":0
                     }
                 });
+            };
 
-            }
-
-            map.addSource('housing', {
-                type: 'geojson',
-                data: housing
-            })
-
-            let housingImage = new Image();
-            housingImage.src = triangle_housing; 
-            housingImage.onload = function (){
-                
+            // Add housing layer
+            map.addSource('housing', { type: 'geojson', data: housing });
+            const housingImage = new Image();
+            housingImage.src = triangle_housing;
+            housingImage.onload = function() {
                 map.addImage('triangle_housing', housingImage);
-
                 map.addLayer({
                     'id': 'housing',
                     'type': 'circle',
                     'source': 'housing',
                     'paint': {
                         "circle-color":"#000",
-                        "circle-radius": [
-                            "interpolate", ["linear"], ["zoom"],
-                            8, 1,
-                            12, 3.5
-                        ],
+                        "circle-radius": ["interpolate", ["linear"], ["zoom"], 8, 1, 12, 3.5],
                         "circle-opacity": 0
                     }
                 });
+            };
 
-            }
-
-            map.addSource('rec', {
-                type: 'geojson',
-                data: rec
-            })
-
-            let recImage = new Image();
-            recImage.src = triangle_rec; 
-            recImage.onload = function (){
-                
+            // Add recreation layer
+            map.addSource('rec', { type: 'geojson', data: rec });
+            const recImage = new Image();
+            recImage.src = triangle_rec;
+            recImage.onload = function() {
                 map.addImage('triangle_rec', recImage);
-
                 map.addLayer({
                     'id': 'rec',
                     'type': 'symbol',
                     'source': 'rec',
                     'layout': {
-                            "icon-image": "triangle_rec",
-                            "icon-size": [
-                                    "interpolate", ["linear"], ["zoom"],
-                                    0.05,
-                                    0.01,
-                                    25,
-                                    1.3
-                            ],
-                            "icon-allow-overlap": true 
+                        "icon-image": "triangle_rec",
+                        "icon-size": ["interpolate", ["linear"], ["zoom"], 0.05, 0.01, 25, 1.3],
+                        "icon-allow-overlap": true 
                     },
                     'paint': {
                         "icon-color":"#FF0000",
                         "icon-opacity":0
                     }
                 });
-            }
+            };
 
-            map.addSource('spre', {
-                type: 'geojson',
-                data: spre
-            })
-
+            // Add SPRE layer
+            map.addSource('spre', { type: 'geojson', data: spre });
             map.addLayer({
                 'id': 'spre',
                 'type': 'circle',
                 'source': 'spre',
                 'paint': {
-                    "circle-color": [
-                        'match',
-                        ['get', 'T'],
-                        'Own', SPRE_COLOURS[1], 
-                        'Rent', SPRE_COLOURS[0], 
-                        SPRE_COLOURS[2] 
-                    ],
-                    "circle-radius" : [
-                        "interpolate", ["linear"], ["zoom"],
-                        8,2.5,
-                        10,3.5,
-                        12,7
-                    ],
-                    "circle-stroke-color": [
-                        'match',
-                        ['get', 'T'],
-                        'Own', '#fff', 
-                        'Rent', '#fff', 
-                        '#fff' 
-                    ],
-                    "circle-opacity": [
-                        'match',
-                        ['get', 'T'],
-                        'Own', 1, 
-                        'Rent', 1, 
-                        1 
-                    ],
-                    "circle-stroke-opacity": [
-                        'match',
-                        ['get', 'T'],
-                        'Own', 1, 
-                        'Rent', 1, 
-                        1 
-                    ],
+                    "circle-color": ['match', ['get', 'T'], 'Own', SPRE_COLOURS[1], 'Rent', SPRE_COLOURS[0], SPRE_COLOURS[2]],
+                    "circle-radius": ["interpolate", ["linear"], ["zoom"], 8,2.5, 10,3.5, 12,7],
+                    "circle-stroke-color": ['match', ['get', 'T'], 'Own', '#fff', 'Rent', '#fff', '#fff'],
+                    "circle-opacity": ['match', ['get', 'T'], 'Own', 1, 'Rent', 1, 1],
+                    "circle-stroke-opacity": ['match', ['get', 'T'], 'Own', 1, 'Rent', 1, 1],
                     "circle-stroke-width": 1
                 }
-            })
+            });
+            
+            // Add SPRE tooltips
+            map.on('click', 'spre', (e) => {
+                const coordinates = e.features[0].geometry.coordinates.slice();
+                const description = e.features[0].properties["N"];
+                const tenure = " (Tenure: " + e.features[0].properties["T"] + ")";
 
-        })
-        // Add tool tips for SPRE
-        map.on('click', 'spre', (e) => {
-            const coordinates = e.features[0].geometry.coordinates.slice();
-            const description = e.features[0].properties["N"];
-            const tenure = " (Tenure: " + e.features[0].properties["T"] + ")";
-
-            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-            }
-
-            const htmlContent =  description + tenure
-
-            const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
-                .setLngLat(coordinates)
-                .setHTML(htmlContent)
-                .addTo(map);
-
-            const popupContent = popup._content;
-            if (popupContent) {
-                popupContent.style.padding = '6px 12px 6px 6px'
-                popupContent.style.backgroundColor = '#ffffff';
-                popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
-                popupContent.style.opacity = 0.95;
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                 }
-        });
 
-        map.on('mouseenter', 'spre', () => {
+                const popup = new maplibregl.Popup({closeOnClick: true, closeButton: false})
+                    .setLngLat(coordinates)
+                    .setHTML(description + tenure)
+                    .addTo(map);
+
+                const popupContent = popup._content;
+                if (popupContent) {
+                    popupContent.style.padding = '6px 12px 6px 6px';
+                    popupContent.style.backgroundColor = '#ffffff';
+                    popupContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+                    popupContent.style.opacity = 0.95;
+                }
+            });
+
+            map.on('mouseenter', 'spre', () => {
                 map.getCanvas().style.cursor = 'pointer';
             });
 
-        map.on('mouseleave', 'spre', () => {
-            map.getCanvas().style.cursor = '';
+            map.on('mouseleave', 'spre', () => {
+                map.getCanvas().style.cursor = '';
+            });
         });
-
     })
 
     const getResults = async () => {
