@@ -5,27 +5,32 @@
     import Select from "svelte-select";
     import "../../assets/styles.css";
 
-    // GeoJSON Imports
-    import baseMap from "./assets/basemap.json";
-    import topMap from "./assets/topmap.json"
-    import spre from "./assets/SPRE_2021_wgs84.geo.json";  // this geo.json has been edited manually oct 7 2024 to include the case study locations. original data is in the /data top folder 
-    import adminUpperTier from "./assets/admin-upper-tier.geo.json"; 
-    import adminLowerTier from "./assets/admin-lower-tier.geo.json"; 
-    import adminLowerTierCentroids from "./assets/admin-lower-tier-centroids.geo.json"; 
-    import nonResMask from "./assets/non-residential-mask.geo.json";
-    import equity from "./assets/ct-data-all.geo.json";
-    import library from "./assets/library.geo.json";
-    import rec from "./assets/rec.geo.json";
-    import housing from "./assets/shelters_and_housing.geo.json";
-    import transitStops from "./assets/transitStops-toronto.geo.json";
-    import transitLines from "./assets/transitLines-toronto.geo.json";
-    import transitStopsFuture from "./assets/transitStops-toronto-future.geo.json";
-    import transitLinesFuture from "./assets/transitLines-toronto-future.geo.json";
+    // Map config imports
+    import baseMap from "$lib/assets/map_config/basemap.json";
+    import topMap from "$lib/assets/map_config/topmap.json"
+
+    // Map regions imports
+    import adminUpperTier from "$lib/assets/regions/admin-upper-tier.geo.json"; 
+    import adminLowerTier from "$lib/assets/regions/admin-lower-tier.geo.json"; 
+    import adminLowerTierCentroids from "$lib/assets/regions/admin-lower-tier-centroids.geo.json"; 
+    import nonResMask from "$lib/assets/regions/non-residential-mask.geo.json";
+
+    // Data and site/line locations
+    import equity from "$lib/assets/data/ct-data-all.geo.json";
+
+    import spre from "$lib/assets/locations/SPRE_2021_wgs84.geo.json";  // this geo.json has been edited manually oct 7 2024 to include the case study locations. original data is in the /data top folder 
+    import library from "$lib/assets/locations/library.geo.json";
+    import rec from "$lib/assets/locations/rec.geo.json";
+    import housing from "$lib/assets/locations/shelters_and_housing.geo.json";
+    import transitStops from "$lib/assets/locations/transitStops-toronto.geo.json";
+    import transitLines from "$lib/assets/locations/transitLines-toronto.geo.json";
+    import transitStopsFuture from "$lib/assets/locations/transitStops-toronto-future.geo.json";
+    import transitLinesFuture from "$lib/assets/locations/transitLines-toronto-future.geo.json";
     
     // Image Imports
-    import triangle_library from "./assets/triangle_library_2.svg";
-    import triangle_housing from "./assets/triangle_housing.svg";
-    import triangle_rec from "./assets/triangle_rec_2.svg";
+    import triangle_library from "$lib/img/triangle_library_2.svg";
+    import triangle_housing from "$lib/img/triangle_housing.svg";
+    import triangle_rec from "$lib/img/triangle_rec_2.svg";
     
     // Constants
     const DEFAULT_MAP = "Equity Index"
