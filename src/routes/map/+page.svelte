@@ -3,29 +3,16 @@
     import maplibregl from "maplibre-gl";
     import * as pmtiles from "pmtiles";
     import Select from "svelte-select";
-
     import "../../assets/styles.css";
 
+    // GeoJSON Imports
     import baseMap from "./assets/basemap.json";
     import topMap from "./assets/topmap.json"
-
-    // this geo.json has been edited manually oct 7 2024 to include the case study locations
-    // original data is in the /data top folder 
-    import spre from "./assets/SPRE_2021_wgs84.geo.json"; 
-    // New locations added to map
-    // -- Leonard's Place Peel - 1105 Queen St. E, Brampton, rented
-    // -- Krasman Centre, 10121 Yonge St., Richmond Hill, rented
-    // -- Unison Health (Bathurst Finch Hub) - 540 Finch Ave W, Toronto, own
-    // Ones that we already have listed but need some editing
-    // -- Inn from the cold - change from own to rent
-    // -- Miziwe Biik  on Gerrard - change from rent to own
-    // -- Family Service Toronto is already there with no edits needed!
-
+    import spre from "./assets/SPRE_2021_wgs84.geo.json";  // this geo.json has been edited manually oct 7 2024 to include the case study locations. original data is in the /data top folder 
     import adminUpperTier from "./assets/admin-upper-tier.geo.json"; 
     import adminLowerTier from "./assets/admin-lower-tier.geo.json"; 
     import adminLowerTierCentroids from "./assets/admin-lower-tier-centroids.geo.json"; 
     import nonResMask from "./assets/non-residential-mask.geo.json";
-
     import equity from "./assets/ct-data-all.geo.json";
     import library from "./assets/library.geo.json";
     import rec from "./assets/rec.geo.json";
@@ -34,125 +21,145 @@
     import transitLines from "./assets/transitLines-toronto.geo.json";
     import transitStopsFuture from "./assets/transitStops-toronto-future.geo.json";
     import transitLinesFuture from "./assets/transitLines-toronto-future.geo.json";
-
-    let blocksURL = "/essential-spaces/map/blocks-data-2021.pmtiles";
-
+    
+    // Image Imports
     import triangle_library from "./assets/triangle_library_2.svg";
     import triangle_housing from "./assets/triangle_housing.svg";
     import triangle_rec from "./assets/triangle_rec_2.svg";
+    
+    // Constants
+    const DEFAULT_MAP = "Equity Index"
+    const COLOURS = ["#f7ecc3", "#f2cd8d", "#eeb05b", "#e78052", "#e15449"];
+    const STREET_BASE_COLOUR = "#cbcbd4";
+    const SPRE_COLOURS = [ "#793B91","#338ED8", "#A3A3A3"]
+    const BOUNDS = [
+        [-81.5, 43.0], // [west, south]
+        [-77.5, 45.5],  // [east, north]
+    ];
+    const BLOCKS_URL = "/essential-spaces/map/blocks-data-2021.pmtiles";
+    const NOMINATIM_URL = "https://nominatim.openstreetmap.org/search?format=jsonv2&q=";
 
-    // Changing the map layer
-    const defaultMap = "Equity Index"
-    let mapSelected = defaultMap
-
-    let colours = ["#f7ecc3", "#f2cd8d", "#eeb05b", "#e78052", "#e15449"];
-    let streetBaseColour = "#cbcbd4";
-    let spreColours = [ "#793B91","#338ED8", "#A3A3A3"]
-
+    // State variables
+    let map = null;
+    let mapSelected = DEFAULT_MAP;
+    let query = "";
+    let results;
+    let onTransit = true;
+    let onTransitFuture = false;
+    let onLibrary = false;
+    let onHousing = false;
+    let onRec = false;
+    let spreSelection = ["Own", "Rent", "Unknown"];
+    
+    // Choropleth configuration
     const choropleths = {
-        "Equity Index" :{
+        "Equity Index": {
             dataSource: "Equity Index",
             group: "Equity Layers",
             breaks: [0.3584, 0.4262, 0.4841, 0.5532],
-            colours: colours,
+            colours: COLOURS,
             text: "The layer combines the seven equity layers as a single metric. Areas in the higher quintiles have a greater need for community services due to the greater socio-economic disadvantages experienced by residents."
         },
-        "Street Map":{
+        "Street Map": {
             dataSource: "meow",
             group: "Other Layers",
             breaks: [5, 10, 15, 20],
-            colours: [streetBaseColour,streetBaseColour,streetBaseColour,streetBaseColour,streetBaseColour],
+            colours: [STREET_BASE_COLOUR, STREET_BASE_COLOUR, STREET_BASE_COLOUR, STREET_BASE_COLOUR, STREET_BASE_COLOUR],
             text: "Street data from OpenStreetMap",
         },
-        "Population Density":{
+        "Population Density": {
             dataSource: "PopuDenPerKM",
             group: "Other Layers",
-            breaks: [2000, 4000, 8000, 16000], 
-            colours: colours,
-            text: "Block-level population density from the 2021 Canadian census  (residents per square kilometre)",
+            breaks: [2000, 4000, 8000, 16000],
+            colours: COLOURS,
+            text: "Block-level population density from the 2021 Canadian census (residents per square kilometre)",
         },
-        "% in Low Income Household (MBM)":{
+        "% in Low Income Household (MBM)": {
             dataSource: "MBM%",
             group: "Equity Layers",
-            breaks:[5, 10, 15, 20],
-            colours: colours,
+            breaks: [5, 10, 15, 20],
+            colours: COLOURS,
             text: "Percentage of residents in low-income households, based on the 2021 Census data as measured by the Market Basket Measure (MBM)",
         },
-        "% of Low Income Housing (LIM)":{
-            dataSource: "LIM%", 
+        "% of Low Income Housing (LIM)": {
+            dataSource: "LIM%",
             group: "Equity Layers",
-            breaks: [5, 15, 25, 35], 
-            colours: colours,
+            breaks: [5, 15, 25, 35],
+            colours: COLOURS,
             text: "Percentage of residents low-income household based on 2021 T1 tax file income data as measured by the Low Income Measure (LIM)",
         },
-        "% of Working Poor":{
+        "% of Working Poor": {
             dataSource: "%ofWP",
             group: "Equity Layers",
             breaks: [2.5, 5, 10, 15],
-            colours: colours,
+            colours: COLOURS,
             text: "Percentage of working adults aged 18-64 (excluding full-time and part-time students) who earned more than $3,000 monthly and lived in low-income households by LIM, out of all working adults of that age range",
         },
-        "% Short-Term Workers":{
+        "% Short-Term Workers": {
             dataSource: "ShortTerm%",
             group: "Equity Layers",
             breaks: [9, 11, 13, 15],
-            colours: colours,
+            colours: COLOURS,
             text: "Percentage of workers who self-reported as an employee with a contract shorter than one year, out of the total number of employees in the 2021 Census",
         },
-        "% of Youth Not in Employment, Education or Training":{
-            dataSource: "Neet%", 
+        "% of Youth Not in Employment, Education or Training": {
+            dataSource: "Neet%",
             group: "Equity Layers",
-            breaks:[10, 15, 20, 25],
-            colours: colours,
+            breaks: [10, 15, 20, 25],
+            colours: COLOURS,
             text: "Percentage of youth aged between 18-29 who were unemployed, not in school/training, or not in the labour force, out of the total youth population of the same age range",
         },
-        "% of Recent Immigrants":{
+        "% of Recent Immigrants": {
             dataSource: "Immigrant%",
             group: "Other Layers",
             breaks: [2.5, 5, 10, 15],
-            colours: colours,
+            colours: COLOURS,
             text: "Percentage of population who migrated to Canada between 2016 to 2021 based on the 2021 Census",
         },
-        "% of Visible Minority":{
-            dataSource: "VM%", 
+        "% of Visible Minority": {
+            dataSource: "VM%",
             group: "Other Layers",
             breaks: [20, 40, 60, 80],
-            colours: colours,
+            colours: COLOURS,
             text: "Percentage of people who self-identified as visible minority in the 2021 Census, out of the total population",
         },
-        "% Single Parent Household":{
+        "% Single Parent Household": {
             dataSource: "1-ParentFam%",
-            group: "Other Layers", 
+            group: "Other Layers",
             breaks: [15, 20, 25, 30],
-            colours: colours,
+            colours: COLOURS,
             text: "Percentage of households self-reported as a one-parent household in the 2021 Census, out of the total number of households with children",
         },
-        "% of Renters in Core Housing Need":{
-            dataSource: "%CHN", 
-            group: "Equity Layers",
-            breaks: [10, 20, 30, 40], 
-            colours: colours,
-            text: "Percentage of renters who reported experiencing at least one core housing need (e.g. housing affordability, suitability, and adequacy) in the 2021 Census, out of the total renter population",
-        },
-        "% of Renters in Unaffordable Housing":{
-            dataSource: "%Affordable", 
+        "% of Renters in Core Housing Need": {
+            dataSource: "%CHN",
             group: "Equity Layers",
             breaks: [10, 20, 30, 40],
-            colours: colours,
+            colours: COLOURS,
+            text: "Percentage of renters who reported experiencing at least one core housing need (e.g. housing affordability, suitability, and adequacy) in the 2021 Census, out of the total renter population",
+        },
+        "% of Renters in Unaffordable Housing": {
+            dataSource: "%Affordable",
+            group: "Equity Layers",
+            breaks: [10, 20, 30, 40],
+            colours: COLOURS,
             text: "Percentage of renters who spent over 30% of their before-tax household income on rent as reported in the 2021 Census, out of the total renter population",
         }
     };
 
-    const items = Object.keys(choropleths).map(key => {
-        return {
-            value: key,
-            label: key,
-            ...choropleths[key]
-        };
-    });
+    // Derived data
+    const items = Object.keys(choropleths).map(key => ({
+        value: key,
+        label: key,
+        ...choropleths[key]
+    }));
 
-    let map = null;
+    const spreOptions = [
+        { value: "Own", label: "Owned", colorIndex: 1 },
+        { value: "Rent", label: "Leased", colorIndex: 0 },
+        { value: "Unknown", label: "Unknown", colorIndex: 2 }
+    ];
 
+    // Event handlers
     function layerSelect(e) {
         mapSelected = e.detail.value;
         layerSet(mapSelected);
@@ -161,7 +168,7 @@
     function layerSet(layer) {
         if (layer === "Street Map") {
             map.setPaintProperty("equity", "fill-opacity", 0);
-            map.setPaintProperty("background", "background-color", streetBaseColour);
+            map.setPaintProperty("background", "background-color", STREET_BASE_COLOUR);
             map.setPaintProperty("nonResMask", "fill-opacity", 0);
             map.setPaintProperty("blocks", "fill-opacity", 0);
         } else if (layer === "Population Density") {
@@ -215,21 +222,6 @@
         
     }
 
-    let bounds = [
-        [-81.5, 43.0], // [west, south]
-        [-77.5, 45.5],  // [east, north]
-    ];
-
-    let spreSelection = ["Own", "Rent", "Unknown"]; 
-
-    const spreOptions = [
-        { value: "Own", label: "Owned", colorIndex: 1 },
-        { value: "Rent", label: "Leased", colorIndex: 0 },
-        { value: "Unknown", label: "Unknown", colorIndex: 2 }
-    ];
-
-    $:spreSelection, filterSPRE()
-
     function filterSPRE() {
         let opacity =[
                     'match',
@@ -243,10 +235,6 @@
             map.setPaintProperty('spre', 'circle-stroke-opacity', opacity);
         }
     }   
-
-    let onTransit = true;
-
-    $:  onTransit, filterTransit()
 
     function filterTransit() {
         if (map) {
@@ -262,10 +250,6 @@
         }
     }
 
-    let onTransitFuture = false;
-
-    $:  onTransitFuture, filterTransitFuture()
-
     function filterTransitFuture() {
         if (map) {
             if (onTransitFuture) {
@@ -280,11 +264,7 @@
         }
     }
 
-    let onLibrary = false;
-
-    $: onLibrary, filterlibrary()
-
-    function filterlibrary() {
+    function filterLibrary() {
         if (map) {
             if (onLibrary) {
                 map.setPaintProperty('library', 'icon-opacity', 1);
@@ -294,11 +274,7 @@
         }
     }
 
-    let onHousing = false;
-
-    $: onHousing, filterhousing()
-
-    function filterhousing() {
+    function filterHousing() {
         if (map) {
             if (onHousing) {
                 map.setPaintProperty('housing', 'circle-opacity', 1);
@@ -307,10 +283,6 @@
             }
         }
     }
-
-    let onRec = false;
-
-    $:  onRec, filterRec()
 
     function filterRec() {
         if (map) {
@@ -321,6 +293,14 @@
             }
         }
     }
+
+    // Reactive statements
+    $: spreSelection, filterSPRE();
+    $: onTransit, filterTransit();
+    $: onTransitFuture, filterTransitFuture();
+    $: onLibrary, filterLibrary();
+    $: onHousing, filterHousing();
+    $: onRec, filterRec();
 
     onMount(() => {
 
@@ -341,7 +321,7 @@
             attributionControl: false
         });
 
-        map.setMaxBounds(bounds);
+        map.setMaxBounds(BOUNDS);
 
         // map.touchZoomRotate.disableRotation();
         // map.dragRotate.disable();
@@ -372,7 +352,7 @@
 
             map.addSource("blocks", {
                 type: "vector",
-                url: "pmtiles://" + blocksURL,
+                url: "pmtiles://" + BLOCKS_URL,
             });
 
             map.addLayer({
@@ -388,15 +368,15 @@
                         [
                             "step",
                             ["get", "popdens"],
-                            colours[0],
+                            COLOURS[0],
                             2000,
-                            colours[1],
+                            COLOURS[1],
                             4000,
-                            colours[2],
+                            COLOURS[2],
                             8000,
-                            colours[3],
+                            COLOURS[3],
                             16000,
-                            colours[4],
+                            COLOURS[4],
                         ],
                         "#cbcbcb",
                     ]
@@ -707,9 +687,9 @@
                     "circle-color": [
                         'match',
                         ['get', 'T'],
-                        'Own', spreColours[1], 
-                        'Rent', spreColours[0], 
-                        spreColours[2] 
+                        'Own', SPRE_COLOURS[1], 
+                        'Rent', SPRE_COLOURS[0], 
+                        SPRE_COLOURS[2] 
                     ],
                     "circle-radius" : [
                         "interpolate", ["linear"], ["zoom"],
@@ -779,11 +759,6 @@
 
     })
 
-    let query = "";
-    let results;
-
-    const baseUrl = "https://nominatim.openstreetmap.org/search?format=jsonv2&q=";
-
     const getResults = async () => {
 
         let inputQuery = "";
@@ -793,7 +768,7 @@
             inputQuery = query + ", Canada"
         }
 
-        results = await fetch(baseUrl + inputQuery).then((res) => res.json());
+        results = await fetch(NOMINATIM_URL + inputQuery).then((res) => res.json());
 
         if (map.getSource("address")) {
             map.removeLayer("address");
@@ -891,7 +866,7 @@
                             cx="6" 
                             cy="10.5" 
                             r="5" 
-                            fill="{spreColours[option.colorIndex]}" 
+                            fill="{SPRE_COLOURS[option.colorIndex]}" 
                             stroke="#fff" 
                             stroke-width="1"
                         />
@@ -907,7 +882,7 @@
                 id="select"
                 items={items}
                 groupBy={(items) => items.group}
-                value={defaultMap}
+                value={DEFAULT_MAP}
                 clearable={false}
                 showChevron={true}
                 listAutoWidth={true}
