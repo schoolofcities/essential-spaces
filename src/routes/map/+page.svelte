@@ -18,7 +18,7 @@
     // Data and site/line locations
     import equity from "$lib/assets/data/ct-data-all.geo.json";
 
-    import spre from "$lib/assets/locations/SPRE_2021_wgs84.geo.json";  // this geo.json has been edited manually oct 7 2024 to include the case study locations. original data is in the /data top folder 
+    import spre from "$lib/assets/locations/simplified_matches_4326.geo.json";  // this geo.json has been edited manually oct 7 2024 to include the case study locations. original data is in the /data top folder 
     import library from "$lib/assets/locations/library.geo.json";
     import rec from "$lib/assets/locations/rec.geo.json";
     import housing from "$lib/assets/locations/shelters_and_housing.geo.json";
