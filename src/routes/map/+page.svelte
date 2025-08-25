@@ -61,7 +61,7 @@
         "Equity Index": {
             dataSource: "Equity Index",
             group: "Equity Layers",
-            breaks: [0.3584, 0.4262, 0.4841, 0.5532],
+            breaks: [0.3, 0.37, 0.44, 0.53],
             colours: COLOURS,
             text: "The layer combines the seven equity layers as a single metric. Areas in the higher quintiles have a greater need for community services due to the greater socio-economic disadvantages experienced by residents."
         },
