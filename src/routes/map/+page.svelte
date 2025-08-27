@@ -79,26 +79,12 @@
             colours: COLOURS,
             text: "Block-level population density from the 2021 Canadian census (residents per square kilometre)",
         },
-        "% in Low Income Household (MBM)": {
-            dataSource: "MBM%",
-            group: "Equity Layers",
-            breaks: [5, 10, 15, 20],
-            colours: COLOURS,
-            text: "Percentage of residents in low-income households, based on the 2021 Census data as measured by the Market Basket Measure (MBM)",
-        },
         "% of Low Income Housing (LIM)": {
             dataSource: "LIM%",
             group: "Equity Layers",
             breaks: [5, 15, 25, 35],
             colours: COLOURS,
             text: "Percentage of residents low-income household based on 2021 T1 tax file income data as measured by the Low Income Measure (LIM)",
-        },
-        "% of Working Poor": {
-            dataSource: "%ofWP",
-            group: "Equity Layers",
-            breaks: [2.5, 5, 10, 15],
-            colours: COLOURS,
-            text: "Percentage of working adults aged 18-64 (excluding full-time and part-time students) who earned more than $3,000 monthly and lived in low-income households by LIM, out of all working adults of that age range",
         },
         "% Short-Term Workers": {
             dataSource: "ShortTerm%",
@@ -148,7 +134,49 @@
             breaks: [10, 20, 30, 40],
             colours: COLOURS,
             text: "Percentage of renters who spent over 30% of their before-tax household income on rent as reported in the 2021 Census, out of the total renter population",
-        }
+        },
+        "% in Low Income Household (MBM)": {
+            dataSource: "MBM%",
+            group: "Other Layers",
+            breaks: [5, 10, 15, 20],
+            colours: COLOURS,
+            text: "Percentage of residents in low-income households, based on the 2021 Census data as measured by the Market Basket Measure (MBM)",
+        },
+        "% of Working Poor": {
+            dataSource: "%ofWP",
+            group: "Other Layers",
+            breaks: [2.5, 5, 10, 15],
+            colours: COLOURS,
+            text: "Percentage of working adults aged 18-64 (excluding full-time and part-time students) who earned more than $3,000 monthly and lived in low-income households by LIM, out of all working adults of that age range",
+        },
+        // "% Total Income from Government Transfers": {
+        //     dataSource: "",
+        //     group: "Equity Layers",
+        //     breaks: [5, 10, 15, 20],
+        //     colours: COLOURS,
+        //     text: "Percentage of total income derived from government transfers, based on the 2021 Census data",
+        // },
+        // "Eviction Filing Rate": {
+        //     dataSource: "",
+        //     group: "Equity Layers",
+        //     breaks: [5, 10, 15, 20],
+        //     colours: COLOURS,
+        //     text: "Rate of eviction filings per 1,000 households, based on the 2021 Census data",
+        // },
+        // "% Unemployment Rate": {
+        //     dataSource: "",
+        //     group: "Equity Layers",
+        //     breaks: [5, 10, 15, 20],
+        //     colours: COLOURS,
+        //     text: "Percentage of the labor force that is unemployed, based on the 2021 Census data",
+        // },
+        // "% without Certificate, Diploma, or Degree": {
+        //     dataSource: "",
+        //     group: "Equity Layers",
+        //     breaks: [5, 10, 15, 20],
+        //     colours: COLOURS,
+        //     text: "Percentage of the population aged 25-64 without a certificate, diploma, or degree, based on the 2021 Census data",
+        // }
     };
 
     // Derived data
