@@ -61,7 +61,7 @@
         "Equity Index": {
             dataSource: "Equity Index",
             group: "Equity Layers",
-            breaks: [0.3, 0.37, 0.44, 0.53],
+            breaks: [0.2985527, 0.37396513, 0.43815575, 0.52905651],
             colours: COLOURS,
             text: "The layer combines the seven equity layers as a single metric. Areas in the higher quintiles have a greater need for community services due to the greater socio-economic disadvantages experienced by residents."
         },
@@ -149,34 +149,34 @@
             colours: COLOURS,
             text: "Percentage of working adults aged 18-64 (excluding full-time and part-time students) who earned more than $3,000 monthly and lived in low-income households by LIM, out of all working adults of that age range",
         },
-        // "% Total Income from Government Transfers": {
-        //     dataSource: "%IncomeGT",
-        //     group: "Equity Layers",
-        //     breaks: [5, 10, 15, 20],
-        //     colours: COLOURS,
-        //     text: "Percentage of total income derived from government transfers, based on the 2021 Census data",
-        // },
-        // "Eviction Filing Rate": {
-        //     dataSource: "%Evic",
-        //     group: "Equity Layers",
-        //     breaks: [5, 10, 15, 20],
-        //     colours: COLOURS,
-        //     text: "Rate of eviction filings per 1,000 households, based on the 2021 Census data",
-        // },
-        // "% Unemployment Rate": {
-        //     dataSource: "%Unemp",
-        //     group: "Equity Layers",
-        //     breaks: [5, 10, 15, 20],
-        //     colours: COLOURS,
-        //     text: "Percentage of the labor force that is unemployed, based on the 2021 Census data",
-        // },
-        // "% without Certificate, Diploma, or Degree": {
-        //     dataSource: "%NoEdu",
-        //     group: "Equity Layers",
-        //     breaks: [5, 10, 15, 20],
-        //     colours: COLOURS,
-        //     text: "Percentage of the population aged 25-64 without a certificate, diploma, or degree, based on the 2021 Census data",
-        // }
+        "% Total Income from Government Transfers": {
+            dataSource: "%IncomeGT",
+            group: "Equity Layers",
+            breaks: [5, 10, 15, 20],
+            colours: COLOURS,
+            text: "The proportion of total household income derived from government programs such as social assistance, Employment Insurance (EI), and Old Age Security (OAS), based on the 2021 Census and T1FF data."
+        },
+        "Eviction Filing Rate": {
+            dataSource: "%Evic",
+            group: "Equity Layers",
+            breaks: [1, 2.5, 5, 10],
+            colours: COLOURS,
+            text: "The proportion of renter households that were filed for eviction by their landlord, based on data from the Landlord and Tenant Board (LTB)."
+        },
+        "% Unemployment Rate": {
+            dataSource: "%Unemp",
+            group: "Equity Layers",
+            breaks: [5, 10, 15, 20],
+            colours: COLOURS,
+            text: "The percentage of individuals in the labour force who are actively seeking employment but are currently without a job, based on the 2021 Census data."
+        },
+        "% without Certificate, Diploma, or Degree": {
+            dataSource: "%NoEdu",
+            group: "Equity Layers",
+            breaks: [5, 10, 15, 20],
+            colours: COLOURS,
+            text: "The percentage of the population aged 15 and older without a certificate, diploma, or degree, based on the 2021 Census data."
+        }
     };
 
     // Derived data
