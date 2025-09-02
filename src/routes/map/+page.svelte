@@ -41,7 +41,7 @@
         [-81.5, 43.0], // [west, south]
         [-77.5, 45.5],  // [east, north]
     ];
-    const BLOCKS_URL = "/essential-spaces/map/blocks-data-2021.pmtiles";
+    const BLOCKS_URL = "/essential-spaces/map/blocks-data-2021.pmtiles.gz";
     const NOMINATIM_URL = "https://nominatim.openstreetmap.org/search?format=jsonv2&q=";
 
     // State variables
