@@ -1,4 +1,4 @@
-location_type,existing_transit,future_transit
-Own,25.0,17.8819
-Rent,25.0847,23.322
-All,25.9815,22.0997
+location_type,existing_transit,future_transit,not_near_any_transit
+Own,25.0,17.8819,63.0208
+Rent,25.0847,23.322,61.2203
+All,25.9815,22.0997,61.3586
