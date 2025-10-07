@@ -11,5 +11,6 @@ vite.config.ts.timestamp-*
 .ipynb_checkpoints
 data/2024-work/block_data
 data/2024-work/checking
+data/2025-work/lease-data
 
 data/2025-work/cra-data/cre-uw-checking 2.xlsx
