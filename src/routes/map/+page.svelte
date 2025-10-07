@@ -33,6 +33,7 @@
     import triangle_library from "$lib/img/triangle_library_2.svg";
     import triangle_housing from "$lib/img/triangle_housing.svg";
     import triangle_rec from "$lib/img/triangle_rec_2.svg";
+    import square_tenancy from "$lib/img/square_tenancy.svg";
     
     // Constants
     const DEFAULT_MAP = "Equity Index"
@@ -306,8 +307,7 @@
 
     function filterTenancy() {
         if (!map) return;
-        map.setPaintProperty('tenancy', 'circle-opacity', onTenancy ? 1 : 0);
-        map.setPaintProperty('tenancy', 'circle-stroke-opacity', onTenancy ? 1 : 0);
+        map.setPaintProperty('tenancy', 'icon-opacity', onTenancy ? 1 : 0);
     }
 
     // Reactive statements
@@ -589,19 +589,24 @@
 
             // Add tenancy layer
             map.addSource('tenancy', { type: 'geojson', data: tenancy });
-            map.addLayer({
-                'id': 'tenancy',
-                'type': 'circle',
-                'source': 'tenancy',
-                'paint': {
-                    "circle-color":"#000",
-                    "circle-stroke-color": "#fff",
-                    "circle-radius": ["interpolate", ["linear"], ["zoom"], 8,2.5, 10,3.5, 12,7],
-                    "circle-stroke-width": 1,
-                    "circle-opacity": 1,
-                    "circle-stroke-opacity": 1
-                }
-            });
+            const tenancyImage = new Image();
+            tenancyImage.src = square_tenancy;
+            tenancyImage.onload = function() {
+                map.addImage('square_tenancy', tenancyImage);
+                map.addLayer({
+                    'id': 'tenancy',
+                    'type': 'symbol',
+                    'source': 'tenancy',
+                    'layout': {
+                        "icon-image": "square_tenancy",
+                        "icon-size": ["interpolate", ["linear"], ["zoom"], 8, 0.4, 10, 0.6, 12, 1.2],
+                        "icon-allow-overlap": true 
+                    },
+                    'paint': {
+                        "icon-opacity": 1
+                    }
+                });
+            };
 
             // Add SPRE layer
             map.addSource('spre', { type: 'geojson', data: spre });
@@ -759,10 +764,11 @@
                 <input type="checkbox" class="check-box-item" bind:checked={onTenancy}/> 
                 Tenancy Spaces
                     <svg class="check-box-svg">
-                        <circle 
-                            cx="6" 
-                            cy="10.5" 
-                            r="5" 
+                        <rect 
+                            x="2" 
+                            y="6.5" 
+                            width="8" 
+                            height="8" 
                             fill="black" 
                             stroke="#fff" 
                             stroke-width="1"
