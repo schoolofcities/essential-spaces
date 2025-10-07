@@ -19,6 +19,8 @@
     import equity from "$lib/assets/data/ct-data-all.geo.json";
 
     import spre from "$lib/assets/locations/simplified_matches_4326.geo.json";  // this geo.json has been edited manually oct 7 2024 to include the case study locations. original data is in the /data top folder 
+    import tenancy from "$lib/assets/locations/leased_points.geo.json"
+    
     import library from "$lib/assets/locations/library.geo.json";
     import rec from "$lib/assets/locations/rec.geo.json";
     import housing from "$lib/assets/locations/shelters_and_housing.geo.json";
@@ -54,6 +56,7 @@
     let onLibrary = false;
     let onHousing = false;
     let onRec = false;
+    let onTenancy = true;
     let spreSelection = ["Own", "Rent", "Unknown"];
     
     // Choropleth configuration
@@ -301,6 +304,12 @@
         map.setPaintProperty('rec', 'icon-opacity', onRec ? 1 : 0);
     }
 
+    function filterTenancy() {
+        if (!map) return;
+        map.setPaintProperty('tenancy', 'circle-opacity', onTenancy ? 1 : 0);
+        map.setPaintProperty('tenancy', 'circle-stroke-opacity', onTenancy ? 1 : 0);
+    }
+
     // Reactive statements
     $: spreSelection, filterSPRE();
     $: onTransit, filterTransit();
@@ -308,6 +317,7 @@
     $: onLibrary, filterLibrary();
     $: onHousing, filterHousing();
     $: onRec, filterRec();
+    $: onTenancy, filterTenancy();
 
     onMount(() => {
         const protocol = new pmtiles.Protocol();
@@ -577,6 +587,22 @@
                 });
             };
 
+            // Add tenancy layer
+            map.addSource('tenancy', { type: 'geojson', data: tenancy });
+            map.addLayer({
+                'id': 'tenancy',
+                'type': 'circle',
+                'source': 'tenancy',
+                'paint': {
+                    "circle-color":"#000",
+                    "circle-stroke-color": "#fff",
+                    "circle-radius": ["interpolate", ["linear"], ["zoom"], 8,2.5, 10,3.5, 12,7],
+                    "circle-stroke-width": 1,
+                    "circle-opacity": 1,
+                    "circle-stroke-opacity": 1
+                }
+            });
+
             // Add SPRE layer
             map.addSource('spre', { type: 'geojson', data: spre });
             map.addLayer({
@@ -724,6 +750,25 @@
                     </svg>
                 </label>
             {/each}
+        </div>
+
+        <h3>Show tenancy spaces</h3>
+        
+        <div id="checkbox" class="check-box">
+            <label class="label-format">
+                <input type="checkbox" class="check-box-item" bind:checked={onTenancy}/> 
+                Tenancy Spaces
+                    <svg class="check-box-svg">
+                        <circle 
+                            cx="6" 
+                            cy="10.5" 
+                            r="5" 
+                            fill="black" 
+                            stroke="#fff" 
+                            stroke-width="1"
+                        />
+                    </svg>
+            </label>   
         </div>
 
         <h3>Select Base Map Layer</h3>
