@@ -728,6 +728,10 @@
             This map examines the real estate landscape of the Greater Toronto Area's (GTA) community services sector as of 2021. The map allows us to analyze the location of a sample of owned and leased agency spaces offering services in Peel, Toronto and York Region and their proximity to equity-seeking groups, providing insight into risks and opportunities for preserving and developing real estate within the community services sector. 
             <a href="https://www.unitedwaygt.org/wp-content/uploads/2024/10/Essential-Spaces-Full-Report-compressed.pdf" target="_blank">Click here to read our research report</a>.
         </p>
+        
+        <p>
+            This map has been updated since the 2024 Essential Spaces publication to provide a more comprehensive list of locations. While the overall trends remain consistent, a new publication with full details will be released in the near future.
+        </p>
 
         <div class="line"></div>
 
